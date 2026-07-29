@@ -1,5 +1,5 @@
 define new bot named "Bot":
-    token: {bot.token}
+    token: "%{bot.token}%"
     intents: default intents
     policy: all
     auto reconnect: true
@@ -45,8 +45,8 @@ command /discordid:
 
 function muteAll():
 
-    set {_call} to voice channel with id {bot.call}
-    set {_guild} to guild with id {bot.guild}
+    set {_call} to voice channel with id "%{bot.call}%"
+    set {_guild} to guild with id "%{bot.guild}%"
 
     loop all players:
 
