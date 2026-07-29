@@ -3,6 +3,7 @@
 /amongmc/playerdata
 /amongmc/advancements
 amongmc/session.lock
+amongmc/uid.dat
 among mc server backup.rar
 .console_history
 /amongmc/stats
@@ -30,12 +31,12 @@ plugins/SkinsRestorer/recommendations.json
 /plugins/Skript/backups
 /plugins/Skript/lang
 plugins/Skript/scripts.zip
-plugins/Skript/scripts/discordsetup.sk
 plugins/Skript/variables.csv
 /plugins/spark
 plugins/TAB/playerdata.yml
 plugins/TAB/skincache.yml
+/plugins/update
 usercache.json
 version_history.json
-versions/1.21.11/paper-1.21.11.jar
+/versions/
 whitelist.json
