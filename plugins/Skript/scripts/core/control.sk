@@ -400,7 +400,14 @@ on right click:
         if {game.ghosts::*} contains player:
             cancel event
 
+on command "op":
+    if {game.state} is "waiting":
+        loop all players:
+            updateInventory(loop-player)
 
-
+on command "deop":
+    if {game.state} is "waiting":
+        loop all players:
+            updateInventory(loop-player)
 
 
