@@ -1,0 +1,249 @@
+function connect_wires(p: player, step: number):
+    delete {wires.leftColor.%uuid of {_p}%::*}
+    delete {wires.rightColor.%uuid of {_p}%::*}
+    delete {wires.connected.%uuid of {_p}%::*}
+    delete {wires.selected.%uuid of {_p}%}
+
+    set {_colors::*} to blue wool, pink wool, yellow wool
+
+    set {wires.step.%uuid of {_p}%} to {_step}
+
+    set {wires.leftColor.%uuid of {_p}%::1} to {_colors::1}
+    set {wires.leftColor.%uuid of {_p}%::2} to {_colors::2}
+    set {wires.leftColor.%uuid of {_p}%::3} to {_colors::3}
+
+    loop 10 times:
+        set {_a} to random integer between 1 and 3
+        set {_b} to random integer between 1 and 3
+
+        set {_tmp} to {_colors::%{_a}%}
+        set {_colors::%{_a}%} to {_colors::%{_b}%}
+        set {_colors::%{_b}%} to {_tmp}
+
+    set {wires.rightColor.%uuid of {_p}%::1} to {_colors::1}
+    set {wires.rightColor.%uuid of {_p}%::2} to {_colors::2}
+    set {wires.rightColor.%uuid of {_p}%::3} to {_colors::3}
+
+    set {_inv} to chest inventory with 5 rows named "&9Conectar Fios"
+    
+    set slot 0 of {_inv} to {wires.leftColor.%uuid of {_p}%::1}
+    set slot 1 of {_inv} to copper block
+
+    set slot 18 of {_inv} to {wires.leftColor.%uuid of {_p}%::2}
+    set slot 19 of {_inv} to copper block
+
+    set slot 36 of {_inv} to {wires.leftColor.%uuid of {_p}%::3}
+    set slot 37 of {_inv} to copper block
+
+
+    set slot 6 of {_inv} to copper block
+    set slot 7 of {_inv} to {wires.rightColor.%uuid of {_p}%::1}
+    set slot 8 of {_inv} to red stained glass pane named " "
+
+    set slot 24 of {_inv} to copper block
+    set slot 25 of {_inv} to {wires.rightColor.%uuid of {_p}%::2}
+    set slot 26 of {_inv} to red stained glass pane named " "
+
+    set slot 42 of {_inv} to copper block
+    set slot 43 of {_inv} to {wires.rightColor.%uuid of {_p}%::3}
+    set slot 44 of {_inv} to red stained glass pane named " "
+
+    open {_inv} to {_p}
+
+
+
+on inventory click:
+
+    if holder of event-inventory is set:
+        stop
+
+    if name of event-inventory is not "&9Conectar Fios":
+        stop
+
+    cancel event
+
+    set {_uuid} to uuid of player
+    set {_inv} to event-inventory
+
+
+    if {wires.selected.%{_uuid}%} is 1:
+        if {wires.connected.%{_uuid}%::1} is not true:
+            set slot 1 of {_inv} to copper block
+            set slot 2 of {_inv} to air
+
+    else if {wires.selected.%{_uuid}%} is 2:
+        if {wires.connected.%{_uuid}%::2} is not true:
+            set slot 19 of {_inv} to copper block
+            set slot 20 of {_inv} to air
+
+    else if {wires.selected.%{_uuid}%} is 3:
+        if {wires.connected.%{_uuid}%::3} is not true:
+            set slot 37 of {_inv} to copper block
+            set slot 38 of {_inv} to air
+
+    if clicked slot is 0 or 1:
+
+        if {wires.connected.%{_uuid}%::1} is true:
+            stop
+
+        set {wires.selected.%{_uuid}%} to 1
+
+        set slot 1 of {_inv} to {wires.leftColor.%{_uuid}%::1}
+        set slot 2 of {_inv} to copper block
+
+        play sound "minecraft:block.wool.place" with volume 0.7 and pitch 1 to player
+        stop
+
+    if clicked slot is 18 or 19:
+
+        if {wires.connected.%{_uuid}%::2} is true:
+            stop
+
+        set {wires.selected.%{_uuid}%} to 2
+
+        set slot 19 of {_inv} to {wires.leftColor.%{_uuid}%::2}
+        set slot 20 of {_inv} to copper block
+
+        play sound "minecraft:block.wool.place" with volume 0.7 and pitch 1 to player
+        stop
+
+    if clicked slot is 36 or 37:
+
+        if {wires.connected.%{_uuid}%::3} is true:
+            stop
+
+        set {wires.selected.%{_uuid}%} to 3
+
+        set slot 37 of {_inv} to {wires.leftColor.%{_uuid}%::3}
+        set slot 38 of {_inv} to copper block
+
+        play sound "minecraft:block.wool.place" with volume 0.7 and pitch 1 to player
+        stop
+
+    if clicked slot is not 6:
+        if clicked slot is not 7:
+            if clicked slot is not 24:
+                if clicked slot is not 25:
+                    if clicked slot is not 42:
+                        if clicked slot is not 43:
+                            stop
+
+    if {wires.selected.%{_uuid}%} is not set:
+        stop
+
+    if clicked slot is 6 or 7:
+        set {_right} to 1
+
+    else if clicked slot is 24 or 25:
+        set {_right} to 2
+
+    else:
+        set {_right} to 3
+
+    set {_left} to {wires.selected.%{_uuid}%}
+
+    if {wires.leftColor.%{_uuid}%::%{_left}%} is not {wires.rightColor.%{_uuid}%::%{_right}%}:
+        play sound "minecraft:block.note_block.bass" with volume 1 and pitch 0.7 to player
+        send "&cVocê acabou de descobrir um novo jeito de não ligar fios."
+        close player's inventory
+        stop
+
+    set {wires.connected.%{_uuid}%::%{_left}%} to true
+
+    drawWire({_inv}, {_left}, {_right}, {wires.leftColor.%{_uuid}%::%{_left}%})
+
+    play sound "minecraft:block.amethyst_block.place" with volume 1 and pitch 1.4 to player
+
+    if size of {wires.connected.%{_uuid}%::*} >= 3:
+
+        wait 1 second
+
+        delete {wires.leftColor.%{_uuid}%::*}
+        delete {wires.rightColor.%{_uuid}%::*}
+        delete {wires.connected.%{_uuid}%::*}
+        delete {wires.selected.%{_uuid}%}
+
+        close player's inventory
+
+        advanceTaskStep(player, "connect_wires", {wires.step.%uuid of player%})
+        delete {wires.step.%uuid of player%}
+
+
+function drawWire(inv: inventory, left: number, right: number, color: item):
+
+
+    
+    if {_left} = 1:
+
+        if {_right} = 1:
+
+            loop 0,1,2,3,4,5,6,7:
+                set slot loop-value of {_inv} to {_color}
+
+            set slot 8 of {_inv} to lime stained glass pane named " "
+
+        else if {_right} = 2:
+
+            loop 0,1,2,3,13,23,24,25:
+                set slot loop-value of {_inv} to {_color}
+
+            set slot 26 of {_inv} to lime stained glass pane named " "
+
+        else:
+
+            loop 0,1,2,12,22,32,42,43:
+                set slot loop-value of {_inv} to {_color}
+
+            set slot 44 of {_inv} to lime stained glass pane named " "
+
+        stop
+
+    if {_left} = 2:
+
+        if {_right} = 1:
+
+            loop 18,19,20,21,13,5,6,7:
+                set slot loop-value of {_inv} to {_color}
+
+            set slot 8 of {_inv} to lime stained glass pane named " "
+
+        else if {_right} = 2:
+
+            loop 18,19,20,21,22,23,24,25:
+                set slot loop-value of {_inv} to {_color}
+
+            set slot 26 of {_inv} to lime stained glass pane named " "
+
+        else:
+
+            loop 18,19,20,21,31,41,42,43:
+                set slot loop-value of {_inv} to {_color}
+
+            set slot 44 of {_inv} to lime stained glass pane named " "
+
+        stop
+
+
+
+    if {_left} = 3:
+
+        if {_right} = 1:
+
+            loop 36,37,38,30,22,14,6,7:
+                set slot loop-value of {_inv} to {_color}
+
+            set slot 8 of {_inv} to lime stained glass pane named " "
+
+        else if {_right} = 2:
+
+            loop 36,37,38,39,31,23,24,25:
+                set slot loop-value of {_inv} to {_color}
+
+            set slot 26 of {_inv} to lime stained glass pane named " "
+
+        else:
+
+            loop 36,37,38,39,40,41,42,43:
+                set slot loop-value of {_inv} to {_color}
+
+            set slot 44 of {_inv} to lime stained glass pane named " "

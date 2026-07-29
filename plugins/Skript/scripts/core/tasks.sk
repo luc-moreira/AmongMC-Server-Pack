@@ -1,0 +1,347 @@
+function locationKey(loc: location) :: text:
+    return "%world of {_loc}%;%floor(x-coordinate of {_loc})%;%floor(y-coordinate of {_loc})%;%floor(z-coordinate of {_loc})%"
+
+
+function registerTask(id: text, name: text, coords: text, ordered: boolean = true):
+
+    add {_id} to {tasks::*}
+
+    set {task.%{_id}%.name} to {_name}
+    set {task.%{_id}%.ordered} to {_ordered}
+
+    set {_clean} to {_coords}
+    replace all " " with "" in {_clean}
+
+    set {_nums::*} to {_clean} split at ","
+
+    if mod((size of {_nums::*}), 3) is not 0:
+        broadcast "&c[ERRO] registerTask(%{_id}%): número de coordenadas não é múltiplo de 3!"
+        stop
+
+    set {_steps} to (size of {_nums::*}) / 3
+    set {task.%{_id}%.steps} to {_steps}
+
+    set {_step} to 1
+    set {_i} to 1
+
+    loop {_steps} times:
+
+        set {_x} to {_nums::%{_i}%} parsed as number
+        set {_y} to {_nums::%({_i}+1)%} parsed as number
+        set {_z} to {_nums::%({_i}+2)%} parsed as number
+
+        set {_loc} to location({_x}, {_y}, {_z}, world("amongmc"))
+        set {task.%{_id}%.step.%{_step}%.location} to {_loc}
+        set {taskAt::%locationKey({_loc})%} to "%{_id}%;%{_step}%"
+
+        if {_loc} is not set:
+            broadcast "&c[ERRO] registerTask(%{_id}%): coordenada inválida na etapa %{_step}%!"
+
+        add 1 to {_step}
+        add 3 to {_i}
+
+function getTaskInfoAt(loc: location) :: text:
+    return {taskAt::%locationKey({_loc})%}
+
+
+function runTaskStep(p: player, id: text, step: number):
+
+    if {_id} is "water_plants":
+        water_plants({_p}, {_step})
+    else if {_id} is "clean_vases":
+        advanceTaskStep({_p}, "clean_vases", {_step})
+    else if {_id} is "calibrate_navigation":
+        calibrate_navigation({_p}, {_step})
+    else if {_id} is "organize_books":
+        organize_books({_p}, {_step})
+    else if {_id} is "freeze_sample":
+        freeze_sample({_p}, {_step})
+    else if {_id} is "cook_chicken":
+        cook_chicken({_p}, {_step})
+    else if {_id} is "download_obs":
+        download({_p}, {_step}, "download_obs")
+    else if {_id} is "download_lib":
+        download({_p}, {_step}, "download_lib")
+    else if {_id} is "download_work":
+        download({_p}, {_step}, "download_work")
+    else if {_id} is "open_valve":
+        open_valve({_p}, {_step})
+    else if {_id} is "connect_wires":
+        connect_wires({_p}, {_step})
+    else if {_id} is "clean_vents":
+        advanceTaskStep({_p}, "clean_vents", {_step})
+    else if {_id} is "start_reactor":
+        wait 1 tick
+        start_reactor({_p}, {_step})
+    else if {_id} is "trim_plants":
+        trim_plants({_p}, {_step})
+    else if {_id} is "destroy_asteroids":
+        destroy_asteroids({_p}, {_step})
+    else if {_id} is "tune_radio":
+        tune_radio({_p}, {_step})
+    else if {_id} is "organize_armor":
+        organize_armor({_p}, {_step}) 
+    else if {_id} is "craft_device":
+        craft_device({_p}, {_step})
+    else if {_id} is "clean_lens":
+        clean_lens({_p}, {_step})
+    else if {_id} is "wash_dishes":
+        wash_dishes({_p}, {_step})
+    else if {_id} is "prepare_reagent":
+        prepare_reagent({_p}, {_step})
+    else if {_id} is "make_coffee":
+        make_coffee({_p}, {_step})
+    else if {_id} is "sequence_fission":
+        sequence_fission({_p}, {_step})
+    else if {_id} is "remove_duplicate_books":
+        remove_duplicate_books({_p}, {_step})
+
+
+        
+
+function advanceTaskStep(p: player, id: text, step: number = -1):
+
+    if {task.%{_id}%.ordered} is false:
+
+        if {_step} > 0:
+            set {playerTaskDone.%uuid of {_p}%.%{_id}%::%{_step}%} to true
+
+        add 1 to {playerTaskProgress.%uuid of {_p}%.%{_id}%}
+
+        set {playerTaskDone.%uuid of {_p}%.%{_id}%::%{_step}%} to true
+
+        play sound "minecraft:entity.experience_orb.pickup" with volume 1 and pitch 1.2 to {_p}
+
+        if {playerTaskProgress.%uuid of {_p}%.%{_id}%} >= {task.%{_id}%.steps}:
+            completeTask({_p}, {_id})
+        else:
+            send "&e%{task.%{_id}%.name}% &7(%{playerTaskProgress.%uuid of {_p}%.%{_id}%}%/%{task.%{_id}%.steps}%)" to {_p}
+            updateScoreboard({_p})
+        updateCompass({_p})
+        stop
+
+    play sound "minecraft:entity.experience_orb.pickup" with volume 1 and pitch 1.2 to {_p}
+    set {_current} to {playerTaskStep.%uuid of {_p}%.%{_id}%}
+    set {_total} to {task.%{_id}%.steps}
+    broadcast "teste"
+    if {_current} >= {_total}:
+        completeTask({_p}, {_id})
+    else:
+        send "&e%{task.%{_id}%.name}%&7: etapa %{playerTaskStep.%uuid of {_p}%.%{_id}%}%/%{_total}%" to {_p}
+        add 1 to {playerTaskStep.%uuid of {_p}%.%{_id}%}
+        updateScoreboard({_p})
+    updateCompass({_p})
+
+function completeTask(p: player, id: text):
+    remove {_id} from {playerTasks.%uuid of {_p}%::*}
+    delete {playerTaskStep.%uuid of {_p}%.%{_id}%}
+    delete {playerTaskProgress.%uuid of {_p}%.%{_id}%}
+    delete {playerTaskDone.%uuid of {_p}%.%{_id}%::*}
+    add {_id} to {playerTasksDone.%uuid of {_p}%::*}
+    updateTasks()
+
+    send "&aTask concluída: %{task.%{_id}%.name}%" to {_p}
+    loop all players:
+        updateScoreboard(loop-player)
+
+function updateTasks():
+
+    set {game.completedTasks} to 0
+    set {game.totalTasks} to 0
+
+    loop all players:
+
+        add size of {playerTasks.%uuid of loop-player%::*} to {game.totalTasks}
+        add size of {playerTasksDone.%uuid of loop-player%::*} to {game.totalTasks}
+        add size of {playerTasksDone.%uuid of loop-player%::*} to {game.completedTasks}
+
+    checkEndGame()
+
+
+function assignTasks(p: player):
+
+    if {game.impostors::*} contains {_p}:
+        delete {playerTasks.%uuid of {_p}%::*}
+        delete {playerTasksDone.%uuid of {_p}%::*}
+        stop
+
+    set {_pool::*} to {tasks::*}
+    set {_limit} to {config.tasksPerPlayer}
+
+    delete {playerTasks.%uuid of {_p}%::*}
+    delete {playerTasksDone.%uuid of {_p}%::*}
+
+    loop {_limit} times:
+
+        set {_random} to random element out of {_pool::*}
+        if {_random} is not set:
+            stop
+
+        add {_random} to {playerTasks.%uuid of {_p}%::*}
+
+        if {task.%{_random}%.ordered} is true:
+            set {playerTaskStep.%uuid of {_p}%.%{_random}%} to 1
+
+        else:
+            delete {playerTaskDone.%uuid of {_p}%.%{_random}%::*}
+            delete {playerTaskProgress.%uuid of {_p}%.%{_random}%}
+
+        remove {_random} from {_pool::*}
+
+
+function getClosestTaskLocation(p: player) :: location:
+
+    set {_dist} to 999999
+
+    loop {playerTasks.%uuid of {_p}%::*}:
+
+        set {_id} to loop-value
+
+
+        if {task.%{_id}%.ordered} is true:
+
+            set {_step} to {playerTaskStep.%uuid of {_p}%.%{_id}%}
+
+            if {_step} is not set:
+                set {_step} to 1
+                set {playerTaskStep.%uuid of {_p}%.%{_id}%} to 1
+
+            set {_loc} to {task.%{_id}%.step.%{_step}%.location}
+
+            if {_loc} is set:
+
+                set {_d} to distance between {_p} and {_loc}
+
+                if {_d} < {_dist}:
+                    set {_dist} to {_d}
+                    set {_closest} to {_loc}
+
+        else:
+
+            loop {task.%{_id}%.steps} times:
+
+                if {playerTaskDone.%uuid of {_p}%.%{_id}%::%loop-number%} is set:
+                    continue
+
+                set {_loc} to {task.%{_id}%.step.%loop-number%.location}
+
+                if {_loc} is not set:
+                    continue
+
+                set {_d} to distance between {_p} and {_loc}
+
+                if {_d} < {_dist}:
+                    set {_dist} to {_d}
+                    set {_closest} to {_loc}
+
+    return {_closest}
+
+function drawTaskParticles(p: player, loc: location):
+    if {_p} is from floodgate:
+        set {_base} to location of block at {_loc}
+
+        loop 2 times:
+            if loop-number = 1:
+                set {_x} to -0.6
+            else:
+                set {_x} to 0.6
+
+            loop 2 times:
+                if loop-number-2 = 1:
+                    set {_y} to -0.6
+                else:
+                    set {_y} to 0.6
+
+                loop 2 times:
+                    if loop-number-3 = 1:
+                        set {_z} to -0.6
+                    else:
+                        set {_z} to 0.6
+
+                    set {_particleLoc} to {_base}
+                    add {_x} to x-coordinate of {_particleLoc}
+                    add {_y} to y-coordinate of {_particleLoc}
+                    add {_z} to z-coordinate of {_particleLoc}
+
+                    draw 1 of happy_villager at {_particleLoc} to {_p}
+    else:
+        set {_loc} to location of block at {_loc}
+        loop 2 times: 
+            if loop-number = 1: 
+                set {_x} to -0.5 
+            else: 
+                set {_x} to 0.5
+
+            loop 2 times: 
+                if loop-number-2 = 1:
+                    set {_y} to -0.5 
+                else: 
+                    set {_y} to 0.5
+
+                loop 2 times: 
+                    if loop-number-3 = 1:
+                        set {_z} to -0.5
+                    else: 
+                        set {_z} to 0.5
+                        
+                    draw 1 of happy_villager at {_loc} with offset vector {_x}, {_y}, {_z} to {_p}
+
+
+
+function showTaskParticles(p: player):
+
+    loop {playerTasks.%uuid of {_p}%::*}:
+
+        set {_id} to loop-value
+
+        if {task.%{_id}%.ordered} is true:
+
+            set {_step} to {playerTaskStep.%uuid of {_p}%.%{_id}%}
+
+            if {_step} is set:
+                drawTaskParticles({_p}, {task.%{_id}%.step.%{_step}%.location})
+
+        else:
+
+            loop {task.%{_id}%.steps} times:
+
+                if {playerTaskDone.%uuid of {_p}%.%{_id}%::%loop-number%} is not set:
+                    drawTaskParticles({_p}, {task.%{_id}%.step.%loop-number%.location})
+
+every 2 seconds:
+    loop all players:
+        if {game.state} is "running":
+            showTaskParticles(loop-player)
+            updateCompass(loop-player)
+
+
+on click:
+
+    if {game.state} is not "running":
+        stop
+
+    set {_loc} to location of clicked block
+    if clicked block is not set:
+        set {_loc} to location of clicked entity
+    set {_info} to getTaskInfoAt({_loc})
+    if {_info} is not set:
+        stop
+
+    cancel event
+    set {_parts::*} to {_info} split at ";"
+    set {_id} to {_parts::1}
+    set {_step} to {_parts::2} parsed as integer
+
+    if {playerTasks.%uuid of player%::*} does not contain {_id}:
+        stop
+
+    if {task.%{_id}%.ordered} is true:
+
+        if {playerTaskStep.%uuid of player%.%{_id}%} is not {_step}:
+            stop
+
+    else:
+
+        if {playerTaskDone.%uuid of player%.%{_id}%::%{_step}%} is set:
+            stop
+    runTaskStep(player, {_id}, {_step})

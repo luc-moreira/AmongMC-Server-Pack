@@ -1,0 +1,212 @@
+command /hat:
+    aliases: chapeu
+    trigger:
+        openHatMenu(player)
+
+function openHatMenu(p: player):
+
+    set {_inv} to chest inventory with 4 rows named "&6Escolher Chapéu"
+
+    set {_color} to {color.%uuid of {_p}%}
+
+    if {_color} is not set:
+        set {_color} to "white"
+
+    if {_color} is "white":
+        set {_rgb} to rgb(249, 255, 254)
+    else if {_color} is "orange":
+        set {_rgb} to rgb(249, 128, 29)
+    else if {_color} is "magenta":
+        set {_rgb} to rgb(199, 78, 189)
+    else if {_color} is "light_blue":
+        set {_rgb} to rgb(58, 179, 218)
+    else if {_color} is "yellow":
+        set {_rgb} to rgb(254, 216, 61)
+    else if {_color} is "lime":
+        set {_rgb} to rgb(128, 199, 31)
+    else if {_color} is "pink":
+        set {_rgb} to rgb(243, 139, 170)
+    else if {_color} is "gray":
+        set {_rgb} to rgb(71, 79, 82)
+    else if {_color} is "light_gray":
+        set {_rgb} to rgb(157, 157, 151)
+    else if {_color} is "cyan":
+        set {_rgb} to rgb(22, 156, 156)
+    else if {_color} is "purple":
+        set {_rgb} to rgb(137, 50, 184)
+    else if {_color} is "blue":
+        set {_rgb} to rgb(60, 68, 170)
+    else if {_color} is "brown":
+        set {_rgb} to rgb(131, 84, 50)
+    else if {_color} is "green":
+        set {_rgb} to rgb(94, 124, 22)
+    else if {_color} is "red":
+        set {_rgb} to rgb(176, 46, 38)
+    else if {_color} is "black":
+        set {_rgb} to rgb(29, 29, 33)
+
+    set {_helmet} to leather helmet
+    dye {_helmet} {_rgb}
+
+    set slot 0 of {_inv} to {_helmet} named "&eCapacete"
+    set slot 1 of {_inv} to barrier named "&cSem chapéu"
+
+    set slot 9 of {_inv} to panda spawn egg named "&fPanda"
+    set slot 10 of {_inv} to allay spawn egg named "&bAllay"
+    set slot 11 of {_inv} to cat spawn egg named "&fGato"
+    set slot 12 of {_inv} to goat spawn egg named "&fCabra"
+    set slot 13 of {_inv} to chicken spawn egg named "&fGalinha"
+    set slot 14 of {_inv} to parrot spawn egg named "&aPapagaio"
+    set slot 15 of {_inv} to bee spawn egg named "&eAbelha"
+    set slot 16 of {_inv} to axolotl spawn egg named "&dAxolote"
+    set slot 17 of {_inv} to bat spawn egg named "&8Morcego"
+
+    set slot 18 of {_inv} to donkey spawn egg named "&7Burro"
+    set slot 19 of {_inv} to creeper spawn egg named "&aCreeper"
+    set slot 20 of {_inv} to amethyst cluster named "&dAmetista"
+    set slot 21 of {_inv} to ender pearl named "&5Pérola do End"
+    set slot 22 of {_inv} to diamond named "&bDiamante"
+    set slot 23 of {_inv} to redstone torch named "&cTocha de Redstone"
+    set slot 24 of {_inv} to carrot named "&6Cenoura"
+    set slot 25 of {_inv} to honeycomb named "&6Favo de Mel"
+    set slot 26 of {_inv} to cookie named "&6Cookie"
+
+    set slot 27 of {_inv} to cake named "&fBolo"
+    set slot 28 of {_inv} to pufferfish named "&eBaiacu"
+    set slot 29 of {_inv} to tropical fish named "&3Peixe Tropical"
+    set slot 30 of {_inv} to red mushroom named "&cCogumelo"
+    set slot 31 of {_inv} to torchflower named "&6Torchflower"
+    set slot 32 of {_inv} to mangrove propagule named "&aPropágulo"
+    set slot 33 of {_inv} to cherry sapling named "&dMuda de Cerejeira"
+    set slot 34 of {_inv} to nautilus shell named "&3Concha de Náutilo"
+    set slot 35 of {_inv} to bell named "&6Sino"
+
+    open {_inv} to {_p}
+
+on inventory click:
+
+    if holder of event-inventory is set:
+        stop
+
+    if name of event-inventory is not "&6Escolher Chapéu":
+        stop
+    cancel event
+
+    set {_slot} to index of clicked slot
+
+    # Capacete de couro
+    if {_slot} = 0:
+        delete {hat.%uuid of player%}
+        set {_hatName} to "Capacete"
+        updateArmor(player)
+        send "&aVocê mudou seu chapéu para &e%{_hatName}%&a." to player
+        close player's inventory
+        stop
+
+    # Sem chapéu
+    if {_slot} = 1:
+        set {hat.%uuid of player%} to "none"
+        set {_hatName} to "Sem chapéu"
+        updateArmor(player)
+        send "&aVocê mudou seu chapéu para &e%{_hatName}%&a." to player
+        close player's inventory
+        stop
+
+    if {_slot} = 9:
+        set {hat.%uuid of player%} to panda spawn egg
+        set {_hatName} to "Panda"
+    else if {_slot} = 10:
+        set {hat.%uuid of player%} to allay spawn egg
+        set {_hatName} to "Allay"
+    else if {_slot} = 11:
+        set {hat.%uuid of player%} to cat spawn egg
+        set {_hatName} to "Gato"
+    else if {_slot} = 12:
+        set {hat.%uuid of player%} to goat spawn egg
+        set {_hatName} to "Cabra"
+    else if {_slot} = 13:
+        set {hat.%uuid of player%} to chicken spawn egg
+        set {_hatName} to "Galinha"
+    else if {_slot} = 14:
+        set {hat.%uuid of player%} to parrot spawn egg
+        set {_hatName} to "Papagaio"
+    else if {_slot} = 15:
+        set {hat.%uuid of player%} to bee spawn egg
+        set {_hatName} to "Abelha"
+    else if {_slot} = 16:
+        set {hat.%uuid of player%} to axolotl spawn egg
+        set {_hatName} to "Axolote"
+    else if {_slot} = 17:
+        set {hat.%uuid of player%} to bat spawn egg
+        set {_hatName} to "Morcego"
+    else if {_slot} = 18:
+        set {hat.%uuid of player%} to donkey spawn egg
+        set {_hatName} to "Burro"
+    else if {_slot} = 19:
+        set {hat.%uuid of player%} to creeper spawn egg
+        set {_hatName} to "Creeper"
+    else if {_slot} = 20:
+        set {hat.%uuid of player%} to amethyst cluster
+        set {_hatName} to "Ametista"
+    else if {_slot} = 21:
+        set {hat.%uuid of player%} to ender pearl item
+        set {_hatName} to "Pérola do End"
+    else if {_slot} = 22:
+        set {hat.%uuid of player%} to diamond
+        set {_hatName} to "Diamante"
+    else if {_slot} = 23:
+        set {hat.%uuid of player%} to redstone torch
+        set {_hatName} to "Tocha de Redstone"
+    else if {_slot} = 24:
+        set {hat.%uuid of player%} to carrot
+        set {_hatName} to "Cenoura"
+    else if {_slot} = 25:
+        set {hat.%uuid of player%} to honeycomb
+        set {_hatName} to "Favo de Mel"
+    else if {_slot} = 26:
+        set {hat.%uuid of player%} to cookie
+        set {_hatName} to "Cookie"
+    else if {_slot} = 27:
+        set {hat.%uuid of player%} to cake
+        set {_hatName} to "Bolo"
+    else if {_slot} = 28:
+        set {hat.%uuid of player%} to pufferfish
+        set {_hatName} to "Baiacu"
+    else if {_slot} = 29:
+        set {hat.%uuid of player%} to tropical fish
+        set {_hatName} to "Peixe Tropical"
+    else if {_slot} = 30:
+        set {hat.%uuid of player%} to red mushroom
+        set {_hatName} to "Cogumelo Vermelho"
+    else if {_slot} = 31:
+        set {hat.%uuid of player%} to torchflower
+        set {_hatName} to "Torchflower"
+    else if {_slot} = 32:
+        set {hat.%uuid of player%} to mangrove propagule
+        set {_hatName} to "Propágulo de Mangue"
+    else if {_slot} = 33:
+        set {hat.%uuid of player%} to cherry sapling
+        set {_hatName} to "Muda de Cerejeira"
+    else if {_slot} = 34:
+        set {hat.%uuid of player%} to nautilus shell
+        set {_hatName} to "Concha de Náutilo"
+    else if {_slot} = 35:
+        set {hat.%uuid of player%} to bell
+        set {_hatName} to "Sino"
+    else:
+        stop
+
+    updateArmor(player)
+    send "&aVocê mudou seu chapéu para &e%{_hatName}%&a." to player
+    close player's inventory
+
+
+on right click:
+    if player's tool is turtle helmet named "&dEscolher chapéu":
+        cancel event
+        execute player command "hat"
+
+on helmet change:
+    if player's helmet is turtle helmet:
+        updateArmor(player)
+        

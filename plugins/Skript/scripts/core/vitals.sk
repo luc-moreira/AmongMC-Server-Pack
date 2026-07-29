@@ -1,0 +1,63 @@
+function openVitals(p: player):
+
+    delete {_hasBody::*}
+
+    loop all entities:
+        if loop-entity has scoreboard tag "among_body":
+            set {_owner} to {bodyOwner.%uuid of loop-entity%}
+            if {_owner} is set:
+                set {_hasBody.%{_owner}%} to true
+
+    set {_inv} to chest inventory with 6 rows named "&4Sinais Vitais"
+
+    loop 54 times:
+        set slot (loop-number - 1) of {_inv} to black stained glass pane named " "
+
+    set {_alive} to 0
+    set {_body} to 18
+    set {_dead} to 36
+
+    loop all players:
+
+        set {_pl} to loop-player
+        set {_head} to skull of {_pl}
+
+
+        if {game.ghosts::*} does not contain {_pl}:
+
+            set name of {_head} to "&a%name of {_pl}% (Vivo)"
+            set slot {_alive} of {_inv} to {_head}
+            add 1 to {_alive}
+
+
+        else:
+
+            if {_hasBody.%uuid of {_pl}%} is set:
+
+                set name of {_head} to "&e%name of {_pl}% (Morto)"
+                set slot {_body} of {_inv} to {_head}
+                add 1 to {_body}
+
+            else:
+
+                set name of {_head} to "&8%name of {_pl}% (Sem Sinal)"
+                set slot {_dead} of {_inv} to {_head}
+                add 1 to {_dead}
+
+    open {_inv} to {_p}
+
+on inventory click:
+    if name of player's inventory is "&4Sinais Vitais":
+        cancel event
+
+on right click:
+
+    if locationKey(location of clicked block) is locationKey(location(120,-58,244,world("amongmc"))):
+        cancel event
+        wait 1 tick
+        openVitals(player)
+
+function updateVitals():
+    loop all players:
+        if name of loop-player's inventory is "&4Sinais Vitais":
+            openVitals(loop-player)

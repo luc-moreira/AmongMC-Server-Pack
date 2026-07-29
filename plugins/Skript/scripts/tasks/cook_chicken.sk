@@ -1,0 +1,118 @@
+function cook_chicken(p: player, step: number):
+
+
+    if {_step} = 1:
+        
+
+        delete {cookChicken.state.%uuid of {_p}%}
+
+        set {_foods::*} to beef, chicken, porkchop, mutton, rabbit, cod, salmon, potato, kelp
+
+        loop 30 times:
+            set {_a} to random integer between 1 and 9
+            set {_b} to random integer between 1 and 9
+            set {_tmp} to {_foods::%{_a}%}
+            set {_foods::%{_a}%} to {_foods::%{_b}%}
+            set {_foods::%{_b}%} to {_tmp}
+
+        set {_inv} to dropper inventory named "&bCongelador"
+        play sound "minecraft:block.lava.extinguish" with volume 0.2 and pitch 2.0 to {_p}
+
+        loop 9 times:
+            set slot (loop-number - 1) of {_inv} to {_foods::%loop-number%}
+
+        open {_inv} to {_p}
+
+    else if {_step} = 2:
+
+        if {cookChicken.state.%uuid of {_p}%} is "cooking":
+            send "&6Seu frango ainda está assando. Não toque nisso, está quente!" to {_p}
+            play sound "minecraft:block.furnace.fire_crackle" with volume 0.5 and pitch 1 to {_p}
+            stop
+
+        set {_inv} to chest inventory with 3 rows named "&6Forno"
+
+        loop 3,4,5,12,14,21,22,23:
+            set slot loop-value of {_inv} to campfire named " "
+
+        if {cookChicken.state.%uuid of {_p}%} is "ready":
+            set slot 13 of {_inv} to cooked chicken named "&6Frango Assado"
+        else:
+            set slot 10 of {_inv} to chicken named "&eFrango Congelado"
+
+        open {_inv} to {_p}
+
+
+on inventory click:
+    if holder of event-inventory is set:
+        stop
+
+    if name of event-inventory is "&bCongelador":
+        cancel event
+
+        if event-item is chicken:
+
+            close player's inventory
+            advanceTaskStep(player, "cook_chicken")
+
+        else:
+
+            close player's inventory
+            send "&cIsso parece um frango pra você?"
+
+        stop
+
+    if name of event-inventory is "&6Forno":
+
+        if click type is left mouse button with shift or right mouse button with shift:
+            cancel event
+            stop
+
+        if event-item is campfire:
+            cancel event
+            stop
+
+
+        if event-item is cooked chicken:
+
+            cancel event
+
+            delete {cookChicken.ready.%uuid of player%}
+
+            close player's inventory
+
+            advanceTaskStep(player, "cook_chicken")
+
+            stop
+
+
+        if clicked slot = 13:
+
+            set {cookChicken.state.%uuid of player%} to "cooking"
+            
+            play sound "minecraft:block.fire.ambient" to player
+            wait 1 second
+
+            close player's inventory
+
+            send "&eSeu frango estará pronto em &61 minuto&e. Pode ir fazer outras tarefas enquanto espera, vou te avisar no chat!"
+
+            set {_u} to uuid of player
+            set {_session} to {game.session}
+
+            wait 60 seconds
+
+            if {_session} is not {game.session}:
+                stop
+
+            if {cookChicken.state.%{_u}%} is "cooking":
+                set {cookChicken.state.%{_u}%} to "ready"
+
+                send "&aSeu frango terminou de assar! Volte ao forno para buscá-lo." to player
+                play sound "minecraft:block.smoker.smoke" with volume 1 and pitch 1 to player
+
+on inventory close:
+
+    if name of event-inventory is "&6Forno":
+        if player's cursor slot is not air:
+            set player's cursor slot to air

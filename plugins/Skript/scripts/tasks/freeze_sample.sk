@@ -1,0 +1,146 @@
+function freeze_sample(p: player, step: number):
+    if {_step} = 1:
+        
+        set {_potions::*} to awkward potion, thick potion, mundane potion, potion of swiftness, potion of healing, potion of poison, potion of strength, potion of fire resistance
+        set {potion.%uuid of {_p}%} to random element out of {_potions::*}
+
+        set {_inv} to brewing stand inventory named "&5Experimento X"
+
+        set {_slot} to random integer between 0 and 2
+        set slot {_slot} of {_inv} to {potion.%uuid of {_p}%}  named "&dExperimento X" with item flag hide additional tooltip
+
+        open {_inv} to {_p}
+
+    else if {_step} = 2:
+
+        set {_inv} to chest inventory with 3 rows named "&cCongelar Experimento"
+
+        loop 3,4,5,12,14,21,22,23:
+            set slot loop-value of {_inv} to ice named " "
+
+        set slot 10 of {_inv} to {potion.%uuid of {_p}%} named "&dExperimento X" with item flag hide additional tooltip
+
+        open {_inv} to {_p}
+
+on inventory click:
+
+    
+    # Etapa 1
+    
+
+    if holder of event-inventory is set:
+        stop
+
+    if name of event-inventory is "&5Experimento X":
+        cancel event
+
+        if name of event-item = "&dExperimento X":
+            advanceTaskStep(player, "freeze_sample")
+            close player's inventory
+            stop
+
+    
+    # Etapa 2
+    
+
+    if name of event-inventory is "&cCongelar Experimento":
+
+        if click type is left mouse button with shift or right mouse button with shift:
+            cancel event
+            stop
+        if event-item is ice:
+            cancel event
+            stop
+        if event-item is blue ice:
+            cancel event
+            stop
+
+
+        if {freeze.running.%uuid of player%} is true:
+            cancel event
+            stop
+
+        if clicked slot = 13:
+
+            wait 1 tick
+
+            set {_item} to slot 13 of event-inventory
+
+            if {_item} is air:
+                stop
+
+            set {freeze.running.%uuid of player%} to true
+            add 1 to {freeze.session.%uuid of player%}
+            set {_session} to {freeze.session.%uuid of player%}
+
+            set {_inv} to event-inventory
+
+            set slot 11 of {_inv} to ice named " "
+            set slot 15 of {_inv} to ice named " "
+            play sound "minecraft:block.glass.place" with volume 0.7 and pitch 1.5 to player
+
+            wait 1 second
+            if {freeze.session.%uuid of player%} != {_session}:
+                stop
+
+            set slot 2 of {_inv} to ice named " "
+            set slot 6 of {_inv} to ice named " "
+            set slot 10 of {_inv} to ice named " "
+            set slot 16 of {_inv} to ice named " "
+            set slot 24 of {_inv} to ice named " "
+            set slot 20 of {_inv} to ice named " "
+            play sound "minecraft:block.glass.place" with volume 0.8 and pitch 1.3 to player
+
+            wait 1 second
+            if {freeze.session.%uuid of player%} != {_session}:
+                stop
+
+            set slot 1 of {_inv} to ice named " "
+            set slot 7 of {_inv} to ice named " "
+            set slot 9 of {_inv} to ice named " "
+            set slot 17 of {_inv} to ice named " "
+            set slot 25 of {_inv} to ice named " "
+            set slot 19 of {_inv} to ice named " "
+            play sound "minecraft:block.glass.place" with volume 0.9 and pitch 1.1 to player
+
+            wait 1 second
+            if {freeze.session.%uuid of player%} != {_session}:
+                stop
+
+            set slot 11 of {_inv} to blue ice named " "
+            set slot 15 of {_inv} to blue ice named " "
+            set slot 3 of {_inv} to blue ice named " "
+            set slot 4 of {_inv} to blue ice named " "
+            set slot 5 of {_inv} to blue ice named " "
+            set slot 12 of {_inv} to blue ice named " "
+            set slot 14 of {_inv} to blue ice named " "
+            set slot 21 of {_inv} to blue ice named " "
+            set slot 22 of {_inv} to blue ice named " "
+            set slot 23 of {_inv} to blue ice named " "
+
+            play sound "minecraft:block.glass.place" with volume 1 and pitch 0.8 to player
+            play sound "minecraft:block.amethyst_block.chime" with volume 0.5 and pitch 1.7 to player
+
+            wait 1 second
+            if {freeze.session.%uuid of player%} != {_session}:
+                stop
+
+            play sound "minecraft:block.beacon.activate" with volume 0.6 and pitch 2.0 to player
+
+            delete {freeze.running.%uuid of player%}
+            delete {labExperiment.%uuid of player%}
+
+            close player's inventory
+            advanceTaskStep(player, "freeze_sample")
+
+            stop
+
+
+on inventory close:
+
+    if name of event-inventory is "&cCongelar Experimento":
+        if player's cursor slot is not air:
+            set player's cursor slot to air
+        delete {freeze.running.%uuid of player%}
+        delete {labExperiment.%uuid of player%}
+        add 1 to {freeze.session.%uuid of player%}

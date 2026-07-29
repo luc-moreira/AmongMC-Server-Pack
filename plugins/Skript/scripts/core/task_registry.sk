@@ -1,0 +1,43 @@
+on load:
+    delete {tasks::*}
+    delete {task::*}
+    delete {taskAt::*}
+
+
+    registerTask("start_reactor", "Iniciar Reator", "124, -58, 241")
+    registerTask("water_plants", "Regar Plantas", "94, -59, 202, 94, -59, 199", false)
+    registerTask("clean_vases", "Limpar Vasos", "128, -58, 225, 116, -58, 225, 116, -58, 213, 128, -58, 213, 96, -59, 191, 90, -59, 191, 84, -59, 191, 77, -59, 198, 77, -59, 204, 85, -59, 236, 86, -59, 245", false)
+    registerTask("calibrate_navigation", "Calibrar Navegação", "101, -58, 234")
+    registerTask("organize_books", "Organizar Livros", "87, -58, 227")
+    registerTask("freeze_sample", "Congelar Amostra", "117, -58, 252, 89, -58, 230")
+    registerTask("cook_chicken", "Assar Frango", "89, -58, 233, 84, -59, 242")
+    registerTask("download_obs", "Download Observatório", "93, -47, 246")
+    registerTask("download_lib", "Download Biblioteca", "81, -58, 223")
+    registerTask("download_work", "Download Oficina", "127, -58, 207")
+    registerTask("open_valve", "Abrir Registro", "101, -59, 213")
+    registerTask("connect_wires", "Ligar Fios", "125, -58, 197, 124, -58, 237", false)
+    registerTask("trim_plants", "Podar Plantas", "103, -59, 199, 103, -59, 194", false)
+    registerTask("destroy_asteroids", "Destruir Asteróides", "95, -47, 251")
+    registerTask("tune_radio", "Sintonizar Rádio", "101, -58, 237")
+    registerTask("organize_armor", "Organizar Armaduras", "117, -59, 198")
+    registerTask("craft_device", "Fabricar Dispositivo", "115, -58, 206")
+    registerTask("clean_lens", "Limpar Lentes", "93, -47, 249, 93, -47, 251", false)
+    registerTask("wash_dishes", "Lavar Louças", "82, -59, 244")
+    registerTask("prepare_reagent", "Preparar Reagente", "119, -58, 252")
+    registerTask("make_coffee", "Fazer Café", "129, -58, 223")
+    registerTask("sequence_fission", "Sequenciar Fissão", "117, -58, 231")
+    registerTask("remove_duplicate_books", "Remover Duplicatas", "89, -58, 227")
+
+
+
+    #QUE GAMBIARRA FEIA MDS SE VC TA LENDO ISSO DESCULPA
+    set {_coords} to ""
+
+    loop {ventMarkers::*}:
+
+        if {_coords} is "":
+            set {_coords} to "%floor(x-coordinate of loop-value)%, %floor(y-coordinate of loop-value)%, %floor(z-coordinate of loop-value)%"
+        else:
+            set {_coords} to "%{_coords}%, %floor(x-coordinate of loop-value)%, %floor(y-coordinate of loop-value)%, %floor(z-coordinate of loop-value)%"
+
+    registerTask("clean_vents", "Limpar Dutos", {_coords}, false)

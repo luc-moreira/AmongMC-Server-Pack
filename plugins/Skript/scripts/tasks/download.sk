@@ -1,0 +1,43 @@
+function download(p: player, step: number, task: text):
+
+    set {_inv} to chest inventory with 1 row named "&aDownload"
+
+    loop 9 times:
+        set slot (loop-number - 1) of {_inv} to gray wool named "&7Baixando..."
+
+    open {_inv} to {_p}
+
+    add 1 to {download.session.%uuid of {_p}%}
+    set {_session} to {download.session.%uuid of {_p}%}
+
+    loop 9 times:
+
+        if {download.session.%uuid of {_p}%} != {_session}:
+            stop
+
+        set slot (loop-number - 1) of {_inv} to lime wool named "&aBaixado"
+
+        play sound "minecraft:block.note_block.hat" with volume 0.35 and pitch (0.8 + (loop-number * 0.08)) to {_p}
+
+        if loop-number < 9:
+            wait 15 ticks
+
+    if {download.session.%uuid of {_p}%} != {_session}:
+        stop
+
+    play sound "minecraft:entity.player.levelup" with volume 0.8 and pitch 1.3 to {_p}
+    close {_p}'s inventory
+    advanceTaskStep({_p}, {_task})
+
+on inventory click:
+
+    if holder of event-inventory is set:
+        stop
+
+    if name of event-inventory is "&aDownload":
+        cancel event
+
+on inventory close:
+
+    if name of event-inventory is "&aDownload":
+        add 1 to {download.session.%uuid of player%}
