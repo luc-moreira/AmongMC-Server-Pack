@@ -1,5 +1,4 @@
-
-
-set {bot.token} to "Coloque seu bot token aqui"
-set {bot.call} to "Coloque o id do canal de voz do discord aqui"
-set {bot.guild} to "Coloque o id do seu servidor do discord aqui"
+on load:
+    set {bot.token} to "token do seu bot aqui"
+    set {bot.call} to "id da sua call do discord aqui"
+    set {bot.guild} to "id do seu servidor do discord aqui"
