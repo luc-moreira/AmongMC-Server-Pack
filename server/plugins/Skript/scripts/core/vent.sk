@@ -1,0 +1,150 @@
+on jump:
+    if {vent.active.%uuid of player%} is true:
+        cancel event
+
+on player move:
+    if {vent.active.%uuid of player%} is true:
+        cancel event
+
+on sneak toggle:
+    if player is not in {game.impostors::*}:
+        stop
+
+    if  {game.ghosts::*} contains player:
+        stop
+
+    if player is sneaking:
+        stop
+
+    if {vent.active.%uuid of player%} is true:
+        stop
+
+    if {game.state} is "meeting":
+        stop
+
+    loop {ventMarkers::*}:
+
+        if distance between location of player and loop-value <= 1.2:
+            set {vent.active.%uuid of player%} to true
+            set {vent.index.%uuid of player%} to loop-index parsed as number
+            updateInventory(player)
+            hide player from all players
+
+            set player's walk speed to 0
+
+            send ""
+            send "&8&m----------------------------------------" to player
+            send "&7Você entrou em uma &bvent&7." to player
+            send "" to player
+            send "&eUse as &6Bússolas &epara navegar entre as vents." to player
+            send "&dUse a &5Pérola do End &dpara sair da vent." to player
+            send "" to player
+            send "&7Enquanto estiver na vent, os tripulantes &cnão podem vê-lo&7." to player
+
+            set slot 6 of player to compass named "&eVent anterior"
+            set slot 7 of player to ender pearl named "&aSair da vent"
+            set slot 8 of player to compass named "&ePróxima vent"
+
+            play sound "block.iron_trapdoor.close" with volume 1 and pitch 1 to player
+
+            stop
+
+on right click:
+
+    if {vent.active.%uuid of player%} is not true:
+        stop
+
+    cancel event
+
+    if name of player's tool is "&ePróxima vent":
+        add 1 to {vent.index.%uuid of player%}
+
+        if {vent.index.%uuid of player%} > size of {ventMarkers::*}:
+            set {vent.index.%uuid of player%} to 1
+
+        set {_loc} to {ventMarkers::%{vent.index.%uuid of player%}%}
+        add 1 to y-coordinate of {_loc}
+        teleport player to {_loc}
+        set {_look} to {_loc}
+
+        set {_test} to {_loc}
+        add 1 to x-coordinate of {_test}
+        if block at {_test} is air:
+            add 0.5 to x-coordinate of {_look}
+
+        set {_test} to {_loc}
+        remove 1 from x-coordinate of {_test}
+        if block at {_test} is air:
+            remove 0.5 from x-coordinate of {_look}
+
+        set {_test} to {_loc}
+        add 1 to z-coordinate of {_test}
+        if block at {_test} is air:
+            add 0.5 to z-coordinate of {_look}
+
+        set {_test} to {_loc}
+        remove 1 from z-coordinate of {_test}
+        if block at {_test} is air:
+            remove 0.5 from z-coordinate of {_look}
+
+        make player face {_look}
+
+        play sound "block.iron_trapdoor.open" with volume 1 and pitch 1 to player
+        play sound "block.iron_trapdoor.close" with volume 1 and pitch 1 to player
+
+        stop
+
+    if name of player's tool is "&eVent anterior":
+
+        remove 1 from {vent.index.%uuid of player%}
+
+        if {vent.index.%uuid of player%} < 1:
+            set {vent.index.%uuid of player%} to size of {ventMarkers::*}
+
+        set {_loc} to {ventMarkers::%{vent.index.%uuid of player%}%}
+        add 1 to y-coordinate of {_loc}
+        teleport player to {_loc}
+
+        set {_look} to {_loc}
+
+        set {_test} to {_loc}
+        add 1 to x-coordinate of {_test}
+        if block at {_test} is air:
+            add 0.5 to x-coordinate of {_look}
+
+        set {_test} to {_loc}
+        remove 1 from x-coordinate of {_test}
+        if block at {_test} is air:
+            remove 0.5 from x-coordinate of {_look}
+
+        set {_test} to {_loc}
+        add 1 to z-coordinate of {_test}
+        if block at {_test} is air:
+            add 0.5 to z-coordinate of {_look}
+
+        set {_test} to {_loc}
+        remove 1 from z-coordinate of {_test}
+        if block at {_test} is air:
+            remove 0.5 from z-coordinate of {_look}
+
+        make player face {_look}
+
+        play sound "block.iron_trapdoor.open" with volume 1 and pitch 1 to player
+        play sound "block.iron_trapdoor.close" with volume 1 and pitch 1 to player
+
+        stop
+
+    if name of player's tool is "&aSair da vent":
+
+        delete {vent.active.%uuid of player%}
+        delete {vent.index.%uuid of player%}
+
+        reveal player to all players
+
+        updateSpeed(player)
+
+        clear slot 6 of player
+        clear slot 7 of player
+        clear slot 8 of player
+        updateArmor(player)
+        play sound "block.iron_trapdoor.open" with volume 1 and pitch 1 to player

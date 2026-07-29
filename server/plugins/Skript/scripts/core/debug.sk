@@ -1,0 +1,30 @@
+command /debugtask:
+    trigger:
+        loop {playerTasks.%uuid of player%::*}:
+            send "%loop-value% -> step: %{playerTaskStep.%uuid of player%.%loop-value%}%"
+
+command /matar <player>:
+    permission: op
+    trigger:
+        kill(arg-1)
+        send "&c%arg-1% foi transformado em fantasma." to player
+
+command /reviver <player>:
+    permission: op
+    trigger:
+        revive(arg-1)
+        send "&a%arg-1% foi revivido." to player
+
+
+command /hide <player>:
+    permission: op
+    trigger:
+        hide arg-1 from all players
+        send "&a%arg-1% foi escondido." to player
+
+
+command /reveal <player>:
+    permission: op
+    trigger:
+        reveal arg-1 to all players
+        send "&a%arg-1% foi revelado." to player

@@ -1,0 +1,60 @@
+on join:
+    execute console command "effect give %player% minecraft:night_vision infinite 0 true"
+    updateSpeed(player)
+    set food level of player to 2
+    updateCall()
+    set entity interaction range attribute of player to 4
+
+    execute console command "effect clear %player% minecraft:blindness"
+    updateTasks()
+    updateScoreboard(player)
+    updateInventory(player)
+
+    delete {killCooldown.%uuid of player%}
+    delete {vent.active.%uuid of player%}
+    delete {vent.index.%uuid of player%}
+
+    
+    # LOBBY
+    
+
+    if {game.state} is "waiting":
+
+        teleport player to location(118.5, -58.5, 281.5, world("amongmc"))
+        updateInventory(player)
+        set slot 0 of player's inventory to nether star named "&eEscolher cor"
+        set slot 1 of player's inventory to turtle helmet named "&dEscolher chapéu"
+        if player is op:
+            set slot 2 of player's inventory to compass named "&cConfigurações"
+        stop
+
+    
+    # PARTIDA EM ANDAMENTO
+    
+
+    else:
+        kill(player)
+
+        clear player's inventory
+
+        teleport player to location(118, -59, 215, world("amongmc"))
+
+        send ""
+        send "&cA partida já está em andamento." to player
+        send "&7Você entrou como fantasma espectador." to player
+        send "&7Aguarde a próxima partida para jogar normalmente." to player
+        send "&aATENÇÃAAO essa funcionalidade ainda não está 100%%, podem ocorrer muitos bugs."
+
+    updateTasks()
+
+on quit:
+
+    if {game.state} is not "running":
+        stop
+
+    if {game.ghosts::*} contains player:
+        stop
+
+    kill(player)
+    updateTasks()
+    checkEndGame()

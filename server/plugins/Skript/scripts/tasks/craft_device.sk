@@ -1,0 +1,324 @@
+function craft_device(p: player, step: number):
+
+    set {_inv} to chest inventory with 6 rows named "&8Montar Dispositivo"
+
+    loop 54 times:
+        set slot (loop-number - 1) of {_inv} to gray stained glass pane named " "
+
+    loop 3 times:
+        loop 3 times:
+            set {_slot} to (((loop-number-1) - 1) * 9) + ((loop-number-2) - 1)
+            set slot {_slot} of {_inv} to air
+
+    set slot 12 of {_inv} to red stained glass pane named "&cNada craftado"
+
+    set {_recipe} to random integer between 1 and 4
+    set {craft.recipe.%uuid of {_p}%} to {_recipe}
+
+    delete {craft.target.%uuid of {_p}%::*}
+
+    # Auto Crafter
+
+    if {_recipe} = 1:
+
+        set slot 17 of {_inv} to crafter named "&eAuto Crafter"
+
+        set slot 5 of {_inv} to iron ingot
+        set slot 6 of {_inv} to iron ingot
+        set slot 7 of {_inv} to iron ingot
+
+        set slot 14 of {_inv} to iron ingot
+        set slot 15 of {_inv} to crafting table
+        set slot 16 of {_inv} to iron ingot
+
+        set slot 23 of {_inv} to redstone
+        set slot 24 of {_inv} to dropper
+        set slot 25 of {_inv} to redstone
+
+        set {craft.target.%uuid of {_p}%::0} to iron ingot
+        set {craft.target.%uuid of {_p}%::1} to iron ingot
+        set {craft.target.%uuid of {_p}%::2} to iron ingot
+        set {craft.target.%uuid of {_p}%::3} to iron ingot
+        set {craft.target.%uuid of {_p}%::4} to crafting table
+        set {craft.target.%uuid of {_p}%::5} to iron ingot
+        set {craft.target.%uuid of {_p}%::6} to redstone
+        set {craft.target.%uuid of {_p}%::7} to dropper
+        set {craft.target.%uuid of {_p}%::8} to redstone
+
+        set {craft.result.%uuid of {_p}%} to crafter
+
+    # Pistão
+
+    else if {_recipe} = 2:
+
+        set slot 17 of {_inv} to piston named "&ePistão"
+
+        set slot 5 of {_inv} to oak planks
+        set slot 6 of {_inv} to oak planks
+        set slot 7 of {_inv} to oak planks
+
+        set slot 14 of {_inv} to cobblestone
+        set slot 15 of {_inv} to iron ingot
+        set slot 16 of {_inv} to cobblestone
+
+        set slot 23 of {_inv} to cobblestone
+        set slot 24 of {_inv} to redstone
+        set slot 25 of {_inv} to cobblestone
+
+        set {craft.target.%uuid of {_p}%::0} to oak planks
+        set {craft.target.%uuid of {_p}%::1} to oak planks
+        set {craft.target.%uuid of {_p}%::2} to oak planks
+        set {craft.target.%uuid of {_p}%::3} to cobblestone
+        set {craft.target.%uuid of {_p}%::4} to iron ingot
+        set {craft.target.%uuid of {_p}%::5} to cobblestone
+        set {craft.target.%uuid of {_p}%::6} to cobblestone
+        set {craft.target.%uuid of {_p}%::7} to redstone
+        set {craft.target.%uuid of {_p}%::8} to cobblestone
+
+        set {craft.result.%uuid of {_p}%} to piston
+
+    # Observador
+
+    else if {_recipe} = 3:
+
+        set slot 17 of {_inv} to observer named "&eObservador"
+
+        set slot 5 of {_inv} to cobblestone
+        set slot 6 of {_inv} to cobblestone
+        set slot 7 of {_inv} to cobblestone
+
+        set slot 14 of {_inv} to redstone
+        set slot 15 of {_inv} to redstone
+        set slot 16 of {_inv} to quartz
+
+        set slot 23 of {_inv} to cobblestone
+        set slot 24 of {_inv} to cobblestone
+        set slot 25 of {_inv} to cobblestone
+
+        set {craft.target.%uuid of {_p}%::0} to cobblestone
+        set {craft.target.%uuid of {_p}%::1} to cobblestone
+        set {craft.target.%uuid of {_p}%::2} to cobblestone
+        set {craft.target.%uuid of {_p}%::3} to redstone
+        set {craft.target.%uuid of {_p}%::4} to redstone
+        set {craft.target.%uuid of {_p}%::5} to quartz
+        set {craft.target.%uuid of {_p}%::6} to cobblestone
+        set {craft.target.%uuid of {_p}%::7} to cobblestone
+        set {craft.target.%uuid of {_p}%::8} to cobblestone
+
+        set {craft.result.%uuid of {_p}%} to observer
+
+    # Comparador
+
+    else:
+
+        set slot 17 of {_inv} to comparator named "&eComparador"
+
+        set slot 5 of {_inv} to air
+        set slot 6 of {_inv} to redstone torch
+        set slot 7 of {_inv} to air
+
+        set slot 14 of {_inv} to redstone torch
+        set slot 15 of {_inv} to quartz
+        set slot 16 of {_inv} to redstone torch
+
+        set slot 23 of {_inv} to stone
+        set slot 24 of {_inv} to stone
+        set slot 25 of {_inv} to stone
+
+        delete {craft.target.%uuid of {_p}%::0}
+        set {craft.target.%uuid of {_p}%::1} to redstone torch
+        delete {craft.target.%uuid of {_p}%::2}
+        set {craft.target.%uuid of {_p}%::3} to redstone torch
+        set {craft.target.%uuid of {_p}%::4} to quartz
+        set {craft.target.%uuid of {_p}%::5} to redstone torch
+        set {craft.target.%uuid of {_p}%::6} to stone
+        set {craft.target.%uuid of {_p}%::7} to stone
+        set {craft.target.%uuid of {_p}%::8} to stone
+
+        set {craft.result.%uuid of {_p}%} to comparator
+
+
+    delete {_items::*}
+
+    add "oak2" to {_items::*}
+    add "oak1" to {_items::*}
+
+    add "cob2" to {_items::*}
+    add "cob2" to {_items::*}
+    add "cob1" to {_items::*}
+    add "cob1" to {_items::*}
+
+    add "iron2" to {_items::*}
+    add "iron1" to {_items::*}
+    add "iron1" to {_items::*}
+    add "iron1" to {_items::*}
+
+    add "red2" to {_items::*}
+
+    add "quartz1" to {_items::*}
+    add "table1" to {_items::*}
+    add "dropper1" to {_items::*}
+
+    add "stone2" to {_items::*}
+    add "stone1" to {_items::*}
+
+    add "torch2" to {_items::*}
+    add "torch1" to {_items::*}
+
+    # Distribui aleatoriamente nos slots 36-53
+
+    loop 18 times:
+
+        set {_code} to random element out of {_items::*}
+        remove {_code} from {_items::*}
+
+        if {_code} is "oak2":
+            set {_item} to oak planks
+            set amount of {_item} to 2
+
+        else if {_code} is "oak1":
+            set {_item} to oak planks
+
+        else if {_code} is "cob2":
+            set {_item} to cobblestone
+            set amount of {_item} to 2
+
+        else if {_code} is "cob1":
+            set {_item} to cobblestone
+
+        else if {_code} is "iron2":
+            set {_item} to iron ingot
+            set amount of {_item} to 2
+
+        else if {_code} is "iron1":
+            set {_item} to iron ingot
+
+        else if {_code} is "red2":
+            set {_item} to redstone
+            set amount of {_item} to 2
+
+        else if {_code} is "quartz1":
+            set {_item} to quartz
+
+        else if {_code} is "table1":
+            set {_item} to crafting table
+
+        else if {_code} is "dropper1":
+            set {_item} to dropper
+
+        else if {_code} is "stone2":
+            set {_item} to stone
+            set amount of {_item} to 2
+
+        else if {_code} is "stone1":
+            set {_item} to stone
+
+        else if {_code} is "torch2":
+            set {_item} to redstone torch
+            set amount of {_item} to 2
+
+        else if {_code} is "torch1":
+            set {_item} to redstone torch
+
+        set slot (35 + loop-number) of {_inv} to {_item}
+
+    wait 1 tick
+    open {_inv} to {_p}
+
+
+
+on inventory click:
+
+    if holder of event-inventory is set:
+        stop
+
+    if name of event-inventory is not "&8Montar Dispositivo":
+        stop
+
+    if click type is left mouse button with shift or right mouse button with shift or double click using mouse:
+        cancel event
+        stop
+
+    if player is from floodgate:
+        wait 1 tick
+        set {_item} to player's cursor slot
+        if {_item} is not air:
+            loop 18 times:
+                if slot (loop-number + 35) of event-inventory is air:
+                    set slot (loop-number + 35) of event-inventory to {_item}
+                    set player's cursor slot to air
+
+                    stop loop
+
+    if clicked slot is 12:
+
+        cancel event
+
+        if slot 12 of event-inventory is red stained glass pane:
+            stop
+
+        close player's inventory
+        advanceTaskStep(player, "craft_device")
+        stop
+
+
+    if index of clicked slot is not 0 or 1 or 2 or 9 or 10 or 11 or 18 or 19 or 20:
+        if clicked slot < 36:
+            cancel event
+            stop
+
+
+    wait 1 tick
+
+    set {_recipe} to {craft.recipe.%uuid of player%}
+
+    set {_correct} to true
+
+    loop 9 times:
+
+        if loop-number <= 3:
+            set {_craftSlot} to loop-number - 1
+        else if loop-number <= 6:
+            set {_craftSlot} to loop-number + 5
+        else:
+            set {_craftSlot} to loop-number + 11
+
+        set {_craft} to slot {_craftSlot} of event-inventory
+
+        if loop-number <= 3:
+            set {_recipeSlot} to loop-number + 4
+        else if loop-number <= 6:
+            set {_recipeSlot} to loop-number + 10
+        else:
+            set {_recipeSlot} to loop-number + 16
+
+        set {_target} to slot {_recipeSlot} of event-inventory
+
+        if {_craft} is air:
+            if {_target} is air:
+                continue
+            set {_correct} to false
+            stop loop
+
+        if {_target} is air:
+            set {_correct} to false
+            stop loop
+
+        if {_craft} is not {_target}:
+            set {_correct} to false
+            stop loop
+
+        if amount of {_craft} is not amount of {_target}:
+            set {_correct} to false
+            stop loop
+
+    if {_correct} is true:
+        set slot 12 of event-inventory to slot 17 of event-inventory
+    else:
+        set slot 12 of event-inventory to red stained glass pane named "&cReceita incorreta"
+
+on inventory close:
+
+    if name of event-inventory is "&8Montar Dispositivo":
+        if player's cursor slot is not air:
+            set player's cursor slot to air

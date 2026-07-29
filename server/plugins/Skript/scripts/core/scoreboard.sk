@@ -1,0 +1,221 @@
+function updateScoreboard(p: player):
+    clearScoreboard({_p})
+    set title of fastboard of {_p} to "&cAmongMC"
+
+
+    if {game.state} is "waiting":
+
+        if {config.taskBarMode} is 0:
+            set {_taskbar} to "&cOFF"
+        else if {config.taskBarMode} is 1:
+            set {_taskbar} to "&eReuniões"
+        else:
+            set {_taskbar} to "&aSempre"
+
+        if {config.anonymousVotes} is true:
+            set {_votes} to "&aON"
+        else:
+            set {_votes} to "&cOFF"
+
+        if {config.confirmEjects} is true:
+            set {_confirm} to "&aON"
+        else:
+            set {_confirm} to "&cOFF"
+
+        if {config.impostorsKnowEachOther} is true:
+            set {_know} to "&aON"
+        else:
+            set {_know} to "&cOFF" 
+
+        set line 2 of fastboard of {_p} to "&7Configuração"
+
+        set line 3 of fastboard of {_p} to "&fImpostores: &c%{config.impostors}%"
+        set line 4 of fastboard of {_p} to "&fTasks: &a%{config.tasksPerPlayer}%"
+        set line 5 of fastboard of {_p} to "&fVelocidade: &b%{config.playerSpeed}%x"
+        set line 6 of fastboard of {_p} to "&fTaskBar: %{_taskbar}%"
+        set line 7 of fastboard of {_p} to "&fReuniões: &6%{config.meetingLimit}%"
+
+        set line 8 of fastboard of {_p} to "&fKill CD: &c%{config.killCooldown}%s"
+        set line 9 of fastboard of {_p} to "&fKill Range: &c%{config.killRange}%"
+
+        set line 10 of fastboard of {_p} to "&fSabotagem CD: &4%{config.sabotageCooldown}%s"
+
+        set line 11 of fastboard of {_p} to "&fVotos Anôn.: %{_votes}%"
+        set line 12 of fastboard of {_p} to "&fRevelar Ejetado: %{_confirm}%"
+        set line 13 of fastboard of {_p} to "&fImp. Se conhecem: %{_know}%"
+
+
+    else:
+        
+        # RESUMO GLOBAL
+        
+
+        
+        if {config.taskBarMode} is 2:
+            set {doneGlobal} to {game.completedTasks}
+        else if {config.taskBarMode} is 1:
+            if {game.state} is "meeting":
+                set {doneGlobal} to {game.completedTasks}
+        if {game.completedTasks} is not set:
+            set {doneGlobal} to 0
+
+        set {_totalGlobal} to {game.totalTasks}
+
+        if {doneGlobal} is not set:
+            set {doneGlobal} to 0
+
+        if {_totalGlobal} is not set:
+            set {_totalGlobal} to 0
+        
+        if {config.taskBarMode} is not 0:
+            set line 1 of fastboard of {_p} to "&7Tasks Concluídas: &e%{doneGlobal}%&7/&a%{_totalGlobal}%"
+
+       
+
+        if {game.impostors::*} contains {_p}:
+
+            set {_cd} to {killCooldown.%uuid of {_p}%}
+
+            if {_cd} is not set:
+                set {_cd} to 0
+
+            if {_cd} < 1:
+                set {_cd} to "Pronto!"
+
+            set line 2 of fastboard of {_p} to "&7Kill Cooldown: &c%{_cd}%"
+
+        else:
+
+            set {_donePlayer} to size of {playerTasksDone.%uuid of {_p}%::*}
+            set {_totalPlayer} to {_donePlayer} + size of {playerTasks.%uuid of {_p}%::*}
+
+            set line 2 of fastboard of {_p} to "&7Suas Tasks: &e%{_donePlayer}%&7/&a%{_totalPlayer}%"
+
+        set line 3 of fastboard of {_p} to ""
+
+        
+        # SABOTAGENS
+        
+
+        if {sabotage.lights.active} is true:
+
+            set line 4 of fastboard of {_p} to "&c⚠ SABOTAGEM: LUZES"
+            set line 5 of fastboard of {_p} to "&7Rearme os disjuntores"
+            set line 6 of fastboard of {_p} to "&7na oficina."
+
+            stop
+
+        else if {sabotage.reactor.active} is true:
+
+            set line 4 of fastboard of {_p} to "&c⚠ SABOTAGEM: REATOR"
+            set line 5 of fastboard of {_p} to "&7Estabilize o reator usando os"
+            set line 6 of fastboard of {_p} to "&7terminais do reator e oficina."
+            set line 7 of fastboard of {_p} to "&eTempo restante: &c%{sabotage.reactor.remaining}%s"
+
+            stop
+
+        else if {sabotage.lab_fire.active} is true:
+
+            set line 4 of fastboard of {_p} to "&c⚠ SABOTAGEM: LABORATÓRIO"
+            set line 5 of fastboard of {_p} to "&7Pegue água na área verde"
+            set line 6 of fastboard of {_p} to "&7para apagar o incêndio."
+            set line 7 of fastboard of {_p} to "&eTempo restante: &c%{sabotage.lab_fire.remaining}%s"
+
+            stop
+
+        set {_line} to 4
+
+        
+        # CREWMATES
+        
+        
+        # LISTA DE TASKS
+        
+
+        if {_p} is not in {game.impostors::*}:
+
+            # TASKS PENDENTES
+            loop {playerTasks.%uuid of {_p}%::*}:
+
+                set {_id} to loop-value
+
+                set {_name} to {task.%{_id}%.name}
+                if {_name} is not set:
+                    set {_name} to "%{_id}%"
+
+                set {_total} to {task.%{_id}%.steps}
+                if {_total} is not set:
+                    set {_total} to 1
+
+                if {_total} > 1:
+
+                    if {task.%{_id}%.ordered} is true:
+
+                        set {_done} to {playerTaskStep.%uuid of {_p}%.%{_id}%} - 1
+                        if {_done} < 0:
+                            set {_done} to 0
+
+                    else:
+
+                        set {_done} to {playerTaskProgress.%uuid of {_p}%.%{_id}%}
+                        if {_done} is not set:
+                            set {_done} to 0
+
+                    set line {_line} of fastboard of {_p} to "&e- %{_name}% &7(%{_done}%/%{_total}%)"
+
+                else:
+                    set line {_line} of fastboard of {_p} to "&e- %{_name}%"
+
+                add 1 to {_line}
+
+                if {_line} > 15:
+                    stop
+
+            # TASKS CONCLUÍDAS
+            loop {playerTasksDone.%uuid of {_p}%::*}:
+                set {_id} to loop-value
+
+                set {_name} to {task.%{_id}%.name}
+                if {_name} is not set:
+                    set {_name} to "%{_id}%"
+
+                set line {_line} of fastboard of {_p} to "&a✔ %{_name}%"
+
+                add 1 to {_line}
+                if {_line} > 15:
+                    stop
+
+        
+        # IMPOSTORES
+        
+
+        else:
+            
+            if size of {game.impostors::*} = 1:
+                set line {_line} of fastboard of {_p} to "&cVocê está sozinho."
+
+            else:
+                
+                if {config.impostorsKnowEachOther} is true:
+                    set line {_line} of fastboard of {_p} to "&cOutros impostores:"
+                    add 1 to {_line}
+
+                    loop {game.impostors::*}:
+
+                        if loop-value is {_p}:
+                            continue
+
+                        set line {_line} of fastboard of {_p} to "&c- %name of loop-value%"
+
+                        add 1 to {_line}
+
+                        if {_line} > 15:
+                            stop
+                else:
+                    set line {_line} of fastboard of {_p} to "&cVocê não sabe quem são"
+                    add 1 to {_line}
+                    set line {_line} of fastboard of {_p} to "&cos outros impostores."
+
+
+function clearScoreboard(p: player):
+    clear fastboard of {_p}

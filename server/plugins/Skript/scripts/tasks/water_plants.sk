@@ -1,0 +1,6 @@
+function water_plants(p: player, step: number):
+    if tool of {_p} is water bucket:
+        set tool of {_p} to air
+        advanceTaskStep({_p}, "water_plants", {_step})
+    else:
+        send "&cComo você pretende regar as plantas sem água?" to {_p}

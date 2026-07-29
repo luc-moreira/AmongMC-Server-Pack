@@ -1,0 +1,256 @@
+function moveElevator(target: text):
+
+    if {elevator.state} is "moving":
+        stop
+
+    if {elevator.state} is {_target}:
+        wait 1 second
+        if {_target} is "up":
+            openTopDoor()
+        else:
+            openBottomDoor()
+
+        wait 5 seconds
+
+        if {_target} is "up":
+            closeTopDoor()
+        else:
+            closeBottomDoor()
+          
+        stop
+
+    set {_old} to {elevator.state}
+    set {elevator.state} to "moving"
+
+    
+    closeTopDoor()
+    closeBottomDoor()
+
+    wait 2 second
+    
+
+    if {_target} is "up":
+        set {_dy} to 11
+    else:
+        set {_dy} to -11
+
+    if {_target} is "up":
+        loop all entities:
+
+            if x-coordinate of loop-entity >= 93.5:
+                if x-coordinate of loop-entity <= 97.5:
+                    if y-coordinate of loop-entity >= -60.5:
+                        if y-coordinate of loop-entity <= -56.5:
+                            if z-coordinate of loop-entity >= 242.5:
+                                if z-coordinate of loop-entity <= 246.5:
+
+                                    teleport loop-entity to location(x-coordinate of loop-entity,y-coordinate of loop-entity + {_dy},z-coordinate of loop-entity,world of loop-entity,yaw of loop-entity,pitch of loop-entity)
+    else:
+        loop all entities:
+
+            if x-coordinate of loop-entity >= 93.5:
+                if x-coordinate of loop-entity <= 97.5:
+                    if y-coordinate of loop-entity >= -49.5:
+                        if y-coordinate of loop-entity <= -45.5:
+                            if z-coordinate of loop-entity >= 242.5:
+                                if z-coordinate of loop-entity <= 246.5:
+
+                                    teleport loop-entity to location(x-coordinate of loop-entity,y-coordinate of loop-entity + {_dy},z-coordinate of loop-entity,world of loop-entity,yaw of loop-entity,pitch of loop-entity)
+    
+
+    if {_target} is "up":
+        openTopDoor()
+    else:
+        openBottomDoor()
+
+    set {elevator.state} to {_target}
+
+    wait 5 seconds
+
+    if {_target} is "up":
+        closeTopDoor()
+    else:
+        closeBottomDoor()
+
+on click:
+
+    set {_loc} to locationKey(location of clicked block)
+
+    # Fantasmas atravessam o elevador
+    if {game.ghosts::*} contains player:
+
+        if {_loc} is locationKey(location(97,-47,247,world("amongmc"))):
+            cancel event
+            teleport player to location(95,-59,248,world("amongmc"), yaw of player, pitch of player)
+            stop
+
+        if {_loc} is locationKey(location(96,-58,244,world("amongmc"))):
+            cancel event
+            teleport player to location(95,-48,248,world("amongmc"), yaw of player, pitch of player)
+            stop
+
+        if {_loc} is locationKey(location(97,-58,247,world("amongmc"))):
+            cancel event
+            teleport player to location(95,-48,248,world("amongmc"), yaw of player, pitch of player)
+            stop
+
+        if {_loc} is locationKey(location(96,-47,244,world("amongmc"))):
+            cancel event
+            teleport player to location(95,-59,248,world("amongmc"), yaw of player, pitch of player)
+            stop
+
+        if {_loc} is locationKey(location(96,-48,244,world("amongmc"))):
+            cancel event
+            teleport player to location(95,-48,248,world("amongmc"), yaw of player, pitch of player)
+            stop
+
+        if {_loc} is locationKey(location(96,-59,244,world("amongmc"))):
+            cancel event
+            teleport player to location(95,-59,248,world("amongmc"), yaw of player, pitch of player)
+            stop
+
+    if {_loc} is locationKey(location(97,-47,247,world("amongmc"))):
+        moveElevator("up")
+
+    else if {_loc} is locationKey(location(96,-58,244,world("amongmc"))):
+        moveElevator("up")
+
+    else if {_loc} is locationKey(location(97,-58,247,world("amongmc"))):
+        moveElevator("down")
+
+    else if {_loc} is locationKey(location(96,-47,244,world("amongmc"))):
+        moveElevator("down")
+
+    
+    if {_loc} is locationKey(location(96,-48,244,world("amongmc"))):
+
+        if {elevator.state} is not "up":
+            stop
+
+        openTopDoor()
+
+        wait 5 seconds
+
+        if {elevator.state} is "up":
+            closeTopDoor()
+
+        stop
+
+    
+    if {_loc} is locationKey(location(96,-59,244,world("amongmc"))):
+
+        if {elevator.state} is not "down":
+            stop
+
+        openBottomDoor()
+
+        wait 5 seconds
+
+        if {elevator.state} is "down":
+            closeBottomDoor()
+
+        stop
+
+function closeBottomDoor():
+
+
+    if block at location(95,-58,246,world("amongmc")) is air:
+
+        play sound "minecraft:block.iron_door.close" with volume 0.8 and pitch 0.9 at location(95,-52,246,world("amongmc"))
+
+        
+        set block at location(94,-59,246,world("amongmc")) to netherite block
+        set block at location(96,-57,246,world("amongmc")) to netherite block
+
+        wait 3 ticks
+
+        
+        set block at location(94,-58,246,world("amongmc")) to netherite block
+        set block at location(95,-59,246,world("amongmc")) to netherite block
+        set block at location(95,-57,246,world("amongmc")) to netherite block
+        set block at location(96,-58,246,world("amongmc")) to netherite block
+
+        wait 3 ticks
+
+        
+        set block at location(94,-57,246,world("amongmc")) to netherite block
+        set block at location(95,-58,246,world("amongmc")) to netherite block
+        set block at location(96,-59,246,world("amongmc")) to netherite block
+
+
+function openBottomDoor():
+
+    if block at location(95,-58,246,world("amongmc")) is not air:
+        
+        play sound "minecraft:block.iron_door.open" with volume 0.8 and pitch 0.9 at location(95,-52,246,world("amongmc"))
+
+        
+        set block at location(94,-57,246,world("amongmc")) to air
+        set block at location(95,-58,246,world("amongmc")) to air
+        set block at location(96,-59,246,world("amongmc")) to air
+
+        wait 3 ticks
+
+        
+        set block at location(94,-58,246,world("amongmc")) to air
+        set block at location(95,-59,246,world("amongmc")) to air
+        set block at location(95,-57,246,world("amongmc")) to air
+        set block at location(96,-58,246,world("amongmc")) to air
+
+        wait 3 ticks
+
+        
+        set block at location(94,-59,246,world("amongmc")) to air
+        set block at location(96,-57,246,world("amongmc")) to air
+
+function closeTopDoor():
+
+    if block at location(95,-47,246,world("amongmc")) is air:
+
+        play sound "minecraft:block.iron_door.close" with volume 0.8 and pitch 0.9 at location(95,-52,246,world("amongmc"))
+
+        
+        set block at location(94,-48,246,world("amongmc")) to netherite block
+        set block at location(96,-46,246,world("amongmc")) to netherite block
+
+        wait 3 ticks
+
+        
+        set block at location(94,-47,246,world("amongmc")) to netherite block
+        set block at location(95,-48,246,world("amongmc")) to netherite block
+        set block at location(95,-46,246,world("amongmc")) to netherite block
+        set block at location(96,-47,246,world("amongmc")) to netherite block
+
+        wait 3 ticks
+
+        
+        set block at location(94,-46,246,world("amongmc")) to netherite block
+        set block at location(95,-47,246,world("amongmc")) to netherite block
+        set block at location(96,-48,246,world("amongmc")) to netherite block
+
+
+function openTopDoor():
+
+    if block at location(95,-47,246,world("amongmc")) is not air:
+        
+        play sound "minecraft:block.iron_door.open" with volume 0.8 and pitch 0.9 at location(95,-52,246,world("amongmc"))
+
+        
+        set block at location(94,-46,246,world("amongmc")) to air
+        set block at location(95,-47,246,world("amongmc")) to air
+        set block at location(96,-48,246,world("amongmc")) to air
+
+        wait 3 ticks
+
+        
+        set block at location(94,-47,246,world("amongmc")) to air
+        set block at location(95,-48,246,world("amongmc")) to air
+        set block at location(95,-46,246,world("amongmc")) to air
+        set block at location(96,-47,246,world("amongmc")) to air
+
+        wait 3 ticks
+
+        
+        set block at location(94,-48,246,world("amongmc")) to air
+        set block at location(96,-46,246,world("amongmc")) to air
+

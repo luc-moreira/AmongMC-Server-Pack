@@ -1,0 +1,170 @@
+function make_coffee(p: player, step: number):
+
+    set {_inv} to chest inventory with 6 rows named "&8Preparar Café"
+
+    delete {coffee.water.%uuid of {_p}%} 
+    delete {coffee.powder.%uuid of {_p}%} 
+    delete {coffee.mug.%uuid of {_p}%}
+    delete {coffee.busy.%uuid of {_p}%}
+
+    set {coffee.step.%uuid of {_p}%} to 0
+
+    loop 54 times:
+        set slot (loop-number - 1) of {_inv} to gray stained glass pane named " "
+
+
+    set slot 0 of {_inv} to cocoa beans named "&6Pó de Café"
+    set slot 1 of {_inv} to water bucket named "&bÁgua"
+    set slot 8 of {_inv} to lever named "&eLigar Cafeteira"
+    set slot 2 of {_inv} to flower pot named "&fCaneca"
+
+
+    set slot 21 of {_inv} to iron bars named " "
+    set slot 22 of {_inv} to cauldron named "&bReservatório vazio"
+    set slot 23 of {_inv} to iron bars named " "
+
+    set slot 30 of {_inv} to iron bars named " "
+    set slot 31 of {_inv} to campfire named "&6Cafeteira vazia"
+    set slot 32 of {_inv} to iron bars named " "
+
+    set slot 39 of {_inv} to iron bars named " "
+    set slot 40 of {_inv} to air
+    set slot 41 of {_inv} to iron bars named " "
+
+    set slot 48 of {_inv} to iron bars named " "
+    set slot 49 of {_inv} to blaze powder named "&eResistência"
+    set slot 50 of {_inv} to iron bars named " "
+
+    open {_inv} to {_p}
+
+    play sound "minecraft:block.brewing_stand.brew" with volume 0.4 and pitch 1.6 to {_p}
+
+
+on inventory click:
+
+    if holder of event-inventory is set:
+        stop
+    if name of event-inventory is not "&8Preparar Café":
+        stop
+
+    if click type is left mouse button with shift or right mouse button with shift or double click using mouse:
+        cancel event
+        stop
+
+    if {coffee.busy.%uuid of player%} is true:
+        cancel event
+        stop
+
+    if clicked slot is not 0 or 1 or 2 or 8 or 22 or 31 or 40:
+        cancel event
+        stop
+
+    play sound "minecraft:block.decorated_pot.place" with volume 0.3 and pitch 1.6 to player
+
+    if clicked slot is 22:
+        cancel event
+        if cursor slot of player is water bucket:
+
+            set slot 22 of event-inventory to cauldron named "&bReservatório cheio"
+            set {coffee.water.%uuid of player%} to true
+
+            set cursor slot of player to bucket
+
+            play sound "minecraft:item.bucket.empty" with volume 0.8 and pitch 1.2 to player
+
+    if clicked slot is 31:
+        cancel event
+        if cursor slot of player is cocoa beans:
+
+            set slot 31 of event-inventory to campfire named "&6Cafeteira cheia"
+            set {coffee.powder.%uuid of player%} to true
+
+            set cursor slot of player to air
+
+            play sound "minecraft:block.sand.place" with volume 0.7 and pitch 1.8 to player
+
+    if clicked slot is 40:
+        if type of event-item is lava bucket:
+            close player's inventory
+            advanceTaskStep(player, "make_coffee")
+            stop
+
+    if clicked slot is 40:
+        if cursor slot of player is not flower pot named "&fCaneca":
+            cancel event
+            stop
+
+        set {coffee.mug.%uuid of player%} to true
+
+        play sound "minecraft:item.bucket.empty" with volume 0.5 and pitch 1.8 to player
+
+    if clicked slot is 8:
+        cancel event
+        if event-item is not lever:
+            stop
+        if {coffee.water.%uuid of player%} and {coffee.powder.%uuid of player%} and {coffee.mug.%uuid of player%} is true:
+
+            set {coffee.busy.%uuid of player%} to true
+
+            set slot 49 of event-inventory to blaze rod named "&6Aquecendo..."
+            set slot 8 of event-inventory to gray stained glass pane named " "
+
+            play sound "minecraft:block.lever.click" with volume 1 and pitch 1 to player
+            play sound "minecraft:block.fire.ambient" with volume 0.7 and pitch 1 to player
+
+            wait 7 seconds
+
+            if name of player's current inventory is not "&8Preparar Café":
+                stop
+
+            delete {coffee.busy.%uuid of player%}
+
+            set slot 40 of event-inventory to lava bucket named "&4Café Pronto"
+            set slot 22 of event-inventory to cauldron named "&bReservatório vazio"
+            set slot 31 of event-inventory to campfire named "&6Cafeteira vazia"
+            set slot 49 of event-inventory to blaze powder named "&eResistência"
+
+
+            play sound "minecraft:block.brewing_stand.brew" with volume 0.9 and pitch 1.0 to player
+
+            stop
+
+        close player's inventory
+
+        if {coffee.water.%uuid of player%} and {coffee.powder.%uuid of player%} and {coffee.mug.%uuid of player%} is not true:
+            send "&cVocê ligou uma cafeteira completamente vazia. Pelo menos ela não explodiu."
+            stop
+
+        if {coffee.water.%uuid of player%} is true:
+            if {coffee.powder.%uuid of player%} and {coffee.mug.%uuid of player%} is not true:
+                send "&cÁgua quente é um chá muito triste, mas definitivamente não é café."
+                stop
+
+        if {coffee.water.%uuid of player%} and {coffee.mug.%uuid of player%} is not true:
+            if {coffee.powder.%uuid of player%} is true:
+                send "&cEsquentar pó de café puro parece uma péssima estratégia."
+                stop
+
+        if {coffee.water.%uuid of player%} and {coffee.powder.%uuid of player%} is not true:
+            if {coffee.mug.%uuid of player%} is true:
+                send "&cA caneca sozinha estava bastante otimista."
+                stop
+
+        if {coffee.water.%uuid of player%} is not true:
+            send "&cExcelente ideia. Café sem água. Os grãos vão se hidratar por telepatia?"
+            stop
+
+        if {coffee.powder.%uuid of player%} is not true:
+            send "&cVocê preparou uma deliciosa caneca de água quente."
+            stop
+
+        if {coffee.mug.%uuid of player%} is not true:
+            send "&cO café até ficou ótimo. Escorrendo inteiro pelo chão"
+            stop
+
+
+on inventory close:
+
+    if name of event-inventory is "&8Preparar Café":
+        if player's cursor slot is not air:
+            set player's cursor slot to air

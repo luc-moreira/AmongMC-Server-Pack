@@ -1,0 +1,4 @@
+on load:
+    set {bot.token} to "token do seu bot do discord aqui"
+    set {bot.call} to "id da call do seu servidor discord aqui"
+    set {bot.guild} to "id do seu servidor do discord aqui"

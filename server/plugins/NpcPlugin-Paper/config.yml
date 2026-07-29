@@ -1,0 +1,43 @@
+# Time in ticks between each update where the NPC looks at the player (default = 5)
+look-at-update-interval: 5
+
+# If true, commands entered into the NPC action won't be validated.
+avoid-command-check: true
+
+# If true, enables additional debug logging
+debug: false
+
+# Time (in seconds) until the conversation gets closed if the player doesn't respond (if < 0, there is no timeout)
+input-time: 1000
+
+# Automatically updates the npc when changing an option
+auto-update: false
+
+# Time in ticks between each placeholder update (default = 1200 = 1min)
+placeholder-timer: 1200
+
+# Checks if a path is valid (solid block beneath the path)
+check-path: true
+
+# Distance in blocks at which players can see NPCs walking
+walking-viewer-distance: 64
+
+# If true, uses precise hitbox detection for sleeping NPCs
+precise-sleeping-hitbox: false
+
+# If true, loads chunks on the path of the NPCs
+load-chunks-on-path: false
+
+# Default name display options
+name-display:
+  scale:
+  - 1.0
+  - 1.0
+  - 1.0
+  brightness: -1
+  view-range: 1.0
+  line-width: 200
+  background-color: 1073741824
+  text-opacity: 255
+  see-through: false
+  text-alignment: 0

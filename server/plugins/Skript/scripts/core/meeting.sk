@@ -1,0 +1,415 @@
+function teleportMeeting():
+
+    set {_spots::1} to location(120.5, -58.5, 221.5, world("amongmc"))
+    set {_spots::5} to location(122.5, -58.5, 222.5, world("amongmc"))
+    set {_spots::2} to location(124.5, -58.5, 221.5, world("amongmc"))
+    set {_spots::6} to location(125.5, -58.5, 219.5, world("amongmc"))
+    set {_spots::3} to location(124.5, -58.5, 217.5, world("amongmc"))
+    set {_spots::7} to location(122.5, -58.5, 216.5, world("amongmc"))
+    set {_spots::4} to location(120.5, -58.5, 217.5, world("amongmc"))
+    set {_spots::8} to location(119.5, -58.5, 219.5, world("amongmc"))
+
+    set {_look} to location(122.5, -59.5, 219.5, world("amongmc"))
+
+    set {_i} to 1
+
+    loop all players:
+        close loop-player's inventory
+        if {game.ghosts::*} does not contain loop-player:
+
+            teleport loop-player to {_spots::%{_i}%}
+            make loop-player face {_look}
+
+            add 1 to {_i}
+            if {_i} > 8:
+                set {_i} to 1
+
+    loop all players:
+        if {game.ghosts::*} contains loop-player:
+
+            teleport loop-player to {_spots::%{_i}%}
+            make loop-player face {_look}
+
+            add 1 to {_i}
+            if {_i} > 8:
+                set {_i} to 1
+
+function startMeeting(reporter: player):
+    
+    # SALVAR SABOTAGEM ATIVA
+    
+
+    set {sabotage.pause} to "none"
+    delete {sabotage.reactor.remaining}
+    delete {sabotage.labfire.remaining}
+
+    if {sabotage.reactor.active} is true:
+        set {sabotage.pause} to "reactor"
+        set {sabotage.reactor.active} to false
+
+    if {sabotage.lab_fire.active} is true:
+        set {sabotage.pause} to "lab_fire"
+        set {sabotage.lab_fire.active} to false
+
+    if {sabotage.lights.active} is true:
+        set {sabotage.pause} to "lights"
+        set {sabotage.lights.active} to false
+
+    loop all players:
+        play sound "block.bell.resonate" with volume 10 and pitch 0.75 to loop-player
+        wait 2 ticks
+        play sound "block.note_block.basedrum" with volume 10 and pitch 0.6 to loop-player
+        wait 2 ticks
+        play sound "block.bell.use" with volume 10 and pitch 0.8 to loop-player
+    set {game.state} to "meeting"
+    updateCall()
+    execute console command "team empty players"
+    execute console command "kill @e[type=minecraft:armor_stand,tag=among_body]"
+
+    teleportMeeting()
+
+    execute console command "effect clear @a minecraft:blindness"
+
+    set {sabotage.doors.active} to true
+
+    loop {doorCount} times:
+        animateDoor({doors::%loop-number%::*}, true)
+
+    loop all players:
+        close loop-player's inventory
+        updateInventory(loop-player)
+        updateScoreboard(loop-player)
+
+    broadcast "%chatColor({_reporter})%%name of {_reporter}% &finiciou uma reunião de emergência!"
+    broadcast ""
+    broadcast "&7Use o &eLivro &7para votar."
+
+    loop {game.impostors::*}:
+
+        set {_p} to loop-value
+
+        if {vent.active.%uuid of {_p}%} is not true:
+            continue
+
+        delete {vent.active.%uuid of {_p}%}
+        delete {vent.index.%uuid of {_p}%}
+
+        reveal {_p} to all players
+
+        updateSpeed({_p})
+
+        clear slot 6 of {_p}
+        clear slot 7 of {_p}
+        clear slot 8 of {_p}
+
+on right click on armor stand:
+    cancel event
+
+    if {game.state} is "meeting":
+        stop
+
+    if {game.ghosts::*} contains player:
+        stop
+    
+    set {_loc} to location(122.5, -59, 219.5, world("amongmc"))
+    if distance between clicked entity and {_loc} < 0.75:
+        if {meeting.cooldown.remaining} is set:
+            if {meeting.cooldown.remaining} > 0:
+                send "&cVocê não pode iniciar uma reunião agora. Aguarde %{meeting.cooldown.remaining}%s." to player
+                stop
+
+            if {meeting.callsLeft.%uuid of player%} <= 0:
+                send "&cVocê não tem reuniões de emergência restantes." to player
+                stop
+
+            if {sabotage.lights.active} or {sabotage.lab_fire.active} or {sabotage.reactor.active} is true:
+                send "&cVocê não pode iniciar uma reunião durante uma sabotagem!" to player
+                stop
+
+            remove 1 from {meeting.callsLeft.%uuid of player%}
+        startMeeting(player)
+
+command /votar:
+    trigger:
+
+        if {game.state} is not "meeting":
+            send "&cNão há nenhuma reunião em andamento."
+            stop
+
+        if {game.ghosts::*} contains player:
+            send "&cFantasmas não podem votar."
+            stop
+
+        if {vote.%uuid of player%} is set:
+            send "&cVocê já votou."
+            stop
+
+        set {_inv} to chest inventory with 3 rows named "&8Votação"
+
+        set {_slot} to 0
+
+        loop all players:
+
+            if {game.ghosts::*} contains loop-player:
+                continue
+
+            set {_wool} to white wool
+
+            if {color.%uuid of loop-value%} is "orange":
+                set {_wool} to orange wool
+            else if {color.%uuid of loop-value%} is "magenta":
+                set {_wool} to magenta wool
+            else if {color.%uuid of loop-value%} is "light_blue":
+                set {_wool} to light blue wool
+            else if {color.%uuid of loop-value%} is "yellow":
+                set {_wool} to yellow wool
+            else if {color.%uuid of loop-value%} is "lime":
+                set {_wool} to lime wool
+            else if {color.%uuid of loop-value%} is "pink":
+                set {_wool} to pink wool
+            else if {color.%uuid of loop-value%} is "gray":
+                set {_wool} to gray wool
+            else if {color.%uuid of loop-value%} is "light_gray":
+                set {_wool} to light gray wool
+            else if {color.%uuid of loop-value%} is "cyan":
+                set {_wool} to cyan wool
+            else if {color.%uuid of loop-value%} is "purple":
+                set {_wool} to purple wool
+            else if {color.%uuid of loop-value%} is "blue":
+                set {_wool} to blue wool
+            else if {color.%uuid of loop-value%} is "brown":
+                set {_wool} to brown wool
+            else if {color.%uuid of loop-value%} is "green":
+                set {_wool} to green wool
+            else if {color.%uuid of loop-value%} is "red":
+                set {_wool} to red wool
+            else if {color.%uuid of loop-value%} is "black":
+                set {_wool} to black wool
+
+            set {_display} to "%loop-value%"
+            set slot {_slot} of {_inv} to {_wool} named "%chatColor(loop-value)%%{_display}%"
+            set {voteSlot.%uuid of player%.%{_slot}%} to loop-value
+
+            add 1 to {_slot}
+
+        set slot 26 of {_inv} to barrier named "&cPular"
+
+        open {_inv} to player
+
+on inventory click:
+
+    if holder of event-inventory is set:
+        stop
+
+    if name of event-inventory is not "&8Votação":
+        stop
+
+    cancel event
+
+    set {_slot} to index of clicked slot
+
+    
+    if {_slot} = 26:
+
+        set {vote.%uuid of player%} to "Pular"
+        add 1 to {votes.skip}
+
+        close player's inventory
+
+        set {_alive} to 0
+        set {_voted} to 0
+
+        loop all players:
+            if {game.ghosts::*} does not contain loop-player:
+                add 1 to {_alive}
+                if {vote.%uuid of loop-value%} is set:
+                    add 1 to {_voted}
+
+        set {_remaining} to {_alive} - {_voted}
+
+        broadcast "%chatColor(player)%%player% &7votou. &8(Restam %{_remaining}%.)"
+
+        play sound "minecraft:ui.button.click" with volume 0.35 and pitch 1.2 to all players
+
+        checkVotes()
+
+        stop
+
+    
+    if {voteSlot.%uuid of player%.%{_slot}%} is not set:
+        stop
+
+    set {_target} to {voteSlot.%uuid of player%.%{_slot}%}
+
+    if {_target} is not a player:
+        stop
+
+
+
+    set {vote.%uuid of player%} to uuid of {_target}
+    add 1 to {votes.%uuid of {_target}%}
+
+    close player's inventory
+
+    set {_alive} to 0
+    set {_voted} to 0
+
+    loop all players:
+        if  {game.ghosts::*} does not contain loop-player:
+            add 1 to {_alive}
+            if {vote.%uuid of loop-value%} is set:
+                add 1 to {_voted}
+
+    set {_remaining} to {_alive} - {_voted}
+
+    broadcast "%chatColor(player)%%player% &7votou. &8(Restam %{_remaining}%.)"
+
+    checkVotes()
+
+function checkVotes():
+
+    set {_alive} to 0
+    set {_voted} to 0
+
+    loop all players:
+
+        if  {game.ghosts::*} does not contain loop-player:
+
+            add 1 to {_alive}
+
+            if {vote.%uuid of loop-player%} is set:
+                add 1 to {_voted}
+
+    if {_alive} = {_voted}:
+        finishVoting()
+
+function finishVoting():
+
+    if {votes.skip} is not set:
+        set {votes.skip} to 0
+
+    broadcast ""
+    broadcast "&e========== Votação =========="
+
+    set {_highest} to {votes.skip}
+    set {_winner} to "skip"
+    set {_tie} to false
+
+
+    broadcast "&7Pular: &e%{votes.skip}%"
+    if {config.anonymousVotes} is true:
+
+        loop all players:
+
+            if  {game.ghosts::*} contains loop-player:
+                continue
+
+            set {_votes} to {votes.%uuid of loop-player%}
+            if {_votes} is not set:
+                set {_votes} to 0
+
+            broadcast "%chatColor(loop-value)%%loop-value%&7: &e%{_votes}%"
+
+            if {_votes} > {_highest}:
+                set {_highest} to {_votes}
+                set {_winner} to loop-value
+                set {_tie} to false
+            else if {_votes} = {_highest}:
+                set {_tie} to true
+
+    else:
+
+        loop all players:
+
+            if  {game.ghosts::*} contains loop-player:
+                continue
+
+            set {_votes} to {votes.%uuid of loop-player%}
+            if {_votes} is not set:
+                set {_votes} to 0
+
+            if {vote.%uuid of loop-player%} is "Pular":
+                set {_vote} to "Pular"
+            else:
+                set {_player} to {vote.%uuid of loop-player%} parsed as player
+                set {_vote} to "%chatColor({_player})%%{_player}%"
+
+            broadcast "%chatColor(loop-value)%%loop-value%&7: &e%{_votes}% &7(%{_vote}%&7)"
+
+            if {_votes} > {_highest}:
+                set {_highest} to {_votes}
+                set {_winner} to loop-value
+                set {_tie} to false
+            else if {_votes} = {_highest}:
+                set {_tie} to true
+
+
+    broadcast ""
+
+    if {_tie} is true:
+        broadcast "&7Empate. Ninguém foi expulso."
+        typewriterSubtitle("Empate", "yellow")
+        teleportMeeting()
+        set {game.state} to "running"
+        updateCall()
+
+    else if {_winner} is "skip":
+        broadcast "&7A tripulação decidiu pular."
+        typewriterSubtitle("Votação Pulada", "green")
+        teleportMeeting()
+        set {game.state} to "running"
+        updateCall()
+
+    else:
+        kickPlayer({_winner})
+
+    loop all players:
+        delete {vote.%uuid of loop-player%}
+        delete {voteSlot.%uuid of loop-player%::*}
+        delete {votes.%uuid of loop-player%}
+    delete {votes.skip}
+
+    loop {doorCount} times:
+        animateDoor({doors::%loop-number%::*}, false)
+
+    set {sabotage.doors.active} to false
+
+
+    loop all players:
+        updateInventory(loop-player)
+        updateScoreboard(loop-player)
+        play sound "minecraft:block.beacon.deactivate" with volume 0.7 and pitch 1.4 to loop-player
+
+    
+    # RESTAURAR SABOTAGEM
+    
+
+    if {sabotage.pause} is "reactor":
+        startReactorSabotage()
+
+    else if {sabotage.pause} is "lab_fire":
+        startLabFire()
+
+    else if {sabotage.pause} is "lights":
+        startLightsSabotage()
+    else:
+        startSabotageCooldown({config.postMeetingSabotageCooldown})
+
+    delete {sabotage.pause}
+    set {meeting.cooldown.remaining} to {config.postMeetingCooldown}
+    startKillCooldown({config.postMeetingKillCooldown})
+    execute console command "team join players @a"
+
+
+every 1 second:
+    if {meeting.cooldown.remaining} is set:
+        if {meeting.cooldown.remaining} > 0:
+            remove 1 from {meeting.cooldown.remaining}
+
+on right click:
+
+    if tool of player is book:
+        if name of tool of player is "&eVotar":
+            cancel event
+            execute player command "votar"
+            stop
