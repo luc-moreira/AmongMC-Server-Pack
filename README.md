@@ -17,10 +17,8 @@ O objetivo do projeto não é recriar o jogo original, mas oferecer uma experiê
 
 ## Documentação
 
-- **Instalação:** `docs/installation.md`
-- **Como jogar:** `docs/gameplay.md`
-- **Configuração:** `docs/configuration.md`
-- **Compatibilidade com Bedrock:** `docs/bedrock.md`
+- **Instalação:** `setup.md`
+- **Como jogar:** `gameplay.md`
 
 ## Licença
 
