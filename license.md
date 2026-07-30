@@ -1,5 +1,27 @@
 # License
 
+## Componentes de terceiros
+
+Este projeto utiliza diversos plugins públicos e gratuitos desenvolvidos por terceiros, incluindo, mas não se limitando a:
+
+- Skript
+- SkBee
+- Disky
+- TAB
+- SkinRestorer
+- Geyser
+- Floodgate
+- ViaVersion
+- ProtocolLib
+- NPC Plugin
+- Images
+
+Esses plugins **não são de autoria do desenvolvedor deste projeto** e permanecem sujeitos às suas respectivas licenças e termos de uso.
+
+Todo o código desenvolvido em **Skript** especificamente para o AmongMC (scripts, mecânicas, tasks, sistemas e demais funcionalidades do projeto) é de autoria de **Luc-Moreira** e está licenciado sob a **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**, salvo indicação em contrário.
+
+##Licença
+
 AmongMC  
 Copyright (c) 2026 Luc-Moreira
 
