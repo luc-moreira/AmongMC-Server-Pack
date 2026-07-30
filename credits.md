@@ -19,7 +19,7 @@ Principais responsabilidades:
 
 **Vipandinha1419**
 
-Responsável pelo design e construção do mapa.
+Responsável pelo design visual do mapa.
 
 Contribuições:
 - Decoração dos ambientes;
