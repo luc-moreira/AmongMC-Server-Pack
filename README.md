@@ -22,9 +22,11 @@ O objetivo do projeto não é recriar o jogo original, mas oferecer uma experiê
 
 ## Licença
 
-Este projeto é disponibilizado para fins educacionais e de entretenimento.
+Este projeto é disponibilizado para fins de entretenimento.
 
 **Among Us** é uma marca registrada da Innersloth LLC. Este projeto é independente, não possui qualquer afiliação oficial com a Innersloth e tem como objetivo criar uma experiência original inspirada na proposta de gameplay do jogo.
+
+para mais informações sobre a licença, leia `license.md`
 
 ## Contribuindo
 
