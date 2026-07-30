@@ -36,6 +36,7 @@ Agradecimentos especiais aos jogadores que ajudaram nos testes, encontrando prob
 - **Bhii**
 - **Max**
 - **MoonPlz4**
+- **Marce_d3f**
 
 ---
 
