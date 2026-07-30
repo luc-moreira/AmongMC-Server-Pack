@@ -43,7 +43,6 @@ on join:
         send "&cA partida já está em andamento." to player
         send "&7Você entrou como fantasma espectador." to player
         send "&7Aguarde a próxima partida para jogar normalmente." to player
-        send "&aATENÇÃAAO essa funcionalidade ainda não está 100%%, podem ocorrer muitos bugs."
 
     updateTasks()
 
