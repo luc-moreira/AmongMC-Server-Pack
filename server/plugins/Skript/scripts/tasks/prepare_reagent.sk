@@ -1,7 +1,7 @@
 function prepare_reagent(p: player, step: number):
 
     if {reagent.processing.%uuid of {_p}%} is true:
-        send "&cO reagente ainda está descansando. Você quer mesmo mexer nele? Da última vez quase ganharam uma terceira sobrancelha." to {_p}
+        send getTr("task.reagentBusy") to {_p} 
         stop
 
     set {_inv} to chest inventory with 4 rows named "&8Preparar Reagente"
@@ -162,8 +162,8 @@ on inventory click:
                     set {reagent.processing.%uuid of player%} to true
                     delete {reagent.progress.%uuid of player%}
 
-                    send "&eReagente misturado com sucesso! Agora deixe ele descansar por 1 minuto. Vou te avisar no chat quando estiver pronto." to player
-                    send "&7Não mexa no caldeirão. Cientistas anteriores fizeram isso e descobriram novos tons de explosão." to player
+                    send getTr("task.reagentStarted") to player
+                    send getTr("task.reagentStarted2") to player
                     set {_session} to {game.session}
                     wait 60 seconds
 
@@ -173,7 +173,7 @@ on inventory click:
                     set {reagent.ready.%uuid of player%} to true
                     delete {reagent.processing.%uuid of player%}
 
-                    send "&aSeu reagente finalmente está pronto! Pode voltar ao laboratório para buscar." to player
+                    send getTr("task.reagentReady") to player
 
                     play sound "minecraft:entity.player.levelup" with volume 1 and pitch 1.2 to player
 
@@ -192,7 +192,7 @@ on inventory click:
 
                 close player's inventory
 
-                send "&cExcelente. Você acabou de inventar um reagente completamente inútil. A boa notícia é que o laboratório continua inteiro. Por enquanto." to player
+                send getTr("task.reagentFail") to player
 
                 delete {reagent.recipe.%uuid of player%::*}
                 delete {reagent.progress.%uuid of player%}

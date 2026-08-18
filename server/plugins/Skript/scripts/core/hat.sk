@@ -5,7 +5,7 @@ command /hat:
 
 function openHatMenu(p: player):
 
-    set {_inv} to chest inventory with 4 rows named "&6Escolher Chapéu"
+    set {_inv} to chest inventory with 4 rows named getTr("hat.chooseHat")
 
     set {_color} to {color.%uuid of {_p}%}
 
@@ -48,38 +48,38 @@ function openHatMenu(p: player):
     set {_helmet} to leather helmet
     dye {_helmet} {_rgb}
 
-    set slot 0 of {_inv} to {_helmet} named "&eCapacete"
-    set slot 1 of {_inv} to barrier named "&cSem chapéu"
+    set slot 0 of {_inv} to {_helmet} named getTr("hat.helmet")
+    set slot 1 of {_inv} to barrier named getTr("hat.none")
 
-    set slot 9 of {_inv} to panda spawn egg named "&fPanda"
-    set slot 10 of {_inv} to allay spawn egg named "&bAllay"
-    set slot 11 of {_inv} to cat spawn egg named "&fGato"
-    set slot 12 of {_inv} to goat spawn egg named "&fCabra"
-    set slot 13 of {_inv} to chicken spawn egg named "&fGalinha"
-    set slot 14 of {_inv} to parrot spawn egg named "&aPapagaio"
-    set slot 15 of {_inv} to bee spawn egg named "&eAbelha"
-    set slot 16 of {_inv} to axolotl spawn egg named "&dAxolote"
-    set slot 17 of {_inv} to bat spawn egg named "&8Morcego"
+    set slot 9 of {_inv} to panda spawn egg named getTr("hat.panda")
+    set slot 10 of {_inv} to allay spawn egg named getTr("hat.allay")
+    set slot 11 of {_inv} to cat spawn egg named getTr("hat.cat")
+    set slot 12 of {_inv} to goat spawn egg named getTr("hat.goat")
+    set slot 13 of {_inv} to chicken spawn egg named getTr("hat.chicken")
+    set slot 14 of {_inv} to parrot spawn egg named getTr("hat.parrot")
+    set slot 15 of {_inv} to bee spawn egg named getTr("hat.bee")
+    set slot 16 of {_inv} to axolotl spawn egg named getTr("hat.axolotl")
+    set slot 17 of {_inv} to bat spawn egg named getTr("hat.bat")
 
-    set slot 18 of {_inv} to donkey spawn egg named "&7Burro"
-    set slot 19 of {_inv} to creeper spawn egg named "&aCreeper"
-    set slot 20 of {_inv} to amethyst cluster named "&dAmetista"
-    set slot 21 of {_inv} to ender pearl named "&5Pérola do End"
-    set slot 22 of {_inv} to diamond named "&bDiamante"
-    set slot 23 of {_inv} to redstone torch named "&cTocha de Redstone"
-    set slot 24 of {_inv} to carrot named "&6Cenoura"
-    set slot 25 of {_inv} to honeycomb named "&6Favo de Mel"
-    set slot 26 of {_inv} to cookie named "&6Cookie"
+    set slot 18 of {_inv} to donkey spawn egg named getTr("hat.donkey")
+    set slot 19 of {_inv} to creeper spawn egg named getTr("hat.creeper")
+    set slot 20 of {_inv} to amethyst cluster named getTr("hat.amethyst")
+    set slot 21 of {_inv} to ender pearl named getTr("hat.enderPearl")
+    set slot 22 of {_inv} to diamond named getTr("hat.diamond")
+    set slot 23 of {_inv} to redstone torch named getTr("hat.redstoneTorch")
+    set slot 24 of {_inv} to carrot named getTr("hat.carrot")
+    set slot 25 of {_inv} to honeycomb named getTr("hat.honeycomb")
+    set slot 26 of {_inv} to cookie named getTr("hat.cookie")
 
-    set slot 27 of {_inv} to cake named "&fBolo"
-    set slot 28 of {_inv} to pufferfish named "&eBaiacu"
-    set slot 29 of {_inv} to tropical fish named "&3Peixe Tropical"
-    set slot 30 of {_inv} to red mushroom named "&cCogumelo"
-    set slot 31 of {_inv} to torchflower named "&6Torchflower"
-    set slot 32 of {_inv} to mangrove propagule named "&aPropágulo"
-    set slot 33 of {_inv} to cherry sapling named "&dMuda de Cerejeira"
-    set slot 34 of {_inv} to nautilus shell named "&3Concha de Náutilo"
-    set slot 35 of {_inv} to bell named "&6Sino"
+    set slot 27 of {_inv} to cake named getTr("hat.cake")
+    set slot 28 of {_inv} to pufferfish named getTr("hat.pufferfish")
+    set slot 29 of {_inv} to tropical fish named getTr("hat.tropicalFish")
+    set slot 30 of {_inv} to red mushroom named getTr("hat.redMushroom")
+    set slot 31 of {_inv} to torchflower named getTr("hat.torchflower")
+    set slot 32 of {_inv} to mangrove propagule named getTr("hat.propagule")
+    set slot 33 of {_inv} to cherry sapling named getTr("hat.cherrySapling")
+    set slot 34 of {_inv} to nautilus shell named getTr("hat.nautilusShell")
+    set slot 35 of {_inv} to bell named getTr("hat.bell")
 
     open {_inv} to {_p}
 
@@ -88,7 +88,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&6Escolher Chapéu":
+    if name of event-inventory is not getTr("hat.chooseHat"):
         stop
     cancel event
 
@@ -97,116 +97,112 @@ on inventory click:
     # Capacete de couro
     if {_slot} = 0:
         delete {hat.%uuid of player%}
-        set {_hatName} to "Capacete"
+        set {_hatName} to getTr("hat.helmet")
         updateArmor(player)
-        send "&aVocê mudou seu chapéu para &e%{_hatName}%&a." to player
+        send getTr("hat.changed", "%{_hatName}%") to player
         close player's inventory
         stop
 
     # Sem chapéu
     if {_slot} = 1:
         set {hat.%uuid of player%} to "none"
-        set {_hatName} to "Sem chapéu"
+        set {_hatName} to getTr("hat.none")
         updateArmor(player)
-        send "&aVocê mudou seu chapéu para &e%{_hatName}%&a." to player
+        send getTr("hat.changed", "%{_hatName}%") to player
         close player's inventory
         stop
 
     if {_slot} = 9:
         set {hat.%uuid of player%} to panda spawn egg
-        set {_hatName} to "Panda"
+        set {_hatName} to getTr("hat.panda")
     else if {_slot} = 10:
         set {hat.%uuid of player%} to allay spawn egg
-        set {_hatName} to "Allay"
+        set {_hatName} to getTr("hat.allay")
     else if {_slot} = 11:
         set {hat.%uuid of player%} to cat spawn egg
-        set {_hatName} to "Gato"
+        set {_hatName} to getTr("hat.cat")
     else if {_slot} = 12:
         set {hat.%uuid of player%} to goat spawn egg
-        set {_hatName} to "Cabra"
+        set {_hatName} to getTr("hat.goat")
     else if {_slot} = 13:
         set {hat.%uuid of player%} to chicken spawn egg
-        set {_hatName} to "Galinha"
+        set {_hatName} to getTr("hat.chicken")
     else if {_slot} = 14:
         set {hat.%uuid of player%} to parrot spawn egg
-        set {_hatName} to "Papagaio"
+        set {_hatName} to getTr("hat.parrot")
     else if {_slot} = 15:
         set {hat.%uuid of player%} to bee spawn egg
-        set {_hatName} to "Abelha"
+        set {_hatName} to getTr("hat.bee")
     else if {_slot} = 16:
         set {hat.%uuid of player%} to axolotl spawn egg
-        set {_hatName} to "Axolote"
+        set {_hatName} to getTr("hat.axolotl")
     else if {_slot} = 17:
         set {hat.%uuid of player%} to bat spawn egg
-        set {_hatName} to "Morcego"
+        set {_hatName} to getTr("hat.bat")
     else if {_slot} = 18:
         set {hat.%uuid of player%} to donkey spawn egg
-        set {_hatName} to "Burro"
+        set {_hatName} to getTr("hat.donkey")
     else if {_slot} = 19:
         set {hat.%uuid of player%} to creeper spawn egg
-        set {_hatName} to "Creeper"
+        set {_hatName} to getTr("hat.creeper")
     else if {_slot} = 20:
         set {hat.%uuid of player%} to amethyst cluster
-        set {_hatName} to "Ametista"
+        set {_hatName} to getTr("hat.amethyst")
     else if {_slot} = 21:
         set {hat.%uuid of player%} to ender pearl item
-        set {_hatName} to "Pérola do End"
+        set {_hatName} to getTr("hat.enderPearl")
     else if {_slot} = 22:
         set {hat.%uuid of player%} to diamond
-        set {_hatName} to "Diamante"
+        set {_hatName} to getTr("hat.diamond")
     else if {_slot} = 23:
         set {hat.%uuid of player%} to redstone torch
-        set {_hatName} to "Tocha de Redstone"
+        set {_hatName} to getTr("hat.redstoneTorch")
     else if {_slot} = 24:
         set {hat.%uuid of player%} to carrot
-        set {_hatName} to "Cenoura"
+        set {_hatName} to getTr("hat.carrot")
     else if {_slot} = 25:
         set {hat.%uuid of player%} to honeycomb
-        set {_hatName} to "Favo de Mel"
+        set {_hatName} to getTr("hat.honeycomb")
     else if {_slot} = 26:
         set {hat.%uuid of player%} to cookie
-        set {_hatName} to "Cookie"
+        set {_hatName} to getTr("hat.cookie")
     else if {_slot} = 27:
         set {hat.%uuid of player%} to cake
-        set {_hatName} to "Bolo"
+        set {_hatName} to getTr("hat.cake")
     else if {_slot} = 28:
         set {hat.%uuid of player%} to pufferfish
-        set {_hatName} to "Baiacu"
+        set {_hatName} to getTr("hat.pufferfish")
     else if {_slot} = 29:
         set {hat.%uuid of player%} to tropical fish
-        set {_hatName} to "Peixe Tropical"
+        set {_hatName} to getTr("hat.tropicalFish")
     else if {_slot} = 30:
         set {hat.%uuid of player%} to red mushroom
-        set {_hatName} to "Cogumelo Vermelho"
+        set {_hatName} to getTr("hat.redMushroom")
     else if {_slot} = 31:
         set {hat.%uuid of player%} to torchflower
-        set {_hatName} to "Torchflower"
+        set {_hatName} to getTr("hat.torchflower")
     else if {_slot} = 32:
         set {hat.%uuid of player%} to mangrove propagule
-        set {_hatName} to "Propágulo de Mangue"
+        set {_hatName} to getTr("hat.propagule")
     else if {_slot} = 33:
         set {hat.%uuid of player%} to cherry sapling
-        set {_hatName} to "Muda de Cerejeira"
+        set {_hatName} to getTr("hat.cherrySapling")
     else if {_slot} = 34:
         set {hat.%uuid of player%} to nautilus shell
-        set {_hatName} to "Concha de Náutilo"
+        set {_hatName} to getTr("hat.nautilusShell")
     else if {_slot} = 35:
         set {hat.%uuid of player%} to bell
-        set {_hatName} to "Sino"
+        set {_hatName} to getTr("hat.bell")
     else:
         stop
 
     updateArmor(player)
-    send "&aVocê mudou seu chapéu para &e%{_hatName}%&a." to player
+    send getTr("hat.changed", "%{_hatName}%") to player
     close player's inventory
 
 
 on right click:
-    if player's tool is turtle helmet named "&dEscolher chapéu":
+    if player's tool is leather helmet named getTr("hat.chooseHat"):
         cancel event
         execute player command "hat"
-
-on helmet change:
-    if player's helmet is turtle helmet:
-        updateArmor(player)
         

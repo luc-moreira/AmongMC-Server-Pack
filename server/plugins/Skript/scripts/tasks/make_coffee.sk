@@ -132,34 +132,34 @@ on inventory click:
         close player's inventory
 
         if {coffee.water.%uuid of player%} and {coffee.powder.%uuid of player%} and {coffee.mug.%uuid of player%} is not true:
-            send "&cVocê ligou uma cafeteira completamente vazia. Pelo menos ela não explodiu."
+            send getTr("task.coffeeEmpty")
             stop
 
         if {coffee.water.%uuid of player%} is true:
             if {coffee.powder.%uuid of player%} and {coffee.mug.%uuid of player%} is not true:
-                send "&cÁgua quente é um chá muito triste, mas definitivamente não é café."
+                send getTr("task.coffeeOnlyWater")
                 stop
 
         if {coffee.water.%uuid of player%} and {coffee.mug.%uuid of player%} is not true:
             if {coffee.powder.%uuid of player%} is true:
-                send "&cEsquentar pó de café puro parece uma péssima estratégia."
+                send getTr("task.coffeeOnlyPowder")
                 stop
 
         if {coffee.water.%uuid of player%} and {coffee.powder.%uuid of player%} is not true:
             if {coffee.mug.%uuid of player%} is true:
-                send "&cA caneca sozinha estava bastante otimista."
+                send getTr("task.coffeeOnlyMug")
                 stop
 
         if {coffee.water.%uuid of player%} is not true:
-            send "&cExcelente ideia. Café sem água. Os grãos vão se hidratar por telepatia?"
+            send getTr("task.coffeeNoWater")
             stop
 
         if {coffee.powder.%uuid of player%} is not true:
-            send "&cVocê preparou uma deliciosa caneca de água quente."
+            send getTr("task.coffeeNoPowder")
             stop
 
         if {coffee.mug.%uuid of player%} is not true:
-            send "&cO café até ficou ótimo. Escorrendo inteiro pelo chão"
+            send getTr("task.coffeeNoMug")
             stop
 
 

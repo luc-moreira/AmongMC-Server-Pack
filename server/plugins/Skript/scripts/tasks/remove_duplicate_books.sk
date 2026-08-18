@@ -111,7 +111,7 @@ on inventory click:
                 play sound "minecraft:block.note_block.bass" with volume 1 and pitch 0.6 to player
                 play sound "minecraft:block.composter.empty" with volume 0.8 and pitch 0.8 to player
 
-                send "&cSério? Você conseguiu jogar fora AS DUAS CÓPIAS de um livro duplicado."
+                send getTr("task.libraryDoubleFail")
                 stop
 
 
@@ -139,9 +139,9 @@ on inventory click:
         play sound "minecraft:block.composter.empty" with volume 0.8 and pitch 0.8 to player
 
         if {library.copy.%uuid of player%::*} contains {_name}:
-            send "&cSério? Você conseguiu jogar fora AS DUAS CÓPIAS de um livro duplicado."
+            send getTr("task.libraryDoubleFail")
         else:
-            send "&cParabéns. Você acabou de jogar fora o único exemplar. A biblioteca inteira te odeia agora."
+            send getTr("task.libraryFail")
 
         stop
 

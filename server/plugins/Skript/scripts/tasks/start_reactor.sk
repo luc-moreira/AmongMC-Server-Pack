@@ -129,5 +129,5 @@ function reactorFail(p: player):
     delete {reactor.showing.%uuid of {_p}%}
     delete {reactor.clickLock.%uuid of {_p}%}
 
-    send "&cMemória de peixe dourado detectada." to {_p}
-    send "&cPelo menos explodir o reator exige mais esforço que isso." to {_p}
+    send getTr("task.reactorStartFail1") to {_p}
+    send getTr("task.reactorStartFail2") to {_p}

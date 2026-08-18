@@ -110,7 +110,7 @@ command /end:
 
         resetGame()
 
-        send "&cJogo encerrado!" to all players
+        send getTr("control.gameOver") to all players
 
         loop all players:
             teleport loop-player to location(118.5, -58.5, 281.5, world("amongmc"))
@@ -162,7 +162,7 @@ command /start:
             set {_max} to 3
 
         if {_count} > {_max}:
-            broadcast "&eAtenção! Como há apenas %{_players}% jogadores, o número de impostores foi limitado para %{_max}%."
+            broadcast getTr("control.impostorLimited", "%{_players}%", "%{_max}%")
             set {_count} to {_max}
 
         loop {_count} times:
@@ -196,10 +196,10 @@ command /start:
 
             send "" to loop-value
             send "&8&m----------------------------------------" to loop-value
-            send "&cVocê é o &4&lIMPOSTOR&c!" to loop-value
-            send "&7Elimine a tripulação antes que completem as tarefas." to loop-value
-            send "&7Use &eShift&7 sobre uma vent para entrar nela." to loop-value
-            send "&7Sabote sistemas para criar oportunidades." to loop-value
+            send getTr("control.youAreImpostor1") to loop-value
+            send getTr("control.youAreImpostor2") to loop-value
+            send getTr("control.youAreImpostor3") to loop-value
+            send getTr("control.youAreImpostor4") to loop-value
             send "&8&m----------------------------------------" to loop-value
 
         loop {game.crewmates::*}:
@@ -213,10 +213,10 @@ command /start:
 
             send "" to loop-value
             send "&8&m----------------------------------------" to loop-value
-            send "&bVocê é um &3&lCREWMATE&b!" to loop-value
-            send "&7Complete todas as tarefas." to loop-value
-            send "&7Reporte corpos encontrados." to loop-value
-            send "&7Use reuniões para descobrir os impostores." to loop-value
+            send getTr("control.youAreCrewmate1") to loop-value
+            send getTr("control.youAreCrewmate2") to loop-value
+            send getTr("control.youAreCrewmate3") to loop-value
+            send getTr("control.youAreCrewmate4") to loop-value
             send "&8&m----------------------------------------" to loop-value
 
         loop all players:
@@ -278,33 +278,33 @@ function endGame(winner: text):
         loop all players:
 
             if {game.impostors::*} contains loop-player:
-                execute console command "title %loop-player% title {""text"":""DERROTA"",""color"":""red"",""bold"":true}"
-                execute console command "title %loop-player% subtitle {""text"":""Os Crewmates venceram!"",""color"":""gray""}"
+                execute console command "title %loop-player% title {""text"":""%getTr("control.defeatTitle")%"",""color"":""red"",""bold"":true}"
+                execute console command "title %loop-player% subtitle {""text"":""%getTr("control.crewmatesWinTitle")%"",""color"":""gray""}"
             else:
-                execute console command "title %loop-player% title {""text"":""VITÓRIA"",""color"":""aqua"",""bold"":true}"
-                execute console command "title %loop-player% subtitle {""text"":""Os Crewmates venceram!"",""color"":""gray""}"
+                execute console command "title %loop-player% title {""text"":""%getTr("control.victoryTitle")%"",""color"":""aqua"",""bold"":true}"
+                execute console command "title %loop-player% subtitle {""text"":""%getTr("control.crewmatesWinTitle")%"",""color"":""gray""}"
 
     else:
 
         loop all players:
 
             if {game.impostors::*} contains loop-player:
-                execute console command "title %loop-player% title {""text"":""VITÓRIA"",""color"":""red"",""bold"":true}"
-                execute console command "title %loop-player% subtitle {""text"":""Os Impostores venceram!"",""color"":""gray""}"
+                execute console command "title %loop-player% title {""text"":""%getTr("control.victoryTitle")%"",""color"":""red"",""bold"":true}"
+                execute console command "title %loop-player% subtitle {""text"":""%getTr("control.impostorsWinTitle")%"",""color"":""gray""}"
             else:
-                execute console command "title %loop-player% title {""text"":""DERROTA"",""color"":""aqua"",""bold"":true}"
-                execute console command "title %loop-player% subtitle {""text"":""Os Impostores venceram!"",""color"":""gray""}"
+                execute console command "title %loop-player% title {""text"":""%getTr("control.defeatTitle")%"",""color"":""aqua"",""bold"":true}"
+                execute console command "title %loop-player% subtitle {""text"":""%getTr("control.impostorsWinTitle")%"",""color"":""gray""}"
 
     broadcast ""
-    broadcast "&6========== Fim de Jogo =========="
+    broadcast getTr("control.gameOverHeader")
 
     if {_winner} is "crewmates":
-        broadcast "&bOs Crewmates venceram!"
+        broadcast getTr("control.crewmatesWon")
     else:
-        broadcast "&cOs Impostores venceram!"
+        broadcast getTr("control.impostorsWon")
 
     broadcast ""
-    broadcast "&7Impostores:"
+    broadcast getTr("control.impostorsList")
 
     loop {game.impostors::*}:
         broadcast " &c• %loop-value%"
@@ -323,20 +323,20 @@ function updateInventory(p: player):
     wait 1 tick
     if {game.state} is "meeting":
         if {game.ghosts::*} does not contain {_p}:
-            set {_item} to book named "&eVotar"
-            set lore of {_item} to "&7Clique com botão direito para votar"
+            set {_item} to book named getTr("meeting.voteItem")
+            set lore of {_item} to getTr("meeting.voteItemLore")
             set slot 4 of {_p}'s inventory to {_item}
     updateCompass({_p})
     updateArmor({_p})
     if {vent.active.%uuid of {_p}%} is true:
-        set slot 6 of {_p} to compass named "&eVent anterior"
-        set slot 7 of {_p} to ender pearl named "&aSair da vent"
-        set slot 8 of {_p} to compass named "&ePróxima vent"
+        set slot 6 of {_p} to compass named getTr("vent.previous")
+        set slot 7 of {_p} to ender pearl named getTr("vent.exit")
+        set slot 8 of {_p} to compass named getTr("vent.next")
     if {game.state} is "waiting":
-        set slot 0 of {_p}'s inventory to nether star named "&eEscolher cor"
-        set slot 1 of {_p}'s inventory to turtle helmet named "&dEscolher chapéu"
+        set slot 0 of {_p}'s inventory to nether star named getTr("color.chooseColor")
+        set slot 1 of {_p}'s inventory to leather helmet named getTr("hat.chooseHat")
         if {_p} is op:
-            set slot 2 of {_p}'s inventory to compass named "&cConfigurações"
+            set slot 2 of {_p}'s inventory to compass named getTr("config.gameConfig")
 
 
 on load:

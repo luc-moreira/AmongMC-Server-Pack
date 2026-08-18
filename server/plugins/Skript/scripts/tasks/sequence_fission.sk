@@ -74,4 +74,4 @@ on inventory click:
 
     close player's inventory
 
-    send "&cImpressionante. Você não soube contar e agora os átomos estão fora de lugar."
+    send getTr("task.sequenceFail")

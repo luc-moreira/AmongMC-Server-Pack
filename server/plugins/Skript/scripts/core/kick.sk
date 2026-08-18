@@ -33,11 +33,11 @@ function kickPlayer(p: player):
     execute console command "fill 134 -57 218 134 -59 220 iron_block"
     
     kill({_p})
+    teleportMeeting()
 
     wait 10 ticks
     if {game.state} is "meeting":
         set {game.state} to "running"
-        teleportMeeting()
         updateCall()
 
 function typewriterSubtitle(text: text, color: text, delay: timespan = 2 ticks):
@@ -58,14 +58,14 @@ function showEjectMessage(p: player):
     # Primeira mensagem
     if {game.impostors::*} contains {_p}:
         if {config.confirmEjects} is true:
-            typewriterSubtitle("%{_p}% era um impostor.","red")
+            typewriterSubtitle(getTr("kick.wasImpostor", "%{_p}%"), "red")
         else:
-            typewriterSubtitle("%{_p}% foi ejetado.","gray")
+            typewriterSubtitle(getTr("kick.wasEjected", "%{_p}%"), "gray")
     else:
         if {config.confirmEjects} is true:
-            typewriterSubtitle("%{_p}% não era um impostor.", "aqua")
+            typewriterSubtitle(getTr("kick.wasNotImpostor", "%{_p}%"), "aqua")
         else:
-            typewriterSubtitle("%{_p}% foi ejetado.", "gray")
+            typewriterSubtitle(getTr("kick.wasEjected", "%{_p}%"), "gray")
 
     if {config.confirmEjects} is true:
         wait 3 seconds
@@ -80,6 +80,6 @@ function showEjectMessage(p: player):
                 add 1 to {_remaining}
 
         if {_remaining} = 1:
-            typewriterSubtitle("1 impostor restante.", "red")
+            typewriterSubtitle(getTr("kick.oneRemaining"), "red")
         else:
-            typewriterSubtitle("%{_remaining}% impostores restantes.", "red")
+            typewriterSubtitle(getTr("kick.manyRemaining", "%{_remaining}%"), "red")

@@ -129,7 +129,7 @@ on inventory click:
             play sound "minecraft:block.note_block.bass" with volume 0.8 and pitch 1.8 to player
             cancel event
             close player's inventory
-            send "&cSe isso funcionasse, ninguém comprava detergente."
+            send getTr("task.cleaningFail")
 
 
             stop

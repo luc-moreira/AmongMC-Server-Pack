@@ -144,7 +144,7 @@ on inventory click:
 
     if {wires.leftColor.%{_uuid}%::%{_left}%} is not {wires.rightColor.%{_uuid}%::%{_right}%}:
         play sound "minecraft:block.note_block.bass" with volume 1 and pitch 0.7 to player
-        send "&cVocê acabou de descobrir um novo jeito de não ligar fios."
+        send getTr("task.wiresFail")
         close player's inventory
         stop
 

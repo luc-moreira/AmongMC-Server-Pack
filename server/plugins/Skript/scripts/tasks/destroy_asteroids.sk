@@ -2,7 +2,7 @@ function destroy_asteroids(p: player, step: number):
 
 
     if {_p} is from floodgate:
-        send "&7Essa task foi substituída por um &eDownload &7pois você está na &eBedrock Edition&7." to {_p}
+        send getTr("task.bedrockDownload") to {_p}
         wait 1 second
         download({_p}, {_step}, "destroy_asteroids")
         stop
@@ -149,7 +149,7 @@ on inventory click:
 
         add 1 to {asteroid.kills.%uuid of player%}
 
-        send "Destruidos: %{asteroid.kills.%uuid of player%}%/10"
+        send getTr("task.asteroids", "%{asteroid.kills.%uuid of player%}%")
 
         if {asteroid.kills.%uuid of player%} >= 10:
 

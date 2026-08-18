@@ -55,14 +55,14 @@ on inventory click:
 
             play sound "minecraft:block.grass.break" with volume 1 and pitch 0.7 to player
             close player's inventory
-            send "&cEra pra podar as folhas secas... não transformar a planta em salada." to player
+            send getTr("task.pruningLeavesFail") to player
             stop
 
         if event-item is stripped birch log:
 
             play sound "minecraft:block.wood.break" with volume 1 and pitch 0.6 to player
             close player's inventory
-            send "&cVocê podou o caule. A planta gostaria de registrar um boletim de ocorrência." to player
+            send getTr("task.pruningStemFail") to player
             stop
 
 on inventory close:

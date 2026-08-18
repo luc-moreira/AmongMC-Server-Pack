@@ -99,7 +99,7 @@ function finishLightsSabotage():
         updateCompass(loop-player)
         updateScoreboard(loop-player)
 
-    send "&aLuzes restauradas!" to all players
+    broadcast getTr("sabotage.lightsRestored")
     startSabotageCooldown({config.sabotageCooldown})
 
 
@@ -114,7 +114,7 @@ function finishLabFire():
     loop all players:
         remove water bucket from loop-player
 
-    send "&aSabotagem resolvida!" to all players
+    broadcast getTr("sabotage.fireExtinguished")
     startSabotageCooldown({config.sabotageCooldown})
 
 
@@ -132,7 +132,7 @@ function finishReactorSabotage():
         updateCompass(loop-player)
         updateScoreboard(loop-player)
 
-    send "&aReator estabilizado!" to all players
+    broadcast getTr("sabotage.reactorStabilized")
 
 
 
@@ -230,7 +230,7 @@ every 1 second:
     if {sabotage.reactor.remaining} <= 0:
         delete {sabotage.reactor.remaining}
 
-        broadcast "&4O reator entrou em colapso!"
+        broadcast getTr("sabotage.reactorCollapsed")
         endGame("impostors")
 
 every 1 second:
@@ -248,7 +248,7 @@ every 1 second:
     if {sabotage.lab_fire.remaining} <= 0:
         delete {sabotage.lab_fire.remaining}
 
-        broadcast "&cO laboratório foi consumido pelo incêndio!"
+        broadcast getTr("sabotage.labBurnedDown")
         endGame("impostors")
 
 every 1 second:
@@ -263,10 +263,10 @@ every 1 second:
         if {vent.active.%uuid of loop-value%} is true:
             continue
         if {game.state} is "running":
-            set slot 0 of loop-value's inventory to {_min} of compass named "&cIncendiar laboratório"
-            set slot 1 of loop-value's inventory to {_min} of compass named "&8Trancar portas"
-            set slot 2 of loop-value's inventory to {_min} of compass named "&eApagar luzes"
-            set slot 3 of loop-value's inventory to {_min} of compass named "&2Sobrecarregar reator"
+            set slot 0 of loop-value's inventory to {_min} of compass named getTr("sabotage.labFireItem")
+            set slot 1 of loop-value's inventory to {_min} of compass named getTr("sabotage.lockDoorsItem")
+            set slot 2 of loop-value's inventory to {_min} of compass named getTr("sabotage.lightsItem")
+            set slot 3 of loop-value's inventory to {_min} of compass named getTr("sabotage.reactorItem")
 
 
 
@@ -402,7 +402,7 @@ on right click:
             if name of player's tool is "&cIncendiar laboratório":
 
                 if {sabotage.cooldownRemaining} > 0:
-                    send "&cSabotagem em cooldown!" to player
+                    send getTr("sabotage.inCooldown") to player
                     stop
                 if {sabotage.lab_fire.active} is true:
                     stop
@@ -412,14 +412,14 @@ on right click:
                     stop
 
                 startLabFire()
-                send "&cVocê iniciou a sabotagem!" to player
+                send getTr("sabotage.startedFire") to player
                 stop
 
             # DOORS
             if name of player's tool is "&8Trancar portas":
 
                 if {sabotage.cooldownRemaining} > 0:
-                    send "&cSabotagem em cooldown!" to player
+                    send getTr("sabotage.inCooldown") to player
                     stop
                 if {sabotage.lab_fire.active} is true:
                     stop
@@ -429,14 +429,14 @@ on right click:
                     stop
 
                 startDoorSabotage()
-                send "&cVocê trancou todas as portas!" to player
+                send getTr("sabotage.lockedDoors") to player
                 stop
 
             # LIGHTS
             if name of player's tool is "&eApagar luzes":
 
                 if {sabotage.cooldownRemaining} > 0:
-                    send "&cSabotagem em cooldown!" to player
+                    send getTr("sabotage.inCooldown") to player
                     stop
                 if {sabotage.lab_fire.active} is true:
                     stop
@@ -446,14 +446,14 @@ on right click:
                     stop
 
                 startLightsSabotage()
-                send "&eVocê sabotou as luzes!" to player
+                send getTr("sabotage.sabotagedLights") to player
                 stop
 
             # REACTOR
             if name of player's tool is "&2Sobrecarregar reator":
 
                 if {sabotage.cooldownRemaining} > 0:
-                    send "&cSabotagem em cooldown!" to player
+                    send getTr("sabotage.inCooldown") to player
                     stop
                 if {sabotage.lab_fire.active} is true:
                     stop
@@ -465,7 +465,7 @@ on right click:
                     stop
 
                 startReactorSabotage()
-                send "&2Você iniciou a sobrecarga do reator!" to player
+                send getTr("sabotage.startedReactor") to player
 
 
     if clicked block is lever:
@@ -495,7 +495,7 @@ on right click:
 
             add 1 to {sabotage.lab_fire.progress}
 
-            send "&aFogo apagado!" to player
+            send getTr("sabotage.firePutOut") to player
 
             if {sabotage.lab_fire.progress} = 2:
                 finishLabFire()

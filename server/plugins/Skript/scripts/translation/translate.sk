@@ -1,0 +1,35 @@
+function getTr(id: text, p1: text = "!VM!", p2: text = "!VM!", p3: text = "!VM!", p4: text = "!VM!") :: text:
+
+    set {_lang} to {config.language}
+    if {_lang} is not set:
+        set {_lang} to "ptbr"
+
+    set {_msg} to {lang::%{_lang}%::%{_id}%}
+
+    if {_msg} is not set:
+        set {_msg} to {lang::ptbr::%{_id}%}
+
+    if {_msg} is not set:
+        return "&c<Missing translation: %{_id}%>"
+
+    replace all "{1}" in {_msg} with "%{_p1}%"
+    replace all "{2}" in {_msg} with "%{_p2}%"
+    replace all "{3}" in {_msg} with "%{_p3}%"
+    replace all "{4}" in {_msg} with "%{_p4}%"
+
+
+    if {_msg} contains "!VM!":
+        return "[VALUE MISSING] %{_msg}%"
+
+    return {_msg}
+
+function registerTranslation(lang: text, id: text, value: text):
+    set {lang::%{_lang}%::%{_id}%} to {_value}
+
+function registerLang(id: text, name: text):
+    add {_id} to {langs::*}
+    add {_name} to {langnames::*}
+
+on unload:
+    delete {lang::*}
+    delete {langs::*}

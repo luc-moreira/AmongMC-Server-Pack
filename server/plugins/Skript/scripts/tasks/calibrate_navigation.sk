@@ -68,7 +68,7 @@ on inventory click:
         delete {nav.direction.%uuid of player%}
         delete {nav.stage.%uuid of player%}
 
-        send "&cVocê conseguiu descalibrar a navegação."
+        send getTr("task.navigationFail")
 
         stop
 

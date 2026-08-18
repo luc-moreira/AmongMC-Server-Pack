@@ -63,99 +63,99 @@ command /cor:
     aliases: color
     trigger:
         if {game.state} is not "waiting":
-            send "&cVocê não pode mudar sua cor agora!" to player
+            send getTr("color.cannotChange") to player
             stop
             
-        set {_inv} to chest inventory with 2 rows named "&8Escolha sua cor"
+        set {_inv} to chest inventory with 2 rows named getTr("color.chooseColor")
 
         if colorTaken("white", player) is true:
-            set slot 0 of {_inv} to white stained glass named "&fBranco"
+            set slot 0 of {_inv} to white stained glass named getTr("color.white")
         else:
-            set slot 0 of {_inv} to white wool named "&fBranco"
+            set slot 0 of {_inv} to white wool named getTr("color.white")
 
         if colorTaken("orange", player) is true:
-            set slot 1 of {_inv} to orange stained glass named "&6Laranja"
+            set slot 1 of {_inv} to orange stained glass named getTr("color.orange")
         else:
-            set slot 1 of {_inv} to orange wool named "&6Laranja"
+            set slot 1 of {_inv} to orange wool named getTr("color.orange")
 
         if colorTaken("magenta", player) is true:
-            set slot 2 of {_inv} to magenta stained glass named "&dMagenta"
+            set slot 2 of {_inv} to magenta stained glass named getTr("color.magenta")
         else:
-            set slot 2 of {_inv} to magenta wool named "&dMagenta"
+            set slot 2 of {_inv} to magenta wool named getTr("color.magenta")
 
         if colorTaken("light_blue", player) is true:
-            set slot 3 of {_inv} to light blue stained glass named "&bAzul Claro"
+            set slot 3 of {_inv} to light blue stained glass named getTr("color.lightBlue")
         else:
-            set slot 3 of {_inv} to light blue wool named "&bAzul Claro"
+            set slot 3 of {_inv} to light blue wool named getTr("color.lightBlue")
 
         if colorTaken("yellow", player) is true:
-            set slot 4 of {_inv} to yellow stained glass named "&eAmarelo"
+            set slot 4 of {_inv} to yellow stained glass named getTr("color.yellow")
         else:
-            set slot 4 of {_inv} to yellow wool named "&eAmarelo"
+            set slot 4 of {_inv} to yellow wool named getTr("color.yellow")
 
         if colorTaken("lime", player) is true:
-            set slot 5 of {_inv} to lime stained glass named "&aVerde Limão"
+            set slot 5 of {_inv} to lime stained glass named getTr("color.lime")
         else:
-            set slot 5 of {_inv} to lime wool named "&aVerde Limão"
+            set slot 5 of {_inv} to lime wool named getTr("color.lime")
 
         if colorTaken("pink", player) is true:
-            set slot 6 of {_inv} to pink stained glass named "&dRosa"
+            set slot 6 of {_inv} to pink stained glass named getTr("color.pink")
         else:
-            set slot 6 of {_inv} to pink wool named "&dRosa"
+            set slot 6 of {_inv} to pink wool named getTr("color.pink")
 
         if colorTaken("gray", player) is true:
-            set slot 7 of {_inv} to gray stained glass named "&8Cinza"
+            set slot 7 of {_inv} to gray stained glass named getTr("color.gray")
         else:
-            set slot 7 of {_inv} to gray wool named "&8Cinza"
+            set slot 7 of {_inv} to gray wool named getTr("color.gray")
 
         if colorTaken("light_gray", player) is true:
-            set slot 8 of {_inv} to light gray stained glass named "&7Cinza Claro"
+            set slot 8 of {_inv} to light gray stained glass named getTr("color.lightGray")
         else:
-            set slot 8 of {_inv} to light gray wool named "&7Cinza Claro"
+            set slot 8 of {_inv} to light gray wool named getTr("color.lightGray")
 
         if colorTaken("cyan", player) is true:
-            set slot 9 of {_inv} to cyan stained glass named "&3Ciano"
+            set slot 9 of {_inv} to cyan stained glass named getTr("color.cyan")
         else:
-            set slot 9 of {_inv} to cyan wool named "&3Ciano"
+            set slot 9 of {_inv} to cyan wool named getTr("color.cyan")
 
         if colorTaken("purple", player) is true:
-            set slot 10 of {_inv} to purple stained glass named "&5Roxo"
+            set slot 10 of {_inv} to purple stained glass named getTr("color.purple")
         else:
-            set slot 10 of {_inv} to purple wool named "&5Roxo"
+            set slot 10 of {_inv} to purple wool named getTr("color.purple")
 
         if colorTaken("blue", player) is true:
-            set slot 11 of {_inv} to blue stained glass named "&9Azul"
+            set slot 11 of {_inv} to blue stained glass named getTr("color.blue")
         else:
-            set slot 11 of {_inv} to blue wool named "&9Azul"
+            set slot 11 of {_inv} to blue wool named getTr("color.blue")
 
         if colorTaken("brown", player) is true:
-            set slot 12 of {_inv} to brown stained glass named "&6Marrom"
+            set slot 12 of {_inv} to brown stained glass named getTr("color.brown")
         else:
-            set slot 12 of {_inv} to brown wool named "&6Marrom"
+            set slot 12 of {_inv} to brown wool named getTr("color.brown")
 
         if colorTaken("green", player) is true:
-            set slot 13 of {_inv} to green stained glass named "&2Verde"
+            set slot 13 of {_inv} to green stained glass named getTr("color.green")
         else:
-            set slot 13 of {_inv} to green wool named "&2Verde"
+            set slot 13 of {_inv} to green wool named getTr("color.green")
 
         if colorTaken("red", player) is true:
-            set slot 14 of {_inv} to red stained glass named "&cVermelho"
+            set slot 14 of {_inv} to red stained glass named getTr("color.red")
         else:
-            set slot 14 of {_inv} to red wool named "&cVermelho"
+            set slot 14 of {_inv} to red wool named getTr("color.red")
 
         if colorTaken("black", player) is true:
-            set slot 15 of {_inv} to black stained glass named "&0Preto"
+            set slot 15 of {_inv} to black stained glass named getTr("color.black")
         else:
-            set slot 15 of {_inv} to black wool named "&0Preto"
+            set slot 15 of {_inv} to black wool named getTr("color.black")
 
-        open {_inv} to player
+            open {_inv} to player
 
 on inventory click:
 
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&8Escolha sua cor":
+    if name of event-inventory != getTr("color.chooseColor"):
         stop
 
     cancel event
@@ -200,20 +200,21 @@ on inventory click:
         set {_color} to "black"
 
     if {color.%uuid of player%} is {_color}:
-        send "&eVocê já está usando essa cor." to player
+        send getTr("color.alreadyUsing") to player
         stop
 
     loop all players:
         if loop-player is not player:
             if {color.%uuid of loop-player%} is {_color}:
-                send "&cEssa cor já está sendo utilizada por outro jogador." to player
+                send getTr("color.alreadyUsed") to player
                 stop
 
     set {color.%uuid of player%} to {_color}
 
     close player's inventory
     updateArmor(player)
-    send "&aSua cor agora é &f%{_color}%&a."
+    set {_colorname} to getTr("color.%{_color}%")
+    send getTr("color.assigned", "%{_colorname}%") to player
 
 function colorTaken(color: text, viewer: player) :: boolean:
 
@@ -264,7 +265,7 @@ function chatColor(p: player) :: text:
 
 on right click:
 
-    if player's tool is nether star named "&eEscolher cor":
+    if player's tool is nether star named getTr("color.chooseColor"):
         cancel event
         execute player command "cor"
 
@@ -299,10 +300,11 @@ on join:
 
                 set {color.%uuid of player%} to loop-value
 
-                send "&eVocê não tinha uma cor, ou ela já está sendo usada por outro jogador." to player
-                send "&7Sua nova cor é %chatColor(player)%%loop-value%&7." to player
-                send "&7Você pode alterá-la usando a estrela do nether ou digitando &f/cor&7." to player
+                send getTr("color.noColor1") to player
+                send getTr("color.noColor2", "%chatColor(player)%%loop-value%") to player
+                send getTr("color.noColor3") to player
                 stop
+
 
 
     updateArmor(player)

@@ -26,7 +26,7 @@ function cook_chicken(p: player, step: number):
     else if {_step} = 2:
 
         if {cookChicken.state.%uuid of {_p}%} is "cooking":
-            send "&6Seu frango ainda está assando. Não toque nisso, está quente!" to {_p}
+            send getTr("task.chickenBusy") to {_p}
             play sound "minecraft:block.furnace.fire_crackle" with volume 0.5 and pitch 1 to {_p}
             stop
 
@@ -58,7 +58,7 @@ on inventory click:
         else:
 
             close player's inventory
-            send "&cIsso parece um frango pra você?"
+            send getTr("task.chickenWrongItem")
 
         stop
 
@@ -95,7 +95,7 @@ on inventory click:
 
             close player's inventory
 
-            send "&eSeu frango estará pronto em &61 minuto&e. Pode ir fazer outras tarefas enquanto espera, vou te avisar no chat!"
+            send getTr("task.chickenStarted")
 
             set {_u} to uuid of player
             set {_session} to {game.session}
@@ -108,7 +108,7 @@ on inventory click:
             if {cookChicken.state.%{_u}%} is "cooking":
                 set {cookChicken.state.%{_u}%} to "ready"
 
-                send "&aSeu frango terminou de assar! Volte ao forno para buscá-lo." to player
+                send getTr("task.chickenReady") to player
                 play sound "minecraft:block.smoker.smoke" with volume 1 and pitch 1 to player
 
 on inventory close:

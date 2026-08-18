@@ -40,9 +40,9 @@ on join:
         teleport player to location(118, -59, 215, world("amongmc"))
 
         send ""
-        send "&cA partida já está em andamento." to player
-        send "&7Você entrou como fantasma espectador." to player
-        send "&7Aguarde a próxima partida para jogar normalmente." to player
+        send getTr("joinleave.gameInProgress1") to player
+        send getTr("joinleave.gameInProgress2") to player
+        send getTr("joinleave.gameInProgress3") to player
 
     updateTasks()
 

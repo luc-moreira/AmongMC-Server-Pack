@@ -9,7 +9,7 @@ discord command link <text>:
     trigger:
 
         if arg-1 is not set:
-            reply with "Uso: !link <nickname>"
+            reply with getTr("discord.linkSuccess")
             stop
 
         set {_nick} to arg-1 in lower case
@@ -26,7 +26,7 @@ discord command link <text>:
         set {discord.link.discord.%{_nick}%} to {_id}
         set {discord.link.nick.%{_id}%} to {_nick}
 
-        reply with "✔ Vinculado ao nick %{_nick}%"
+        reply with getTr("discord.linkSuccess", "%{_nick}%")
 
 discord command check:
     prefixes: !
@@ -38,10 +38,10 @@ command /discordid:
         set {_id} to {discord.link.discord.%name of player in lower case%}
 
         if {_id} is not set:
-            send "&cVocê não possui um Discord vinculado."
+            send getTr("discord.noAccount")
             stop
 
-        send "&aSeu ID do Discord é: &f%{_id}%"
+        send getTr("discord.yourId", "%{_id}%")
 
 function muteAll():
 
