@@ -2,11 +2,10 @@ function locationKey(loc: location) :: text:
     return "%world of {_loc}%;%floor(x-coordinate of {_loc})%;%floor(y-coordinate of {_loc})%;%floor(z-coordinate of {_loc})%"
 
 
-function registerTask(id: text, name: text, coords: text, ordered: boolean = true):
+function registerTask(id: text, coords: text, ordered: boolean = true):
 
     add {_id} to {tasks::*}
 
-    set {task.%{_id}%.name} to {_name}
     set {task.%{_id}%.ordered} to {_ordered}
 
     set {_clean} to {_coords}
@@ -115,7 +114,7 @@ function advanceTaskStep(p: player, id: text, step: number = -1):
         if {playerTaskProgress.%uuid of {_p}%.%{_id}%} >= {task.%{_id}%.steps}:
             completeTask({_p}, {_id})
         else:
-            send getTr("tasks.progress", "%{task.%{_id}%.name}%", "%{playerTaskProgress.%uuid of {_p}%.%{_id}%}%", "%{task.%{_id}%.steps}%") to {_p}
+            send getTr("tasks.progress", getTr("taskname.%{_id}%"), "%{playerTaskProgress.%uuid of {_p}%.%{_id}%}%", "%{task.%{_id}%.steps}%") to {_p}
             updateScoreboard({_p})
         updateCompass({_p})
         stop
@@ -126,7 +125,7 @@ function advanceTaskStep(p: player, id: text, step: number = -1):
     if {_current} >= {_total}:
         completeTask({_p}, {_id})
     else:
-        send getTr("tasks.progress", "%{task.%{_id}%.name}%", "%{playerTaskStep.%uuid of {_p}%.%{_id}%}%", "%{_total}%") to {_p}
+        send getTr("tasks.progress", getTr("taskname.%{_id}%"), "%{playerTaskStep.%uuid of {_p}%.%{_id}%}%", "%{_total}%") to {_p}
         add 1 to {playerTaskStep.%uuid of {_p}%.%{_id}%}
         updateScoreboard({_p})
     updateCompass({_p})
@@ -139,7 +138,7 @@ function completeTask(p: player, id: text):
     add {_id} to {playerTasksDone.%uuid of {_p}%::*}
     updateTasks()
 
-    send getTr("tasks.completed", "%{task.%{_id}%.name}%") to {_p}
+    send getTr("tasks.completed", getTr("taskname.%{_id}%")) to {_p}
     loop all players:
         updateScoreboard(loop-player)
 

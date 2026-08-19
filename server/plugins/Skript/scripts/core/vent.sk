@@ -41,9 +41,9 @@ on sneak toggle:
             send "" to player
             send getTr("vent.entered4") to player
 
-            set slot 6 of player to compass named "&eVent anterior"
-            set slot 7 of player to ender pearl named "&aSair da vent"
-            set slot 8 of player to compass named "&ePróxima vent"
+            set slot 6 of player to compass named getTr("vent.previous")
+            set slot 7 of player to ender pearl named getTr("vent.exit")
+            set slot 8 of player to compass named getTr("vent.next")
 
             play sound "block.iron_trapdoor.close" with volume 1 and pitch 1 to player
 
@@ -56,7 +56,7 @@ on right click:
 
     cancel event
 
-    if name of player's tool is "&ePróxima vent":
+    if name of player's tool is getTr("vent.previous"):
         add 1 to {vent.index.%uuid of player%}
 
         if {vent.index.%uuid of player%} > size of {ventMarkers::*}:
@@ -94,7 +94,7 @@ on right click:
 
         stop
 
-    if name of player's tool is "&eVent anterior":
+    if name of player's tool is getTr("vent.previous"):
 
         remove 1 from {vent.index.%uuid of player%}
 
@@ -134,7 +134,7 @@ on right click:
 
         stop
 
-    if name of player's tool is "&aSair da vent":
+    if name of player's tool is getTr("vent.exit"):
 
         delete {vent.active.%uuid of player%}
         delete {vent.index.%uuid of player%}
