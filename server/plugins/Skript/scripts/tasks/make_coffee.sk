@@ -1,6 +1,6 @@
 function make_coffee(p: player, step: number):
 
-    set {_inv} to chest inventory with 6 rows named "&8Preparar Café"
+    set {_inv} to chest inventory with 6 rows named "&6%getTr("taskname.make_coffee")%"
 
     delete {coffee.water.%uuid of {_p}%} 
     delete {coffee.powder.%uuid of {_p}%} 
@@ -13,18 +13,18 @@ function make_coffee(p: player, step: number):
         set slot (loop-number - 1) of {_inv} to gray stained glass pane named " "
 
 
-    set slot 0 of {_inv} to cocoa beans named "&6Pó de Café"
-    set slot 1 of {_inv} to water bucket named "&bÁgua"
-    set slot 8 of {_inv} to lever named "&eLigar Cafeteira"
-    set slot 2 of {_inv} to flower pot named "&fCaneca"
+    set slot 0 of {_inv} to cocoa beans named getTr("task.coffeePowder")
+    set slot 1 of {_inv} to water bucket named getTr("task.waterCoffee")
+    set slot 8 of {_inv} to lever named getTr("task.turnOnCoffeeMaker")
+    set slot 2 of {_inv} to flower pot named getTr("task.cup")
 
 
     set slot 21 of {_inv} to iron bars named " "
-    set slot 22 of {_inv} to cauldron named "&bReservatório vazio"
+    set slot 22 of {_inv} to cauldron named getTr("task.emptyReservoir")
     set slot 23 of {_inv} to iron bars named " "
 
     set slot 30 of {_inv} to iron bars named " "
-    set slot 31 of {_inv} to campfire named "&6Cafeteira vazia"
+    set slot 31 of {_inv} to campfire named getTr("task.emptyCoffeeMaker")
     set slot 32 of {_inv} to iron bars named " "
 
     set slot 39 of {_inv} to iron bars named " "
@@ -32,7 +32,7 @@ function make_coffee(p: player, step: number):
     set slot 41 of {_inv} to iron bars named " "
 
     set slot 48 of {_inv} to iron bars named " "
-    set slot 49 of {_inv} to blaze powder named "&eResistência"
+    set slot 49 of {_inv} to blaze powder named getTr("task.resistance")
     set slot 50 of {_inv} to iron bars named " "
 
     open {_inv} to {_p}
@@ -44,7 +44,7 @@ on inventory click:
 
     if holder of event-inventory is set:
         stop
-    if name of event-inventory is not "&8Preparar Café":
+    if name of event-inventory is not "&6%getTr("taskname.make_coffee")%":
         stop
 
     if click type is left mouse button with shift or right mouse button with shift or double click using mouse:
@@ -65,7 +65,7 @@ on inventory click:
         cancel event
         if cursor slot of player is water bucket:
 
-            set slot 22 of event-inventory to cauldron named "&bReservatório cheio"
+            set slot 22 of event-inventory to cauldron named getTr("task.fullReservoir")
             set {coffee.water.%uuid of player%} to true
 
             set cursor slot of player to bucket
@@ -76,7 +76,7 @@ on inventory click:
         cancel event
         if cursor slot of player is cocoa beans:
 
-            set slot 31 of event-inventory to campfire named "&6Cafeteira cheia"
+            set slot 31 of event-inventory to campfire named getTr("task.fullCoffeeMaker")
             set {coffee.powder.%uuid of player%} to true
 
             set cursor slot of player to air
@@ -90,7 +90,7 @@ on inventory click:
             stop
 
     if clicked slot is 40:
-        if cursor slot of player is not flower pot named "&fCaneca":
+        if cursor slot of player is not flower pot named getTr("task.cup"):
             cancel event
             stop
 
@@ -106,7 +106,7 @@ on inventory click:
 
             set {coffee.busy.%uuid of player%} to true
 
-            set slot 49 of event-inventory to blaze rod named "&6Aquecendo..."
+            set slot 49 of event-inventory to blaze rod named getTr("task.heating")
             set slot 8 of event-inventory to gray stained glass pane named " "
 
             play sound "minecraft:block.lever.click" with volume 1 and pitch 1 to player
@@ -114,15 +114,15 @@ on inventory click:
 
             wait 7 seconds
 
-            if name of player's current inventory is not "&8Preparar Café":
+            if name of player's current inventory is not "&6%getTr("taskname.make_coffee")%":
                 stop
 
             delete {coffee.busy.%uuid of player%}
 
-            set slot 40 of event-inventory to lava bucket named "&4Café Pronto"
-            set slot 22 of event-inventory to cauldron named "&bReservatório vazio"
-            set slot 31 of event-inventory to campfire named "&6Cafeteira vazia"
-            set slot 49 of event-inventory to blaze powder named "&eResistência"
+            set slot 40 of event-inventory to lava bucket named getTr("task.readyCoffee")
+            set slot 22 of event-inventory to cauldron named getTr("task.emptyReservoir")
+            set slot 31 of event-inventory to campfire named getTr("task.emptyCoffeeMaker")
+            set slot 49 of event-inventory to blaze powder named getTr("task.resistance")
 
 
             play sound "minecraft:block.brewing_stand.brew" with volume 0.9 and pitch 1.0 to player
@@ -165,6 +165,6 @@ on inventory click:
 
 on inventory close:
 
-    if name of event-inventory is "&8Preparar Café":
+    if name of event-inventory is "&6%getTr("taskname.make_coffee")%":
         if player's cursor slot is not air:
             set player's cursor slot to air

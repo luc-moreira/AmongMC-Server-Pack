@@ -1,6 +1,6 @@
 function remove_duplicate_books(p: player, step: number):
 
-    set {_inv} to chest inventory with 3 rows named "&8Remover Duplicatas"
+    set {_inv} to chest inventory with 3 rows named "&6%getTr("taskname.remove_duplicate_books")%"
 
     delete {library.duplicateTitles.%uuid of {_p}%::*}
     delete {library.copy.%uuid of {_p}%::*}
@@ -11,28 +11,27 @@ function remove_duplicate_books(p: player, step: number):
 
     set {_slots::*} to 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
 
-    set slot 22 of {_inv} to composter named "&2Lixeira"
+    set slot 22 of {_inv} to composter named getTr("task.trash")
 
-    set {_titles::*} to "Manual de Segurança"
-    add "Como NÃO Explodir o Reator" to {_titles::*}
-    add "Como Explodir o Reator" to {_titles::*}
-    add "A Arte de Culpar a Engenharia" to {_titles::*}
-    add "Café: Mito ou Realidade" to {_titles::*}
-    add "Introdução ao Caos Organizado" to {_titles::*}
-    add "Como Apertar Botões Profissionalmente" to {_titles::*}
-    add "Café Gostoso: Mito ou Realidade?" to {_titles::*}
-    add "Guia Definitivo da Gambiarra" to {_titles::*}
-    add "Quem Mexeu no Reator?" to {_titles::*}
-    add "Relatório Experimental Muito Importante" to {_titles::*}
-    add "Como Parecer Ocupado" to {_titles::*}
-    add "Protocolos de Emergência" to {_titles::*}
-    add "Como Matar Um Tripulante" to {_titles::*}
-    add "Como Matar Um Impostor" to {_titles::*}
-    add "Como Sobreviver a Um Impostor" to {_titles::*}
-    add "Como Sabotar o Reator" to {_titles::*}
-    add "Como Estabilizar o Reator" to {_titles::*}
-    add "Comunicação para Engenheiros" to {_titles::*}
-    add "Comunicação para Cientistas" to {_titles::*}
+    set {_titles::*} to getTr("task.book1")
+    add getTr("task.book2") to {_titles::*}
+    add getTr("task.book3") to {_titles::*}
+    add getTr("task.book4") to {_titles::*}
+    add getTr("task.book5") to {_titles::*}
+    add getTr("task.book6") to {_titles::*}
+    add getTr("task.book7") to {_titles::*}
+    add getTr("task.book8") to {_titles::*}
+    add getTr("task.book9") to {_titles::*}
+    add getTr("task.book10") to {_titles::*}
+    add getTr("task.book11") to {_titles::*}
+    add getTr("task.book12") to {_titles::*}
+    add getTr("task.book13") to {_titles::*}
+    add getTr("task.book14") to {_titles::*}
+    add getTr("task.book15") to {_titles::*}
+    add getTr("task.book16") to {_titles::*}
+    add getTr("task.book17") to {_titles::*}
+    add getTr("task.book18") to {_titles::*}
+    add getTr("task.book19") to {_titles::*}
 
     set {_duplicateAmount} to random integer between 1 and 2
 
@@ -84,7 +83,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&8Remover Duplicatas":
+    if name of event-inventory is not "&6%getTr("taskname.remove_duplicate_books")%":
         stop
 
     if click type is left mouse button with shift or right mouse button with shift or double click using mouse:
@@ -174,7 +173,7 @@ on inventory click:
 
 on inventory close:
 
-    if name of event-inventory is "&8Remover Duplicatas":
+    if name of event-inventory is "&6%getTr("taskname.remove_duplicate_books")%":
 
         if player's cursor slot is not air:
             set player's cursor slot to air

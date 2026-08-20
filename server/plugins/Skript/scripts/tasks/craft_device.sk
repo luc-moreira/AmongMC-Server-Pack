@@ -1,6 +1,6 @@
 function craft_device(p: player, step: number):
 
-    set {_inv} to chest inventory with 6 rows named "&8Montar Dispositivo"
+    set {_inv} to chest inventory with 6 rows named "&6%getTr("taskname.craft_device")%"
 
     loop 54 times:
         set slot (loop-number - 1) of {_inv} to gray stained glass pane named " "
@@ -10,7 +10,7 @@ function craft_device(p: player, step: number):
             set {_slot} to (((loop-number-1) - 1) * 9) + ((loop-number-2) - 1)
             set slot {_slot} of {_inv} to air
 
-    set slot 12 of {_inv} to red stained glass pane named "&cNada craftado"
+    set slot 12 of {_inv} to red stained glass pane named getTr("task.nothingCrafted")
 
     set {_recipe} to random integer between 1 and 4
     set {craft.recipe.%uuid of {_p}%} to {_recipe}
@@ -21,7 +21,7 @@ function craft_device(p: player, step: number):
 
     if {_recipe} = 1:
 
-        set slot 17 of {_inv} to crafter named "&eAuto Crafter"
+        set slot 17 of {_inv} to crafter
 
         set slot 5 of {_inv} to iron ingot
         set slot 6 of {_inv} to iron ingot
@@ -51,7 +51,7 @@ function craft_device(p: player, step: number):
 
     else if {_recipe} = 2:
 
-        set slot 17 of {_inv} to piston named "&ePistão"
+        set slot 17 of {_inv} to piston
 
         set slot 5 of {_inv} to oak planks
         set slot 6 of {_inv} to oak planks
@@ -81,7 +81,7 @@ function craft_device(p: player, step: number):
 
     else if {_recipe} = 3:
 
-        set slot 17 of {_inv} to observer named "&eObservador"
+        set slot 17 of {_inv} to observer
 
         set slot 5 of {_inv} to cobblestone
         set slot 6 of {_inv} to cobblestone
@@ -111,7 +111,7 @@ function craft_device(p: player, step: number):
 
     else:
 
-        set slot 17 of {_inv} to comparator named "&eComparador"
+        set slot 17 of {_inv} to comparator
 
         set slot 5 of {_inv} to air
         set slot 6 of {_inv} to redstone torch
@@ -232,7 +232,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&8Montar Dispositivo":
+    if name of event-inventory is not "&6%getTr("taskname.craft_device")%":
         stop
 
     if click type is left mouse button with shift or right mouse button with shift or double click using mouse:
@@ -315,10 +315,10 @@ on inventory click:
     if {_correct} is true:
         set slot 12 of event-inventory to slot 17 of event-inventory
     else:
-        set slot 12 of event-inventory to red stained glass pane named "&cReceita incorreta"
+        set slot 12 of event-inventory to red stained glass pane named getTr("task.incorrectRecipe")
 
 on inventory close:
 
-    if name of event-inventory is "&8Montar Dispositivo":
+    if name of event-inventory is "&6%getTr("taskname.craft_device")%":
         if player's cursor slot is not air:
             set player's cursor slot to air

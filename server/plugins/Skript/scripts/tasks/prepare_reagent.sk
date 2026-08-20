@@ -4,7 +4,7 @@ function prepare_reagent(p: player, step: number):
         send getTr("task.reagentBusy") to {_p} 
         stop
 
-    set {_inv} to chest inventory with 4 rows named "&8Preparar Reagente"
+    set {_inv} to chest inventory with 4 rows named "&6%getTr("taskname.prepare_reagent")%"
 
     delete {reagent.recipe.%uuid of {_p}%::*}
     delete {reagent.progress.%uuid of {_p}%}
@@ -13,19 +13,19 @@ function prepare_reagent(p: player, step: number):
     loop 36 times:
         set slot (loop-number - 1) of {_inv} to gray stained glass pane named " "
 
-    set slot 13 of {_inv} to cauldron named "&bBéquer"
+    set slot 13 of {_inv} to cauldron named getTr("task.beaker")
 
     loop 28,29,30,32,33,34:
         set slot loop-value of {_inv} to air
 
     delete {_pool::*}
 
-    add health potion named "&cReagente Vermelho" with item flag hide additional tooltip to {_pool::*}
-    add potion named "&9Reagente Azul" with item flag hide additional tooltip to {_pool::*}
-    add night vision potion named "&aReagente Verde" with item flag hide additional tooltip to {_pool::*}
-    add strength potion named "&eReagente Amarelo" with item flag hide additional tooltip to {_pool::*}
-    add regeneration potion named "&5Reagente Rosa" with item flag hide additional tooltip to {_pool::*}
-    add invisibility potion named "&fCatalisador" with item flag hide additional tooltip to {_pool::*}
+    add health potion named getTr("task.redReagent") with item flag hide additional tooltip to {_pool::*}
+    add potion named getTr("task.blueReagent") with item flag hide additional tooltip to {_pool::*}
+    add night vision potion named getTr("task.greenReagent") with item flag hide additional tooltip to {_pool::*}
+    add strength potion named getTr("task.yellowReagent") with item flag hide additional tooltip to {_pool::*}
+    add regeneration potion named getTr("task.pinkReagent") with item flag hide additional tooltip to {_pool::*}
+    add invisibility potion named getTr("task.catalyst") with item flag hide additional tooltip to {_pool::*}
 
     set {_slots::*} to 28,29,30,32,33,34
 
@@ -44,12 +44,12 @@ function prepare_reagent(p: player, step: number):
 
     delete {_types::*}
 
-    add "&cReagente Vermelho" to {_types::*}
-    add "&9Reagente Azul" to {_types::*}
-    add "&aReagente Verde" to {_types::*}
-    add "&eReagente Amarelo" to {_types::*}
-    add "&5Reagente Rosa" to {_types::*}
-    add "&fCatalisador" to {_types::*}
+    add getTr("task.redReagent") to {_types::*}
+    add getTr("task.blueReagent") to {_types::*}
+    add getTr("task.greenReagent") to {_types::*}
+    add getTr("task.yellowReagent") to {_types::*}
+    add getTr("task.pinkReagent") to {_types::*}
+    add getTr("task.catalyst") to {_types::*}
 
     loop {_len} times:
 
@@ -57,23 +57,23 @@ function prepare_reagent(p: player, step: number):
 
         set {reagent.recipe.%uuid of {_p}%::%loop-number%} to {_name}
 
-        if {_name} is "&cReagente Vermelho":
-            set {_potion} to health potion named "&cReagente Vermelho" 
+        if {_name} is getTr("task.redReagent"):
+            set {_potion} to health potion named getTr("task.redReagent")
 
-        else if {_name} is "&9Reagente Azul":
-            set {_potion} to potion named "&9Reagente Azul" 
+        else if {_name} is getTr("task.blueReagent"):
+            set {_potion} to potion named getTr("task.blueReagent")
 
-        else if {_name} is "&aReagente Verde":
-            set {_potion} to night vision potion named "&aReagente Verde"
+        else if {_name} is getTr("task.greenReagent"):
+            set {_potion} to night vision potion named getTr("task.greenReagent")
 
-        else if {_name} is "&eReagente Amarelo":
-            set {_potion} to strength potion named "&eReagente Amarelo" 
+        else if {_name} is getTr("task.yellowReagent"):
+            set {_potion} to strength potion named getTr("task.yellowReagent")
 
-        else if {_name} is "&5Reagente Rosa":
-            set {_potion} to regeneration potion named "&5Reagente Rosa"
+        else if {_name} is getTr("task.pinkReagent"):
+            set {_potion} to regeneration potion named getTr("task.pinkReagent")
 
         else:
-            set {_potion} to invisibility potion named "&fCatalisador"
+            set {_potion} to invisibility potion named getTr("task.catalyst")
 
         add hide additional tooltip to item flags of {_potion}
 
@@ -87,7 +87,7 @@ function prepare_reagent(p: player, step: number):
 
 
     if {reagent.ready.%uuid of {_p}%} is true:
-        set slot 13 of {_inv} to potion named "&aReagente Pronto" with item flags hide additional tooltip
+        set slot 13 of {_inv} to potion named getTr("task.readyReagent") with item flags hide additional tooltip
         
         loop 7 times:
             set slot (loop-number + 27) of {_inv} to gray stained glass pane named " "
@@ -102,7 +102,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&8Preparar Reagente":
+    if name of event-inventory is not "&6%getTr("taskname.prepare_reagent")%":
         stop
 
     if click type is left mouse button with shift or right mouse button with shift or double click using mouse:
@@ -153,7 +153,7 @@ on inventory click:
                 if {reagent.progress.%uuid of player%} >= {reagent.length.%uuid of player%}:
 
                     play sound "minecraft:entity.player.levelup" with volume 1 and pitch 1.2 to player
-                    set slot 13 of event-inventory to brewing stand named "&bMisturando..."
+                    set slot 13 of event-inventory to brewing stand named getTr("task.mixing")
 
                     wait 1 second
 
@@ -201,7 +201,7 @@ on inventory click:
                 stop
 
     if clicked slot is 13:
-        if name of event-item is "&aReagente Pronto":
+        if name of event-item is getTr("task.readyReagent"):
 
             cancel event
 
@@ -219,7 +219,7 @@ on inventory click:
 
 on inventory close:
 
-    if name of event-inventory is "&8Preparar Reagente":
+    if name of event-inventory is "&6%getTr("taskname.prepare_reagent")%":
 
         if player's cursor slot is not air:
             set player's cursor slot to air

@@ -6,7 +6,7 @@ function start_reactor(p: player, step: number):
     loop 5 times:
         add random integer between 0 and 8 to {reactor.sequence.%uuid of {_p}%::*}
 
-    set {_inv} to dropper inventory named "&bIniciar Reator"
+    set {_inv} to dropper inventory named "&6%getTr("taskname.start_reactor")%"
 
     loop 9 times:
         set slot (loop-number - 1) of {_inv} to light gray wool named " "
@@ -42,7 +42,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&bIniciar Reator":
+    if name of event-inventory is not "&6%getTr("taskname.start_reactor")%":
         stop
 
     cancel event

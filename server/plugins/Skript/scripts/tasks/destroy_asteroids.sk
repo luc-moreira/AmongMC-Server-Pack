@@ -7,7 +7,7 @@ function destroy_asteroids(p: player, step: number):
         download({_p}, {_step}, "destroy_asteroids")
         stop
 
-    set {_inv} to chest inventory with 6 rows named "&8Destruir Asteroides"
+    set {_inv} to chest inventory with 6 rows named "&6%getTr("taskname.destroy_asteroids")%"
 
     open {_inv} to {_p}
 
@@ -77,7 +77,7 @@ function spawnAsteroid(p: player):
     set {asteroid.direction.%uuid of {_p}%} to random element out of {_dir::*}
     set {asteroid.speed.%uuid of {_p}%} to "%random integer between 3 and 10% ticks" parsed as timespan
 
-    set slot {_slot} of {_inv} to fire charge named "&6Asteroide"
+    set slot {_slot} of {_inv} to fire charge named getTr("task.asteroid")
 
     moveAsteroid({_p}, {_session})
 
@@ -92,7 +92,7 @@ function moveAsteroid(p: player, session: number):
     if {_session} is not {asteroid.session.%uuid of {_p}%}:
         stop
 
-    if name of {_p}'s current inventory is not "&8Destruir Asteroides":
+    if name of {_p}'s current inventory is not "&6%getTr("taskname.destroy_asteroids")%":
         stop
 
     set {_inv} to {_p}'s current inventory
@@ -122,7 +122,7 @@ function moveAsteroid(p: player, session: number):
 
     set {asteroid.slot.%uuid of {_p}%} to {_new}
 
-    set slot {_new} of {_inv} to fire charge named "&6Asteroide"
+    set slot {_new} of {_inv} to fire charge named getTr("task.asteroid")
 
     play sound "minecraft:entity.firework_rocket.blast_far" with volume 0.15 and pitch 2 to {_p}
 
@@ -133,7 +133,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&8Destruir Asteroides":
+    if name of event-inventory is not "&6%getTr("taskname.destroy_asteroids")%":
         stop
 
     cancel event
@@ -170,7 +170,7 @@ on inventory click:
 
 on inventory close:
 
-    if name of event-inventory is not "&8Destruir Asteroides":
+    if name of event-inventory is not "&6%getTr("taskname.destroy_asteroids")%":
         stop
 
     add 1 to {asteroid.session.%uuid of player%}

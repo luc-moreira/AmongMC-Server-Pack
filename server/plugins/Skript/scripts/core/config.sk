@@ -107,9 +107,9 @@ function openConfig(p: player):
     set slot 26 of {_inv} to player head named getTr("config.confirmEjects", "%{_confirm}%")
 
     if {config.impostorsKnowEachOther} is true:
-        set {_know} to "&aSim"
+        set {_know} to getTr("config.yes")
     else:
-        set {_know} to "&cNão"
+        set {_know} to getTr("config.no")
 
     set slot 35 of {_inv} to red dye named getTr("config.impostorsKnowEachOther", "%{_know}%")
 
@@ -155,7 +155,7 @@ function openConfig(p: player):
             set {_index} to loop-index parsed as number
             stop loop
 
-    set slot 45 of {_inv} to book named "&9Idioma: %{langnames::%{_index}%}%"
+    set slot 45 of {_inv} to book named getTr("config.language", "%{langnames::%{_index}%}%")
 
     
 
@@ -191,7 +191,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&6Configuração do Jogo":
+    if name of event-inventory is not getTr("config.gameConfig"):
         stop
 
     cancel event

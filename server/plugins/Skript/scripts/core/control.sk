@@ -188,8 +188,8 @@ command /start:
         loop {game.impostors::*}:
 
             execute console command "title %loop-value% times 10 20 5"
-            execute console command "title %loop-value% title {""text"":""IMPOSTOR"",""bold"":true,""color"":""dark_red""}"
-            execute console command "title %loop-value% subtitle {""text"":""Elimine a tripulação"",""color"":""gray""}"
+            execute console command "title %loop-value% title {""text"":""%getTr("control.impostorTitle")%"",""bold"":true,""color"":""dark_red""}"
+            execute console command "title %loop-value% subtitle {""text"":""%getTr("control.impostorSubtitle")%"",""color"":""gray""}"
 
             play sound "block.beacon.activate" with volume 1 and pitch 0.7 to loop-value
             play sound "entity.warden.nearby_close" with volume 1 and pitch 0.8 to loop-value
@@ -205,8 +205,8 @@ command /start:
         loop {game.crewmates::*}:
 
             execute console command "title %loop-value% times 10 20 5"
-            execute console command "title %loop-value% title {""text"":""CREWMATE"",""bold"":true,""color"":""aqua""}"
-            execute console command "title %loop-value% subtitle {""text"":""Complete suas tarefas"",""color"":""gray""}"
+            execute console command "title %loop-value% title {""text"":""%getTr("control.crewmateTitle")%"",""bold"":true,""color"":""aqua""}"
+            execute console command "title %loop-value% subtitle {""text"":""%getTr("control.crewmateSubtitle")%"",""color"":""gray""}"
 
             play sound "entity.player.levelup" with volume 1 and pitch 0.8 to loop-value
             play sound "block.beacon.activate" with volume 1 and pitch 1.2 to loop-value
@@ -229,7 +229,7 @@ function checkEndGame():
 
     #parar de encerrar o jogo. Apenas pra debugging:
 
-    #stop
+    stop
 
 
     if {game.state} is "waiting":

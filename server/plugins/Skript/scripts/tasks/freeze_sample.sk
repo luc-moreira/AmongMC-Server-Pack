@@ -4,21 +4,21 @@ function freeze_sample(p: player, step: number):
         set {_potions::*} to awkward potion, thick potion, mundane potion, potion of swiftness, potion of healing, potion of poison, potion of strength, potion of fire resistance
         set {potion.%uuid of {_p}%} to random element out of {_potions::*}
 
-        set {_inv} to brewing stand inventory named "&5Experimento X"
+        set {_inv} to brewing stand inventory named getTr("task.sampleName")
 
         set {_slot} to random integer between 0 and 2
-        set slot {_slot} of {_inv} to {potion.%uuid of {_p}%}  named "&dExperimento X" with item flag hide additional tooltip
+        set slot {_slot} of {_inv} to {potion.%uuid of {_p}%}  named getTr("task.sampleName") with item flag hide additional tooltip
 
         open {_inv} to {_p}
 
     else if {_step} = 2:
 
-        set {_inv} to chest inventory with 3 rows named "&cCongelar Experimento"
+        set {_inv} to chest inventory with 3 rows named "&6%getTr("taskname.freeze_sample")%"
 
         loop 3,4,5,12,14,21,22,23:
             set slot loop-value of {_inv} to ice named " "
 
-        set slot 10 of {_inv} to {potion.%uuid of {_p}%} named "&dExperimento X" with item flag hide additional tooltip
+        set slot 10 of {_inv} to {potion.%uuid of {_p}%} named getTr("task.sampleName") with item flag hide additional tooltip
 
         open {_inv} to {_p}
 
@@ -31,10 +31,10 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is "&5Experimento X":
+    if name of event-inventory is getTr("task.sampleName"):
         cancel event
 
-        if name of event-item = "&dExperimento X":
+        if name of event-item = getTr("task.sampleName"):
             advanceTaskStep(player, "freeze_sample")
             close player's inventory
             stop
@@ -43,7 +43,7 @@ on inventory click:
     # Etapa 2
     
 
-    if name of event-inventory is "&cCongelar Experimento":
+    if name of event-inventory is "&6%getTr("taskname.freeze_sample")%":
 
         if click type is left mouse button with shift or right mouse button with shift:
             cancel event
@@ -138,7 +138,7 @@ on inventory click:
 
 on inventory close:
 
-    if name of event-inventory is "&cCongelar Experimento":
+    if name of event-inventory is "&6%getTr("taskname.freeze_sample")%":
         if player's cursor slot is not air:
             set player's cursor slot to air
         delete {freeze.running.%uuid of player%}

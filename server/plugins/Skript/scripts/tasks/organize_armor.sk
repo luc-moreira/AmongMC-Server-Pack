@@ -1,6 +1,6 @@
 function organize_armor(p: player, step: number):
 
-    set {_inv} to chest inventory with 4 rows named "&6Organizar Armaduras"
+    set {_inv} to chest inventory with 4 rows named "&6%getTr("taskname.organize_armor")%"
 
 
     loop 4 times:
@@ -53,7 +53,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&6Organizar Armaduras":
+    if name of event-inventory is not "&6%getTr("taskname.organize_armor")%":
         stop
 
     if clicked slot is 1 or 3 or 5 or 7 or 10 or 12 or 14 or 16 or 19 or 21 or 23 or 25 or 28 or 30 or 32 or 34:
@@ -113,7 +113,7 @@ on inventory click:
 
 on inventory close:
 
-    if name of event-inventory is "&6Organizar Armaduras":
+    if name of event-inventory is "&6%getTr("taskname.organize_armor")%":
 
         if player's cursor slot is not air:
             set player's cursor slot to air

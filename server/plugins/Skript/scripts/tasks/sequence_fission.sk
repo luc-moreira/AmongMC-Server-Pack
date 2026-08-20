@@ -1,6 +1,6 @@
 function sequence_fission(p: player, step: number):
 
-    set {_inv} to chest inventory with 2 rows named "&8Sequenciar Fissão"
+    set {_inv} to chest inventory with 2 rows named "&6%getTr("taskname.sequence_fission")%"
 
     set {fission.next.%uuid of {_p}%} to 1
 
@@ -34,7 +34,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&8Sequenciar Fissão":
+    if name of event-inventory is not "&6%getTr("taskname.sequence_fission")%":
         stop
 
     cancel event
@@ -65,7 +65,7 @@ on inventory click:
 
     loop 2,3,4,5,6,11,12,13,14,15:
 
-        set slot loop-value of event-inventory to red stained glass pane named "&cERRO"
+        set slot loop-value of event-inventory to red stained glass pane named getTr("task.error")
 
     play sound "minecraft:block.note_block.bass" with volume 1 and pitch 0.6 to player
     play sound "minecraft:block.beacon.deactivate" with volume 0.8 and pitch 0.8 to player

@@ -1,9 +1,6 @@
-on load:
-
-    delete {lang::ptbr::*}
+function loadPtbr():
 
     registerLang("ptbr", "Português Brasileiro")
-    
 
     # Messages
 
@@ -148,6 +145,7 @@ on load:
     registerTranslation("ptbr", "taskname.download_obs", "Download Observatório")
     registerTranslation("ptbr", "taskname.download_lib", "Download Biblioteca")
     registerTranslation("ptbr", "taskname.download_work", "Download Oficina")
+    registerTranslation("ptbr", "taskname.download", "Download")
     registerTranslation("ptbr", "taskname.open_valve", "Abrir Registro")
     registerTranslation("ptbr", "taskname.connect_wires", "Ligar Fios")
     registerTranslation("ptbr", "taskname.trim_plants", "Podar Plantas")
@@ -191,6 +189,7 @@ on load:
     # config
 
     registerTranslation("ptbr", "config.gameConfig", "&6Configuração do Jogo")
+    registerTranslation("ptbr", "config.language", "&6Idioma: {1}")
 
     registerTranslation("ptbr", "config.impostors", "&cImpostores: {1}")
     registerTranslation("ptbr", "config.tasksPerPlayer", "&eTasks por jogador: {1}")
@@ -243,6 +242,11 @@ on load:
 
     registerTranslation("ptbr", "control.crewmatesWinTitle", "Os Crewmates venceram!")
     registerTranslation("ptbr", "control.impostorsWinTitle", "Os Impostores venceram!")
+
+    registerTranslation("ptbr", "control.crewmateTitle", "TRIPULANTE")
+    registerTranslation("ptbr", "control.impostorTitle", "IMPOSTOR")
+    registerTranslation("ptbr", "control.crewmateSubtitle", "Complete suas tarefas")
+    registerTranslation("ptbr", "control.impostorSubtitle", "Elimine a tripulação")
 
     # discord
 
@@ -370,3 +374,106 @@ on load:
     registerTranslation("ptbr", "vitals.alive", "&a{1} (Vivo)")
     registerTranslation("ptbr", "vitals.dead", "&e{1} (Morto)")
     registerTranslation("ptbr", "vitals.noSignal", "&8{1} (Sem Sinal)")
+
+
+    # some texts inside tasks
+
+    registerTranslation("ptbr", "task.target", "&aAlvo")
+    registerTranslation("ptbr", "task.direction", "&eDireção")
+    registerTranslation("ptbr", "task.left", "&aEsquerda")
+    registerTranslation("ptbr", "task.confirm", "&aConfirmar")
+    registerTranslation("ptbr", "task.right", "&aDireita")
+
+    registerTranslation("ptbr", "task.lens", "&7Lente")
+    registerTranslation("ptbr", "task.dirt", "&6Sujeira")
+    registerTranslation("ptbr", "task.sponge", "&eEsponja")
+    registerTranslation("ptbr", "task.telescopeLens", "&7Lente do telescópio")
+
+    registerTranslation("ptbr", "task.freezer", "&bCongelador")
+    registerTranslation("ptbr", "task.cookedChicken", "&6Frango Assado")
+    registerTranslation("ptbr", "task.frozenChicken", "&eFrango Congelado")
+    registerTranslation("ptbr", "task.oven", "&6Forno")
+
+    registerTranslation("ptbr", "task.nothingCrafted", "&cNada craftado")
+    registerTranslation("ptbr", "task.incorrectRecipe", "&cReceita incorreta")
+
+    registerTranslation("ptbr", "task.asteroid", "&6Asteroide")
+
+    registerTranslation("ptbr", "task.downloading", "&7Baixando...")
+    registerTranslation("ptbr", "task.downloaded", "&aBaixado")
+
+    registerTranslation("ptbr", "task.sampleName", "&5Experimento X")
+
+    registerTranslation("ptbr", "task.coffeePowder", "&6Pó de Café")
+    registerTranslation("ptbr", "task.waterCoffee", "&bÁgua")
+    registerTranslation("ptbr", "task.turnOnCoffeeMaker", "&eLigar Cafeteira")
+    registerTranslation("ptbr", "task.cup", "&fCaneca")
+    registerTranslation("ptbr", "task.emptyReservoir", "&bReservatório vazio")
+    registerTranslation("ptbr", "task.emptyCoffeeMaker", "&6Cafeteira vazia")
+    registerTranslation("ptbr", "task.heating", "&6Aquecendo...")
+    registerTranslation("ptbr", "task.readyCoffee", "&4Café Pronto")
+    registerTranslation("ptbr", "task.fullReservoir", "&bReservatório cheio")
+    registerTranslation("ptbr", "task.fullCoffeeMaker", "&6Cafeteira cheia")
+    registerTranslation("ptbr", "task.resistance", "&eResistência")
+
+    registerTranslation("ptbr", "task.organizeBookTitle", "&eComo sobreviver a um impostor {1}")
+
+    registerTranslation("ptbr", "task.beaker", "&bBéquer")
+    registerTranslation("ptbr", "task.redReagent", "&cReagente Vermelho")
+    registerTranslation("ptbr", "task.blueReagent", "&9Reagente Azul")
+    registerTranslation("ptbr", "task.greenReagent", "&aReagente Verde")
+    registerTranslation("ptbr", "task.yellowReagent", "&eReagente Amarelo")
+    registerTranslation("ptbr", "task.pinkReagent", "&5Reagente Rosa")
+    registerTranslation("ptbr", "task.catalyst", "&fCatalisador")
+    registerTranslation("ptbr", "task.readyReagent", "&aReagente Pronto")
+    registerTranslation("ptbr", "task.mixing", "&bMisturando...")
+
+    registerTranslation("ptbr", "task.trash", "&2Lixeira")
+    registerTranslation("ptbr", "task.book1", "Manual de Segurança")
+    registerTranslation("ptbr", "task.book2", "Como NÃO Explodir o Reator")
+    registerTranslation("ptbr", "task.book3", "Como Explodir o Reator")
+    registerTranslation("ptbr", "task.book4", "A Arte de Culpar a Engenharia")
+    registerTranslation("ptbr", "task.book5", "Introdução ao Caos Organizado")
+    registerTranslation("ptbr", "task.book6", "Como Apertar Botões Profissionalmente")
+    registerTranslation("ptbr", "task.book7", "Café Gostoso: Mito ou Realidade?")
+    registerTranslation("ptbr", "task.book8", "Guia Definitivo da Gambiarra")
+    registerTranslation("ptbr", "task.book9", "Quem Mexeu no Reator?")
+    registerTranslation("ptbr", "task.book10", "Relatório Experimental Muito Importante")
+    registerTranslation("ptbr", "task.book11", "Como Parecer Ocupado")
+    registerTranslation("ptbr", "task.book12", "Protocolos de Emergência")
+    registerTranslation("ptbr", "task.book13", "Como Matar Um Tripulante")
+    registerTranslation("ptbr", "task.book14", "Como Matar Um Impostor")
+    registerTranslation("ptbr", "task.book15", "Como Sobreviver a Um Impostor")
+    registerTranslation("ptbr", "task.book16", "Como Sabotar o Reator")
+    registerTranslation("ptbr", "task.book17", "Como Estabilizar o Reator")
+    registerTranslation("ptbr", "task.book18", "Comunicação para Engenheiros")
+    registerTranslation("ptbr", "task.book19", "Comunicação para Cientistas")
+
+    registerTranslation("ptbr", "task.error", "&cERRO")
+    
+    registerTranslation("ptbr", "task.stem", "&6Caule")
+    registerTranslation("ptbr", "task.leaf", "&aFolha")
+    registerTranslation("ptbr", "task.dryLeaf", "&6Folha seca")
+
+    registerTranslation("ptbr", "task.lockFrequency", "&eTravar frequência")
+    registerTranslation("ptbr", "task.signal", "&9Sinal")
+    registerTranslation("ptbr", "task.tuned", "&aSintonizado")
+    registerTranslation("ptbr", "task.frequencyGreen", "&aFrequência")
+    registerTranslation("ptbr", "task.frequencyRed", "&cFrequência")
+
+
+    registerTranslation("ptbr", "task.waterDishes", "&bÁgua")
+    registerTranslation("ptbr", "task.detergent", "&bDetergente")
+    registerTranslation("ptbr", "task.dirtyFork", "&7Garfo Sujo")
+    registerTranslation("ptbr", "task.dirtySpoon", "&7Colher Suja")
+    registerTranslation("ptbr", "task.dirtyKnife", "&7Faca Suja")
+    registerTranslation("ptbr", "task.dirtyPlate", "&7Prato Sujo")
+    registerTranslation("ptbr", "task.dirtyCup", "&7Copo Sujo")
+    registerTranslation("ptbr", "task.waterWithDetergent", "&bÁgua com detergente")
+    registerTranslation("ptbr", "task.emptyDetergentBottle", "&7Frasco de Detergente Vazio")
+    registerTranslation("ptbr", "task.cleanFork", "&fGarfo Limpo")
+    registerTranslation("ptbr", "task.cleanSpoon", "&fColher Limpa")
+    registerTranslation("ptbr", "task.cleanKnife", "&fFaca Limpa")
+    registerTranslation("ptbr", "task.cleanPlate", "&fPrato Limpo")
+    registerTranslation("ptbr", "task.cleanCup", "&fCopo Limpo")
+

@@ -30,6 +30,10 @@ function registerLang(id: text, name: text):
     add {_id} to {langs::*}
     add {_name} to {langnames::*}
 
-on unload:
+on load:
     delete {lang::*}
     delete {langs::*}
+    delete {langnames::*}
+
+    loadEn()
+    loadPtbr()

@@ -12,18 +12,16 @@ function nextNavigationRound(p: player):
 
 function openNavigationGUI(p: player):
 
-    set {_inv} to chest inventory with 3 rows named "&9Calibrar Navegação"
+    set {_inv} to chest inventory with 3 rows named "&6%getTr("taskname.calibrate_navigation")%"
 
     set {_target} to {nav.target.%uuid of {_p}%}
     set {_dir} to {nav.direction.%uuid of {_p}%}
 
-    set slot (9 + {_target}) of {_inv} to lime stained glass pane named "&aAlvo"
-
-    set slot {_dir} of {_inv} to pointed dripstone named "&eDireção"
-
-    set slot 21 of {_inv} to arrow named "&aEsquerda"
-    set slot 22 of {_inv} to lime concrete named "&aConfirmar"
-    set slot 23 of {_inv} to arrow named "&aDireita"
+    set slot (9 + {_target}) of {_inv} to lime stained glass pane named getTr("task.target")
+    set slot {_dir} of {_inv} to pointed dripstone named getTr("task.direction")
+    set slot 21 of {_inv} to arrow named getTr("task.left")
+    set slot 22 of {_inv} to lime concrete named getTr("task.confirm")
+    set slot 23 of {_inv} to arrow named getTr("task.right")
 
     open {_inv} to {_p}
 
@@ -32,7 +30,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&9Calibrar Navegação":
+    if name of event-inventory is not "&6%getTr("taskname.calibrate_navigation")%":
         stop
 
     cancel event

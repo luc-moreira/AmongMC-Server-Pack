@@ -1,9 +1,9 @@
 function download(p: player, step: number, task: text):
 
-    set {_inv} to chest inventory with 1 row named "&aDownload"
+    set {_inv} to chest inventory with 1 row named "&6%getTr("taskname.download")%"
 
     loop 9 times:
-        set slot (loop-number - 1) of {_inv} to gray wool named "&7Baixando..."
+        set slot (loop-number - 1) of {_inv} to gray wool named getTr("task.downloading")
 
     open {_inv} to {_p}
 
@@ -15,7 +15,7 @@ function download(p: player, step: number, task: text):
         if {download.session.%uuid of {_p}%} != {_session}:
             stop
 
-        set slot (loop-number - 1) of {_inv} to lime wool named "&aBaixado"
+        set slot (loop-number - 1) of {_inv} to lime wool named getTr("task.downloaded")
 
         play sound "minecraft:block.note_block.hat" with volume 0.35 and pitch (0.8 + (loop-number * 0.08)) to {_p}
 
@@ -34,10 +34,10 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is "&aDownload":
+    if name of event-inventory is "&6%getTr("taskname.download")%":
         cancel event
 
 on inventory close:
 
-    if name of event-inventory is "&aDownload":
+    if name of event-inventory is getTr("taskname.download"):
         add 1 to {download.session.%uuid of player%}

@@ -2,7 +2,7 @@ function organize_books(p: player, step: number):
 
     set {_pool::*} to 1, 2, 3, 4, 5, 6, 7, 8, 9
 
-    set {_inv} to chest inventory with 1 row named "&6Organizar Livros"
+    set {_inv} to chest inventory with 1 row named "&6%getTr("taskname.organize_books")%"
 
     loop 9 times:
 
@@ -28,7 +28,7 @@ function organize_books(p: player, step: number):
         else:
             set {_roman} to "IX"
 
-        set {_book} to book named "&eComo sobreviver a um impostor %{_roman}%"
+        set {_book} to book named getTr("task.organizeBookTitle", "%{_roman}%")
         set int tag "AmongMCBook" of custom nbt of {_book} to {_n}
 
         set slot (loop-number - 1) of {_inv} to {_book}
@@ -41,7 +41,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&6Organizar Livros":
+    if name of event-inventory is not "&6%getTr("taskname.organize_books")%":
         stop
     if click type is left mouse button with shift or right mouse button with shift:
         cancel event
@@ -74,7 +74,7 @@ on inventory click:
 
 on inventory close:
 
-    if name of event-inventory is "&6Organizar Livros":
+    if name of event-inventory is "&6%getTr("taskname.organize_books")%":
 
         if player's cursor slot is not air:
             set player's cursor slot to air

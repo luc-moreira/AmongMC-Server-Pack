@@ -1,0 +1,479 @@
+function loadEn():
+
+    registerLang("en", "English")
+
+    # Messages
+
+    # ambient
+    registerTranslation("en", "ambient.waterPicked", "&bYou picked up some water!")
+
+    # color
+    registerTranslation("en", "color.cannotChange", "&cYou can't change your color right now!")
+    registerTranslation("en", "color.alreadyUsing", "&eYou're already using this color.")
+    registerTranslation("en", "color.alreadyUsed", "&cThat color is already being used by another player.")
+    registerTranslation("en", "color.assigned", "&aYour color is now &f{1}&a.")
+    registerTranslation("en", "color.noColor", "&eYou didn't have a color, or it's already being used by another player.")
+    registerTranslation("en", "color.newColor", "&7Your new color is {1}&7.")
+    registerTranslation("en", "color.howToChange", "&7You can change it using the nether star or by typing &f/color&7.")
+
+    # compass
+    registerTranslation("en", "compass.sabotageFire", "&cFix sabotage: Lab Fire")
+    registerTranslation("en", "compass.sabotageLights", "&eFix sabotage: Lights")
+    registerTranslation("en", "compass.sabotageReactor", "&2Fix sabotage: Reactor")
+    registerTranslation("en", "compass.pointingToTask", "&bCompass pointing to your nearest task")
+
+    # control
+    registerTranslation("en", "control.impostorLimited", "&eWarning! With only {1} players, the number of impostors has been limited to {2}.")
+    registerTranslation("en", "control.gameOverHeader", "&6========== Game Over ==========")
+    registerTranslation("en", "control.crewmatesWon", "&bThe Crewmates won!")
+    registerTranslation("en", "control.impostorsWon", "&cThe Impostors won!")
+    registerTranslation("en", "control.impostorsList", "&7Impostors:")
+    registerTranslation("en", "control.gameOver", "&cGame over!")
+    registerTranslation("en", "control.youAreImpostor1", "&cYou are the &4&lIMPOSTOR&c!")
+    registerTranslation("en", "control.youAreImpostor2", "&7Eliminate the crew before they finish their tasks.")
+    registerTranslation("en", "control.youAreImpostor3", "&7Use &eShift&7 on a vent to enter it.")
+    registerTranslation("en", "control.youAreImpostor4", "&7Sabotage systems to create opportunities.")
+    registerTranslation("en", "control.youAreCrewmate1", "&bYou are a &3&lCREWMATE&b!")
+    registerTranslation("en", "control.youAreCrewmate2", "&7Complete all your tasks.")
+    registerTranslation("en", "control.youAreCrewmate3", "&7Report any bodies you find.")
+    registerTranslation("en", "control.youAreCrewmate4", "&7Use meetings to figure out who the impostors are.")
+
+    # discord
+    registerTranslation("en", "discord.noAccount", "&cYou don't have a linked Discord account.")
+    registerTranslation("en", "discord.yourId", "&aYour Discord ID is: &f{1}")
+
+    # hat
+    registerTranslation("en", "hat.changed", "&aYou changed your hat to &e{1}&a.")
+
+    # joinleave
+    registerTranslation("en", "joinleave.gameInProgress1", "&cThe game is already in progress.")
+    registerTranslation("en", "joinleave.gameInProgress2", "&7You joined as a spectator ghost.")
+    registerTranslation("en", "joinleave.gameInProgress3", "&7Wait for the next game to play normally.")
+
+    # kill
+    registerTranslation("en", "kill.bodyFound", "&c{1}'s body was found!")
+
+    # meeting
+    registerTranslation("en", "meeting.started", "{1} &fstarted an emergency meeting!")
+    registerTranslation("en", "meeting.useBook", "&7Use the &eBook &7to vote.")
+    registerTranslation("en", "meeting.playerVoted", "{1} &7voted. &8({2} remaining.)")
+    registerTranslation("en", "meeting.votingHeader", "&e========== Voting ==========")
+    registerTranslation("en", "meeting.skipVotes", "&7Skip: &e{1}")
+    registerTranslation("en", "meeting.playerVote", "{1}&7: &e{2}")
+    registerTranslation("en", "meeting.playerVoteDetail", "{1}&7: &e{2} &7({3}&7)")
+    registerTranslation("en", "meeting.tie", "&7It's a tie. Nobody was ejected.")
+    registerTranslation("en", "meeting.skip", "&7The crew decided to skip.")
+    registerTranslation("en", "meeting.cooldown", "&cYou can't start a meeting right now. Wait {1}s.")
+    registerTranslation("en", "meeting.noneLeft", "&cYou have no emergency meetings left.")
+    registerTranslation("en", "meeting.cannotStartDuringSabotage", "&cYou can't start a meeting during a sabotage!")
+    registerTranslation("en", "meeting.noMeeting", "&cThere is no meeting in progress.")
+    registerTranslation("en", "meeting.ghostsCannotVote", "&cGhosts can't vote.")
+    registerTranslation("en", "meeting.alreadyVoted", "&cYou already voted.")
+
+    # sabotage
+    registerTranslation("en", "sabotage.lightsRestored", "&aLights restored!")
+    registerTranslation("en", "sabotage.fireExtinguished", "&aFire extinguished!")
+    registerTranslation("en", "sabotage.reactorStabilized", "&aReactor stabilized!")
+    registerTranslation("en", "sabotage.reactorCollapsed", "&4The reactor has collapsed!")
+    registerTranslation("en", "sabotage.labBurnedDown", "&cThe laboratory was consumed by the fire!")
+    registerTranslation("en", "sabotage.inCooldown", "&cSabotage is on cooldown!")
+    registerTranslation("en", "sabotage.startedFire", "&cYou set the laboratory on fire!")
+    registerTranslation("en", "sabotage.lockedDoors", "&cYou locked all the doors!")
+    registerTranslation("en", "sabotage.sabotagedLights", "&eYou sabotaged the lights!")
+    registerTranslation("en", "sabotage.startedReactor", "&2You started the reactor overload!")
+    registerTranslation("en", "sabotage.firePutOut", "&aFire extinguished!")
+
+    # tasks
+    registerTranslation("en", "tasks.Progress", "&e{1}&7: step {2}/{3}")
+    registerTranslation("en", "tasks.Completed", "&aTask completed: {1}")
+
+    # vent
+    registerTranslation("en", "vent.entered1", "&7You entered a &bvent&7.")
+    registerTranslation("en", "vent.entered2", "&eUse the &6Compasses &eto navigate between vents.")
+    registerTranslation("en", "vent.entered3", "&dUse the &5Ender Pearl &dto leave the vent.")
+    registerTranslation("en", "vent.entered4", "&7While you're in the vent, crewmates &ccan't see you&7.")
+
+
+    # each task
+
+    registerTranslation("en", "task.navigationFail", "&cYou somehow managed to uncalibrate the navigation.")
+    registerTranslation("en", "task.wiresFail", "&cYou just discovered a new way to not connect wires.")
+
+    registerTranslation("en", "task.chickenBusy", "&6Your chicken is still cooking. Don't touch it, it's hot!")
+    registerTranslation("en", "task.chickenWrongItem", "&cDoes that look like a chicken to you?")
+    registerTranslation("en", "task.chickenStarted", "&eYour chicken will be ready in &61 minute&e. You can go do other tasks while you wait. I'll let you know in chat!")
+    registerTranslation("en", "task.chickenReady", "&aYour chicken is done cooking! Go back to the oven to pick it up.")
+
+    registerTranslation("en", "task.bedrockDownload", "&7This task was replaced with a &eDownload&7 because you're playing the &eBedrock Edition&7.")
+
+    registerTranslation("en", "task.asteroids", "Destroyed: {1}/10")
+
+    registerTranslation("en", "task.coffeeEmpty", "&cYou turned on a completely empty coffee maker. At least it didn't explode.")
+    registerTranslation("en", "task.coffeeOnlyWater", "&cThe floor is now covered in boiling water.")
+    registerTranslation("en", "task.coffeeOnlyPowder", "&cHeating pure coffee grounds sounds like a terrible strategy.")
+    registerTranslation("en", "task.coffeeOnlyMug", "&cThe mug alone was feeling pretty optimistic.")
+    registerTranslation("en", "task.coffeeNoWater", "&cGreat idea. Coffee without water. Are the beans supposed to hydrate through telepathy?")
+    registerTranslation("en", "task.coffeeNoPowder", "&cHot water is a very sad tea, but it definitely isn't coffee.")
+    registerTranslation("en", "task.coffeeNoMug", "&cThe coffee actually turned out great. Too bad it's all over the floor.")
+
+    registerTranslation("en", "task.reagentBusy", "&cThe reagent is still resting. Do you really want to mess with it? Last time someone did, they almost grew a third eyebrow.")
+    registerTranslation("en", "task.reagentStarted", "&eReagent mixed successfully! Now let it rest for 1 minute. I'll let you know in chat when it's ready.")
+    registerTranslation("en", "task.reagentStarted2", "&7Don't touch the mixer. Previous scientists did that and discovered new shades of explosion.")
+    registerTranslation("en", "task.reagentReady", "&aYour reagent is finally ready! Go back to the lab to pick it up.")
+    registerTranslation("en", "task.reagentFail", "&cExcellent. You just invented a completely useless reagent. The good news is that the lab is still intact... for now.")
+
+    registerTranslation("en", "task.libraryDoubleFail", "&cSeriously? You managed to throw away BOTH copies of the duplicate book.")
+    registerTranslation("en", "task.libraryFail", "&cCongratulations. You just threw away the only copy. The entire library hates you now.")
+
+    registerTranslation("en", "task.sequenceFail", "&cImpressive. You couldn't count, and now the atoms are out of place.")
+    registerTranslation("en", "task.reactorStartFail1", "&cGoldfish memory detected.")
+    registerTranslation("en", "task.reactorStartFail2", "&cAt least blowing up the reactor takes more effort than that.")
+
+    registerTranslation("en", "task.pruningLeavesFail", "&cYou were supposed to trim the dead leaves... not turn the plant into salad.")
+    registerTranslation("en", "task.pruningStemFail", "&cYou trimmed the stem. The plant would like to file a complaint.")
+    registerTranslation("en", "task.cleaningFail", "&cIf this worked, nobody would need detergent.")
+    registerTranslation("en", "task.wateringNoWater", "&cHow exactly are you planning to water the plants without water?")
+
+
+    # Task Names
+    registerTranslation("en", "taskname.start_reactor", "Start Reactor")
+    registerTranslation("en", "taskname.water_plants", "Water Plants")
+    registerTranslation("en", "taskname.clean_vases", "Clean Vases")
+    registerTranslation("en", "taskname.calibrate_navigation", "Calibrate Navigation")
+    registerTranslation("en", "taskname.organize_books", "Organize Books")
+    registerTranslation("en", "taskname.freeze_sample", "Freeze Sample")
+    registerTranslation("en", "taskname.cook_chicken", "Cook Chicken")
+    registerTranslation("en", "taskname.download_obs", "Observatory Download")
+    registerTranslation("en", "taskname.download_lib", "Library Download")
+    registerTranslation("en", "taskname.download_work", "Workshop Download")
+    registerTranslation("en", "taskname.download", "Download")
+    registerTranslation("en", "taskname.open_valve", "Open Valve")
+    registerTranslation("en", "taskname.connect_wires", "Connect Wires")
+    registerTranslation("en", "taskname.trim_plants", "Trim Plants")
+    registerTranslation("en", "taskname.destroy_asteroids", "Destroy Asteroids")
+    registerTranslation("en", "taskname.tune_radio", "Tune Radio")
+    registerTranslation("en", "taskname.organize_armor", "Organize Armor")
+    registerTranslation("en", "taskname.craft_device", "Craft Device")
+    registerTranslation("en", "taskname.clean_lens", "Clean Lenses")
+    registerTranslation("en", "taskname.wash_dishes", "Wash Dishes")
+    registerTranslation("en", "taskname.prepare_reagent", "Prepare Reagent")
+    registerTranslation("en", "taskname.make_coffee", "Make Coffee")
+    registerTranslation("en", "taskname.sequence_fission", "Sequence Fission")
+    registerTranslation("en", "taskname.remove_duplicate_books", "Remove Duplicates")
+    registerTranslation("en", "taskname.clean_vents", "Clean Vents")
+
+
+    # others
+
+
+    # color
+
+    registerTranslation("en", "color.chooseColor", "&eChoose Color")
+
+    registerTranslation("en", "color.white", "&fWhite")
+    registerTranslation("en", "color.orange", "&6Orange")
+    registerTranslation("en", "color.magenta", "&dMagenta")
+    registerTranslation("en", "color.lightBlue", "&bLight Blue")
+    registerTranslation("en", "color.yellow", "&eYellow")
+    registerTranslation("en", "color.lime", "&aLime")
+    registerTranslation("en", "color.pink", "&dPink")
+    registerTranslation("en", "color.gray", "&8Gray")
+    registerTranslation("en", "color.lightGray", "&7Light Gray")
+    registerTranslation("en", "color.cyan", "&3Cyan")
+    registerTranslation("en", "color.purple", "&5Purple")
+    registerTranslation("en", "color.blue", "&9Blue")
+    registerTranslation("en", "color.brown", "&6Brown")
+    registerTranslation("en", "color.green", "&2Green")
+    registerTranslation("en", "color.red", "&cRed")
+    registerTranslation("en", "color.black", "&0Black")
+
+    # config
+
+    registerTranslation("en", "config.gameConfig", "&6Game Configuration")
+    registerTranslation("en", "config.language", "&6Language: {1}")
+
+    registerTranslation("en", "config.impostors", "&cImpostors: {1}")
+    registerTranslation("en", "config.tasksPerPlayer", "&eTasks per player: {1}")
+    registerTranslation("en", "config.playerSpeed", "&bSpeed: {1}x")
+    registerTranslation("en", "config.meetingLimit", "&6Meetings per player: {1}")
+
+    registerTranslation("en", "config.taskBar", "&bTask Bar: {1}")
+    registerTranslation("en", "config.taskBar.off", "&cOFF")
+    registerTranslation("en", "config.taskBar.meetings", "&eMeetings Only")
+    registerTranslation("en", "config.taskBar.meetingsSB", "&eMeetings")
+    registerTranslation("en", "config.taskBar.always", "&aAlways")
+
+    registerTranslation("en", "config.anonymousVotes", "&fAnonymous Votes: {1}")
+    registerTranslation("en", "config.confirmEjects", "&fConfirm Ejects: {1}")
+    registerTranslation("en", "config.impostorsKnowEachOther", "&cImp. Know E. Other: {1}")
+
+    registerTranslation("en", "config.enabled", "&aEnabled")
+    registerTranslation("en", "config.disabled", "&cDisabled")
+    registerTranslation("en", "config.yes", "&aYes")
+    registerTranslation("en", "config.no", "&cNo")
+
+    registerTranslation("en", "config.doorCooldown", "&7Door Cooldown: {1}s")
+    registerTranslation("en", "config.sabotageCooldown", "&cSabotage Cooldown: {1}s")
+    registerTranslation("en", "config.initialSabotageCooldown", "&eInitial Sabotage Cooldown: {1}s")
+    registerTranslation("en", "config.postMeetingSabotageCooldown", "&6Post-Meeting Sabotage Cooldown: {1}s")
+
+    registerTranslation("en", "config.reactorCollapseTime", "&4Reactor Collapse Time: {1}s")
+    registerTranslation("en", "config.labFireTime", "&6Lab Fire Duration: {1}s")
+    registerTranslation("en", "config.doorDuration", "&7Door Duration: {1}s")
+
+    registerTranslation("en", "config.initialMeetingCooldown", "&bInitial Meeting Cooldown: {1}s")
+    registerTranslation("en", "config.postMeetingCooldown", "&9Post-Meeting Meeting Cooldown: {1}s")
+
+    registerTranslation("en", "config.startGame", "&a&lSTART GAME")
+
+    registerTranslation("en", "config.initialKillCooldown", "&cInitial Kill CD: {1}s")
+    registerTranslation("en", "config.killCooldown", "&cKill CD after Kill: {1}s")
+    registerTranslation("en", "config.postMeetingKillCooldown", "&cPost-Meeting Kill CD: {1}s")
+    registerTranslation("en", "config.killRange", "&cKill Range: {1} blocks")
+
+    registerTranslation("en", "config.leftClick", "&7Left click: increase")
+    registerTranslation("en", "config.rightClick", "&7Right click: decrease")
+    registerTranslation("en", "config.clickToggle", "&7Click to toggle")
+    registerTranslation("en", "config.startLore", "&aStart the game")
+
+    # control
+
+    registerTranslation("en", "control.defeatTitle", "DEFEAT")
+    registerTranslation("en", "control.victoryTitle", "VICTORY")
+
+    registerTranslation("en", "control.crewmatesWinTitle", "The Crewmates won!")
+    registerTranslation("en", "control.impostorsWinTitle", "The Impostors won!")
+    registerTranslation("en", "control.crewmateTitle", "CREWMATE")
+    registerTranslation("en", "control.impostorTitle", "IMPOSTOR")
+    registerTranslation("en", "control.crewmateSubtitle", "Complete your tasks")
+    registerTranslation("en", "control.impostorSubtitle", "Eliminate the crew")
+
+    # discord
+
+    registerTranslation("en", "discord.linkSuccess", "✔ Linked to username {1}")
+    registerTranslation("en", "discord.linkUsage", "Usage: !link <username>")
+
+    # hat
+
+    registerTranslation("en", "hat.chooseHat", "&dChoose Hat")
+
+    registerTranslation("en", "hat.helmet", "&eHelmet")
+    registerTranslation("en", "hat.none", "&cNo Hat")
+
+    registerTranslation("en", "hat.panda", "&fPanda")
+    registerTranslation("en", "hat.allay", "&bAllay")
+    registerTranslation("en", "hat.cat", "&fCat")
+    registerTranslation("en", "hat.goat", "&fGoat")
+    registerTranslation("en", "hat.chicken", "&fChicken")
+    registerTranslation("en", "hat.parrot", "&aParrot")
+    registerTranslation("en", "hat.bee", "&eBee")
+    registerTranslation("en", "hat.axolotl", "&dAxolotl")
+    registerTranslation("en", "hat.bat", "&8Bat")
+
+    registerTranslation("en", "hat.donkey", "&7Donkey")
+    registerTranslation("en", "hat.creeper", "&aCreeper")
+    registerTranslation("en", "hat.amethyst", "&dAmethyst")
+    registerTranslation("en", "hat.enderPearl", "&5Ender Pearl")
+    registerTranslation("en", "hat.diamond", "&bDiamond")
+    registerTranslation("en", "hat.redstoneTorch", "&cRedstone Torch")
+    registerTranslation("en", "hat.carrot", "&6Carrot")
+    registerTranslation("en", "hat.honeycomb", "&6Honeycomb")
+    registerTranslation("en", "hat.cookie", "&6Cookie")
+
+    registerTranslation("en", "hat.cake", "&fCake")
+    registerTranslation("en", "hat.pufferfish", "&ePufferfish")
+    registerTranslation("en", "hat.tropicalFish", "&3Tropical Fish")
+    registerTranslation("en", "hat.redMushroom", "&cRed Mushroom")
+    registerTranslation("en", "hat.torchflower", "&6Torchflower")
+    registerTranslation("en", "hat.propagule", "&aPropagule")
+    registerTranslation("en", "hat.cherrySapling", "&dCherry Sapling")
+    registerTranslation("en", "hat.nautilusShell", "&3Nautilus Shell")
+    registerTranslation("en", "hat.bell", "&6Bell")
+
+    # kick
+
+    registerTranslation("en", "kick.wasImpostor", "{1} was an impostor.")
+    registerTranslation("en", "kick.wasEjected", "{1} was ejected.")
+    registerTranslation("en", "kick.wasNotImpostor", "{1} was not an impostor.")
+    registerTranslation("en", "kick.oneRemaining", "1 impostor remaining.")
+    registerTranslation("en", "kick.manyRemaining", "{1} impostors remaining.")
+
+    # kill
+
+    registerTranslation("en", "kill.youDied", "You were killed!")
+
+    # meeting
+
+    registerTranslation("en", "meeting.skip", "Skip")
+    registerTranslation("en", "meeting.guiTitle", "&8Voting")
+    registerTranslation("en", "meeting.tie", "Tie")
+    registerTranslation("en", "meeting.skipped", "Vote Skipped")
+
+    registerTranslation("en", "meeting.voteItem", "&eVote")
+    registerTranslation("en", "meeting.voteItemLore", "&7Right-click to vote")
+
+    # sabotage
+
+    registerTranslation("en", "sabotage.labFireItem", "&cSet Lab on Fire")
+    registerTranslation("en", "sabotage.lockDoorsItem", "&8Lock Doors")
+    registerTranslation("en", "sabotage.lightsItem", "&eTurn Off Lights")
+    registerTranslation("en", "sabotage.reactorItem", "&2Overload Reactor")
+
+    # scoreboard
+
+    registerTranslation("en", "scoreboard.settings", "&7Settings")
+
+    registerTranslation("en", "scoreboard.impostors", "&fImpostors: &c{1}")
+    registerTranslation("en", "scoreboard.tasks", "&fTasks: &a{1}")
+    registerTranslation("en", "scoreboard.speed", "&fSpeed: &b{1}x")
+    registerTranslation("en", "scoreboard.taskBar", "&fTask Bar: {1}")
+    registerTranslation("en", "scoreboard.meetings", "&fMeetings: &6{1}")
+
+    registerTranslation("en", "scoreboard.killCooldown", "&fKill CD: &c{1}s")
+    registerTranslation("en", "scoreboard.killRange", "&fKill Range: &c{1}")
+
+    registerTranslation("en", "scoreboard.sabotageCooldown", "&fSabotage CD: &4{1}s")
+
+    registerTranslation("en", "scoreboard.anonymousVotes", "&fAnonymous Votes: {1}")
+    registerTranslation("en", "scoreboard.confirmEjects", "&fConfirm Eject: {1}")
+    registerTranslation("en", "scoreboard.impostorsKnowEachOther", "&fImpostors Know Each Other: {1}")
+
+    registerTranslation("en", "scoreboard.completedTasks", "&7Completed Tasks: &e{1}&7/&a{2}")
+    registerTranslation("en", "scoreboard.ready", "Ready!")
+    registerTranslation("en", "scoreboard.killCooldownRemaining", "&7Kill Cooldown: &c{1}")
+    registerTranslation("en", "scoreboard.yourTasks", "&7Your Tasks: &e{1}&7/&a{2}")
+
+    registerTranslation("en", "scoreboard.lights1", "&c⚠ SABOTAGE: LIGHTS")
+    registerTranslation("en", "scoreboard.lights2", "&7Reset the breakers")
+    registerTranslation("en", "scoreboard.lights3", "&7in the workshop.")
+
+    registerTranslation("en", "scoreboard.reactor1", "&c⚠ SABOTAGE: REACTOR")
+    registerTranslation("en", "scoreboard.reactor2", "&7Stabilize the reactor using the")
+    registerTranslation("en", "scoreboard.reactor3", "&7reactor and workshop terminals.")
+
+    registerTranslation("en", "scoreboard.labFire1", "&c⚠ SABOTAGE: LAB")
+    registerTranslation("en", "scoreboard.labFire2", "&7Get water from the greenhouse")
+    registerTranslation("en", "scoreboard.labFire3", "&7to put out the fire.")
+
+    registerTranslation("en", "scoreboard.timeRemaining", "&eTime remaining: &c{1}s")
+
+    registerTranslation("en", "scoreboard.alone", "&cYou are alone.")
+    registerTranslation("en", "scoreboard.otherImpostors", "&cOther impostors:")
+    registerTranslation("en", "scoreboard.dontKnow1", "&cYou don't know who")
+    registerTranslation("en", "scoreboard.dontKnow2", "&cthe other impostors are.")
+
+    # vent
+
+    registerTranslation("en", "vent.previous", "&ePrevious Vent")
+    registerTranslation("en", "vent.exit", "&aExit Vent")
+    registerTranslation("en", "vent.next", "&eNext Vent")
+
+    # vitals
+
+    registerTranslation("en", "vitals.title", "&4Vitals")
+    registerTranslation("en", "vitals.alive", "&a{1} (Alive)")
+    registerTranslation("en", "vitals.dead", "&e{1} (Dead)")
+    registerTranslation("en", "vitals.noSignal", "&8{1} (No Signal)")
+
+
+    # some texts inside tasks
+
+    registerTranslation("en", "task.target", "&aTarget")
+    registerTranslation("en", "task.direction", "&eDirection")
+    registerTranslation("en", "task.left", "&aLeft")
+    registerTranslation("en", "task.confirm", "&aConfirm")
+    registerTranslation("en", "task.right", "&aRight")
+
+    registerTranslation("en", "task.lens", "&7Lens")
+    registerTranslation("en", "task.dirt", "&6Dirt")
+    registerTranslation("en", "task.sponge", "&eSponge")
+    registerTranslation("en", "task.telescopeLens", "&7Telescope Lens")
+
+    registerTranslation("en", "task.freezer", "&bFreezer")
+    registerTranslation("en", "task.cookedChicken", "&6Roasted Chicken")
+    registerTranslation("en", "task.frozenChicken", "&eFrozen Chicken")
+    registerTranslation("en", "task.oven", "&6Oven")
+
+    registerTranslation("en", "task.nothingCrafted", "&cNothing Crafted")
+    registerTranslation("en", "task.incorrectRecipe", "&cIncorrect Recipe")
+
+    registerTranslation("en", "task.asteroid", "&6Asteroid")
+
+    registerTranslation("en", "task.downloading", "&7Downloading...")
+    registerTranslation("en", "task.downloaded", "&aDownloaded")
+
+    registerTranslation("en", "task.sampleName", "&5Experiment X")
+
+    registerTranslation("en", "task.coffeePowder", "&6Coffee Grounds")
+    registerTranslation("en", "task.waterCoffee", "&bWater")
+    registerTranslation("en", "task.turnOnCoffeeMaker", "&eTurn On Coffee Maker")
+    registerTranslation("en", "task.cup", "&fMug")
+    registerTranslation("en", "task.emptyReservoir", "&bEmpty Reservoir")
+    registerTranslation("en", "task.emptyCoffeeMaker", "&6Empty Coffee Maker")
+    registerTranslation("en", "task.heating", "&6Heating...")
+    registerTranslation("en", "task.readyCoffee", "&4Coffee Ready")
+    registerTranslation("en", "task.fullReservoir", "&bFull Reservoir")
+    registerTranslation("en", "task.fullCoffeeMaker", "&6Coffee Maker Full")
+    registerTranslation("en", "task.resistance", "&eHeating Element")
+
+    registerTranslation("en", "task.organizeBookTitle", "&eHow to Survive an Impostor {1}")
+
+    registerTranslation("en", "task.beaker", "&bBeaker")
+    registerTranslation("en", "task.redReagent", "&cRed Reagent")
+    registerTranslation("en", "task.blueReagent", "&9Blue Reagent")
+    registerTranslation("en", "task.greenReagent", "&aGreen Reagent")
+    registerTranslation("en", "task.yellowReagent", "&eYellow Reagent")
+    registerTranslation("en", "task.pinkReagent", "&5Pink Reagent")
+    registerTranslation("en", "task.catalyst", "&fCatalyst")
+    registerTranslation("en", "task.readyReagent", "&aReagent Ready")
+    registerTranslation("en", "task.mixing", "&bMixing...")
+
+    registerTranslation("en", "task.trash", "&2Trash")
+
+    # Deliberately similar/funny book names for the duplicate-removal task
+    registerTranslation("en", "task.book1", "The Complete Guide to Surviving an Impostor")
+    registerTranslation("en", "task.book2", "The Complete Guide to Not Exploding the Reactor")
+    registerTranslation("en", "task.book3", "The Complete Guide to Exploding the Reactor")
+    registerTranslation("en", "task.book4", "The Complete Guide to Blaming Engineering")
+    registerTranslation("en", "task.book5", "The Complete Guide to Organized Chaos")
+    registerTranslation("en", "task.book6", "The Complete Guide to Pressing Buttons")
+    registerTranslation("en", "task.book7", "The Complete Guide to Good Coffee")
+    registerTranslation("en", "task.book8", "The Complete Guide to Improvised Engineering")
+    registerTranslation("en", "task.book9", "The Complete Guide to Who Touched the Reactor")
+    registerTranslation("en", "task.book10", "The Complete Guide to Extremely Important Science")
+    registerTranslation("en", "task.book11", "The Complete Guide to Looking Busy")
+    registerTranslation("en", "task.book12", "The Complete Guide to Emergency Procedures")
+    registerTranslation("en", "task.book13", "The Complete Guide to Killing a Crewmate")
+    registerTranslation("en", "task.book14", "The Complete Guide to Killing an Impostor")
+    registerTranslation("en", "task.book15", "The Complete Guide to Surviving an Impostor")
+    registerTranslation("en", "task.book16", "The Complete Guide to Sabotaging the Reactor")
+    registerTranslation("en", "task.book17", "The Complete Guide to Stabilizing the Reactor")
+    registerTranslation("en", "task.book18", "The Complete Guide to Communication for Engineers")
+    registerTranslation("en", "task.book19", "The Complete Guide to Communication for Scientists")
+
+    registerTranslation("en", "task.error", "&cERROR")
+
+    registerTranslation("en", "task.stem", "&6Stem")
+    registerTranslation("en", "task.leaf", "&aLeaf")
+    registerTranslation("en", "task.dryLeaf", "&6Dry Leaf")
+
+    registerTranslation("en", "task.lockFrequency", "&eLock Frequency")
+    registerTranslation("en", "task.signal", "&9Signal")
+    registerTranslation("en", "task.tuned", "&aTuned")
+    registerTranslation("en", "task.frequencyGreen", "&aFrequency")
+    registerTranslation("en", "task.frequencyRed", "&cFrequency")
+
+    registerTranslation("en", "task.waterDishes", "&bWater")
+    registerTranslation("en", "task.detergent", "&bDetergent")
+    registerTranslation("en", "task.dirtyFork", "&7Dirty Fork")
+    registerTranslation("en", "task.dirtySpoon", "&7Dirty Spoon")
+    registerTranslation("en", "task.dirtyKnife", "&7Dirty Knife")
+    registerTranslation("en", "task.dirtyPlate", "&7Dirty Plate")
+    registerTranslation("en", "task.dirtyCup", "&7Dirty Cup")
+    registerTranslation("en", "task.waterWithDetergent", "&bSoapy Water")
+    registerTranslation("en", "task.emptyDetergentBottle", "&7Empty Detergent Bottle")
+    registerTranslation("en", "task.cleanFork", "&fClean Fork")
+    registerTranslation("en", "task.cleanSpoon", "&fClean Spoon")
+    registerTranslation("en", "task.cleanKnife", "&fClean Knife")
+    registerTranslation("en", "task.cleanPlate", "&fClean Plate")
+    registerTranslation("en", "task.cleanCup", "&fClean Cup")
