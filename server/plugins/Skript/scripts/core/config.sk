@@ -65,7 +65,7 @@ on load:
         set {config.killRange} to 2.5
 
     if {config.language} is not set:
-        set {config.language} to "ptbr"
+        set {config.language} to "en"
 
 function openConfig(p: player):
 

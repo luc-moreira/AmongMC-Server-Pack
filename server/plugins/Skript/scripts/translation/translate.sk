@@ -2,7 +2,7 @@ function getTr(id: text, p1: text = "!VM!", p2: text = "!VM!", p3: text = "!VM!"
 
     set {_lang} to {config.language}
     if {_lang} is not set:
-        set {_lang} to "ptbr"
+        set {_lang} to "en"
 
     set {_msg} to {lang::%{_lang}%::%{_id}%}
 
