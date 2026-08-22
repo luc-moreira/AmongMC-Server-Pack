@@ -1,10 +1,10 @@
 # Gameplay
 
-## Antes de começar
+## Before Starting
 
-Para iniciar uma partida, **ao menos um jogador deve ser operador (OP)** do servidor.
+To start a game, **at least one player must be a server operator (OP)**.
 
-Isso pode ser feito pelo console com:
+This can be done through the console with:
 
 ```text
 op <nickname>
@@ -14,91 +14,93 @@ op <nickname>
 
 ## Lobby
 
-Ao entrar no servidor, todos os jogadores aparecerão no lobby.
+When joining the server, all players will appear in the lobby.
 
-Na barra de atalhos (hotbar), cada jogador possui itens para personalizar seu personagem:
+In the hotbar, each player has items to customize their character:
 
-- 🎨 Escolher cor
-- 👒 Escolher chapéu
+- 🎨 Choose color
 
-Jogadores operadores também recebem uma **bússola**, que abre o menu de configurações da partida.
+- 👒 Choose hat
 
-Praticamente todos os aspectos do jogo podem ser configurados por esse menu. Os nomes das configurações são autoexplicativos.
+Operator players also receive a **compass**, which opens the game settings menu.
 
-> **Importante:** apenas um jogador deve editar as configurações por vez. Alterações simultâneas podem causar comportamentos inesperados.
+Virtually every aspect of the game can be configured through this menu. The names of the settings are self-explanatory.
 
----
-
-## Quantidade de jogadores
-
-O jogo não possui um limite configurado de jogadores.
-
-Entretanto, a quantidade recomendada é de **4 a 10 jogadores**.
-
-Os limites práticos do sistema são:
-
-- **Mínimo:** 3 jogadores
-- **Máximo:** 16 jogadores
-
-Com menos de **3 jogadores**, o impostor vence automaticamente.
-
-Com mais de **16 jogadores**, o sistema de cores deixa de funcionar corretamente (existem apenas 16 cores disponíveis), o que acaba causando diversos problemas durante a partida.
+> **Important:** only one player should edit the settings at a time. Simultaneous changes may cause unexpected behavior.
 
 ---
 
-## Livros do lobby
+## Number of Players
 
-Antes de iniciar uma partida, recomenda-se que todos os jogadores leiam os livros disponíveis no lobby.
+The game does not have a configured player limit.
 
-Eles contêm informações importantes sobre controles e funcionamento do jogo.
+However, the recommended number of players is **4 to 10 players**.
+
+The practical limits of the system are:
+
+- **Minimum:** 3 players
+
+- **Maximum:** 16 players
+
+With fewer than **3 players**, the impostor automatically wins.
+
+With more than **16 players**, the color system stops working correctly (there are only 16 available colors), which ends up causing several issues during the game.
 
 ---
 
-## Comandos
+## Lobby Books
 
-### Apenas operadores
+Before starting a game, all players are encouraged to read the books available in the lobby.
+
+They contain important information about the game's controls and mechanics.
+
+---
+
+## Commands
+
+### Operators Only
 
 ```text
 /start
 ```
 
-Inicia uma nova partida.
+Starts a new game.
 
 ```text
 /end
 ```
 
-Encerra a partida atual.
+Ends the current game.
 
-> **Atenção:** cuidado para não digitar `/stop` por engano... esse comando encerra o **servidor inteiro**. Cometi esse erro umas 20 vezes durante o desenvolvimento, espero que você não caia nessa também.
-
----
-
-## Entrar ou sair durante uma partida
-
-O AmongMC foi programado para lidar com jogadores que entram ou saem durante uma partida.
-
-- Se um jogador entrar sem ter participado desde o início, ele será colocado automaticamente como espectador.
-- Se um jogador que já estava na partida sair e entrar novamente, ele deverá retornar como fantasma, preservando o estado da partida.
-
-Apesar desse comportamento existir, **ele não foi extensivamente testado** e pode conter bugs. Sempre que possível, recomenda-se que jogadores que precisem sair aguardem o término da partida para entrar novamente.
+> **Warning:** be careful not to type `/stop` by mistake... this command shuts down the **entire server**. I made this mistake about 20 times during development, so hopefully you won't make the same mistake.
 
 ---
 
-## Compatibilidade com Bedrock Edition
+## Joining or Leaving During a Game
 
-O AmongMC foi desenvolvido priorizando a **Minecraft Java Edition**.
+AmongMC was programmed to handle players joining or leaving during a game.
 
-Jogadores da **Bedrock Edition** podem encontrar algumas limitações devido às diferenças entre as duas versões do Minecraft.
+- If a player joins without having participated from the beginning, they will automatically be placed as a spectator.
+- If a player who was already in the game leaves and rejoins, they should return as a ghost, preserving the current game state.
 
-Algumas tasks foram propositalmente substituídas por outras mais simples na Bedrock Edition, pois sua execução era excessivamente difícil ou inconsistente nessa plataforma.
-
-Mesmo assim, qualquer bug encontrado deve ser reportado.
+Although this behavior exists, **it has not been extensively tested** and may contain bugs. Whenever possible, players who need to leave should wait until the game has ended before rejoining.
 
 ---
 
-## Boa diversão!
+## Bedrock Edition Compatibility
 
-Caso encontre bugs, tenha sugestões ou queira contribuir com o projeto, fique à vontade para abrir uma Issue no GitHub.
+AmongMC was developed with **Minecraft Java Edition** as the primary target.
 
-Bom jogo!
+Players using **Bedrock Edition** may encounter some limitations due to differences between the two versions of Minecraft.
+
+Some tasks were deliberately replaced with simpler alternatives on Bedrock Edition because their execution was excessively difficult or inconsistent on that platform.
+
+Even so, any bugs encountered should be reported.
+
+---
+
+## Have Fun!
+
+If you find any bugs, have suggestions, or would like to contribute to the project, feel free to open an Issue on GitHub.
+
+Have fun!

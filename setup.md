@@ -1,66 +1,66 @@
 # Setup
 
-Este guia assume que você já possui experiência hospedando servidores de Minecraft. Ele cobre apenas a configuração específica do AmongMC.
+This guide assumes that you already have experience hosting Minecraft servers. It only covers the configuration specific to AmongMC.
 
-## 1. Clone o repositório
+## 1. Clone the Repository
 
-Clone este repositório para a pasta de sua preferência.
+Clone this repository to a folder of your choice.
 
-## 2. Ajuste a memória do servidor
+## 2. Adjust Server Memory
 
-Abra o arquivo `start.bat` e altere os parâmetros `-Xms` e `-Xmx` para a quantidade de memória desejada.
+Open the `start.bat` file with a text editor and change the `-Xms` and `-Xmx` parameters to the desired amount of memory.
 
-O valor padrão é **4 GB**, que se mostrou suficiente durante os testes.
+The default value is **4 GB**, which proved to be sufficient during testing.
 
 ## 3. Linux
 
-O repositório inclui apenas um `start.bat`.
+The repository only includes a `start.bat` file.
 
-Caso esteja utilizando Linux, crie um script `.sh` equivalente contendo os mesmos parâmetros da JVM. Este guia assume que você já saiba iniciar um servidor Paper através da linha de comando.
+If you are using Linux, create an equivalent `.sh script` containing the same JVM parameters. This guide assumes that you already know how to start a Paper server through the command line.
 
-## 4. Configure uma forma de conexão
+## 4. Set Up a Connection Method
 
-Para jogar pela internet, será necessário utilizar alguma forma de conexão entre os jogadores.
+To play over the internet, you will need to use some form of connection between the players.
 
-O servidor pode ser hospedado utilizando **Port Forwarding**, porém **isso não é recomendado**.
+The server can be hosted using **Port Forwarding**, but **this is not recommended**.
 
-> **Nunca abra uma DMZ no seu roteador para hospedar o servidor.** Isso expõe sua máquina diretamente à internet e representa um risco significativo de segurança.
+> **Never enable a DMZ on your router to host the server.** This exposes your machine directly to the internet and represents a significant security risk.
 
-As alternativas recomendadas são:
+The recommended alternatives are:
 
-- **Radmin VPN** para grupos em que todos os jogadores utilizam a versão Java no computador.
-- **ZeroTier** quando houver jogadores na Bedrock Edition (celular ou outros dispositivos). Nesse caso, o ZeroTier também deve ser instalado no computador que hospeda o servidor.
+- **Radmin VPN** for groups where all players are using the Java Edition on a computer.
+- **ZeroTier** when there are players using the Bedrock Edition.
 
-## 5. (Opcional) Sincronização de voz com o Discord
+## 5. (Optional) Voice Synchronization with Discord
 
-AmongMC possui suporte opcional para sincronizar automaticamente o mute dos jogadores em um canal de voz do Discord durante as partidas.
+AmongMC has optional support for automatically synchronizing player mutes in a Discord voice channel during games.
 
-Para utilizá-lo:
+To use it:
 
-- Crie um bot no Discord Developer Portal (ou utilize um já existente).
-- Convide o bot para o servidor onde ocorrerão as partidas.
-- Edite o arquivo:
+- Create a bot through the Discord Developer Portal (or use an existing one).
+- Invite the bot to the server where the games will take place.
+- Edit the file:
 
-```
+```text
 server/plugins/Skript/scripts/changeme.sk
 ```
 
-e preencha, **entre aspas**:
+and fill in, **inside quotation marks**:
 
-- Token do bot
-- ID do servidor (Guild ID)
-- ID do canal de voz utilizado para as partidas
+- Bot token
+- Server ID (Guild ID)
+- ID of the voice channel used for games
 
-Caso você nunca tenha criado um bot para Discord, uma pesquisa rápida na internet mostra o processo completo em poucos minutos.
+If you have never created a Discord bot before, a quick internet search will show the complete process, which can be done in just a few minutes.
 
-## 6. Inicie o servidor
+## 6. Start the Server
 
-Execute o arquivo `start.bat` (ou seu equivalente em Linux).
+Run the `start.bat` file (or its Linux equivalent).
 
-Na primeira inicialização, o Paper fará o download automático das bibliotecas necessárias.
+On the first startup, Paper will automatically download the required libraries.
 
-## Pronto!
+## Done!
 
-O servidor já estará configurado e pronto para uso.
+The server is now configured and ready to use.
 
-Para aprender as mecânicas do jogo e conhecer todas as features implementadas, consulte o arquivo **`gameplay.md`**.
+To learn about the game mechanics and discover all implemented features, see the **gameplay.md** file.

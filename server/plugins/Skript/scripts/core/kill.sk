@@ -59,7 +59,7 @@ on attack attempt:
 
 
     set {_current} to ""
-    set {_text} to "Você foi morto!"
+    set {_text} to getTr("kill.youDied")
     set {_color} to "red"
 
     loop length of {_text} times:
@@ -96,7 +96,7 @@ on right click on armor stand:
 
     set {_dead} to {bodyOwner.%uuid of clicked entity%} parsed as player
 
-    broadcast "&cO corpo de %chatColor({_dead})%%name of {_dead}% &cfoi encontrado!"
+    broadcast getTr("kill.bodyFound", "%chatColor({_dead})%%name of {_dead}%")
 
     startMeeting(player)
 

@@ -64,87 +64,98 @@ on load:
     if {config.killRange} is not set:
         set {config.killRange} to 2.5
 
+    if {config.language} is not set:
+        set {config.language} to "en"
+
 function openConfig(p: player):
 
-    set {_inv} to chest inventory with 6 rows named "&6Configuração do Jogo"
+    set {_inv} to chest inventory with 6 rows named getTr("config.gameConfig")
 
-    set slot 0 of {_inv} to red concrete named "&cImpostores: %{config.impostors}%"
+    set slot 0 of {_inv} to red concrete named getTr("config.impostors", "%{config.impostors}%")
 
-    set slot 9 of {_inv} to paper named "&eTasks por jogador: %{config.tasksPerPlayer}%"
+    set slot 9 of {_inv} to paper named getTr("config.tasksPerPlayer", "%{config.tasksPerPlayer}%")
 
-    set slot 18 of {_inv} to feather named "&bVelocidade: %{config.playerSpeed}%x"
+    set slot 18 of {_inv} to feather named getTr("config.playerSpeed", "%{config.playerSpeed}%")
 
-    set slot 24 of {_inv} to bell named "&6Reuniões por jogador: %{config.meetingLimit}%"
+    set slot 24 of {_inv} to bell named getTr("config.meetingLimit", "%{config.meetingLimit}%")
     
 
     if {config.taskBarMode} is 0:
-        set {_mode} to "&cOFF"
+        set {_mode} to getTr("config.taskBar.off")
     else if {config.taskBarMode} is 1:
-        set {_mode} to "&eApenas reuniões"
+        set {_mode} to getTr("config.taskBar.meetings")
     else:
-        set {_mode} to "&aSempre"
+        set {_mode} to getTr("config.taskBar.always")
 
-    set slot 8 of {_inv} to compass named "&bTaskBar: %{_mode}%"
+
+    set slot 8 of {_inv} to compass named getTr("config.taskBar", "%{_mode}%")
+
     
 
     if {config.anonymousVotes} is true:
-        set {_votes} to "&aLigado"
+        set {_votes} to getTr("config.enabled")
     else:
-        set {_votes} to "&cDesligado"
+        set {_votes} to getTr("config.disabled")
 
-    set slot 17 of {_inv} to writable book named "&fVotos anônimos: %{_votes}%"
+    set slot 17 of {_inv} to writable book named getTr("config.anonymousVotes", "%{_votes}%")
     
-
     if {config.confirmEjects} is true:
-        set {_confirm} to "&aSim"
+        set {_confirm} to getTr("config.yes")
     else:
-        set {_confirm} to "&cNão"
+        set {_confirm} to getTr("config.no")
 
-    set slot 26 of {_inv} to player head named "&fRevelar impostor ao ejetar: %{_confirm}%"
+    set slot 26 of {_inv} to player head named getTr("config.confirmEjects", "%{_confirm}%")
 
     if {config.impostorsKnowEachOther} is true:
-        set {_know} to "&aSim"
+        set {_know} to getTr("config.yes")
     else:
-        set {_know} to "&cNão"
+        set {_know} to getTr("config.no")
 
-    set slot 35 of {_inv} to red dye named "&cImpostores se conhecem: %{_know}%"
-
-
-
-    set slot 4 of {_inv} to iron door named "&7Cooldown portas: %{config.doorCooldown}%s"
-
-    set slot 13 of {_inv} to redstone named "&cCooldown sabotagens: %{config.sabotageCooldown}%s"
-
-    set slot 22 of {_inv} to clock named "&eCooldown inicial de sabotagem: %{config.initialSabotageCooldown}%s"
-
-    set slot 31 of {_inv} to repeater named "&6Cooldown após reunião: %{config.postMeetingSabotageCooldown}%s"
-
-    set slot 48 of {_inv} to respawn anchor named "&4Colapso do reator: %{config.reactorCollapseTime}%s"
-
-    set slot 49 of {_inv} to campfire named "&6Tempo do incêndio: %{config.labFireTime}%s"
-
-    set slot 50 of {_inv} to iron bars named "&7Duração das portas: %{config.doorDuration}%s"
+    set slot 35 of {_inv} to red dye named getTr("config.impostorsKnowEachOther", "%{_know}%")
 
 
 
-    set slot 6 of {_inv} to note block named "&bCooldown inicial de reunião: %{config.initialMeetingCooldown}%s"
+    set slot 4 of {_inv} to iron door named getTr("config.doorCooldown", "%{config.doorCooldown}%")
 
-    set slot 15 of {_inv} to lectern named "&9Cooldown de reunião: %{config.postMeetingCooldown}%s"
+    set slot 13 of {_inv} to redstone named getTr("config.sabotageCooldown", "%{config.sabotageCooldown}%")
 
-    
-    
+    set slot 22 of {_inv} to clock named getTr("config.initialSabotageCooldown", "%{config.initialSabotageCooldown}%")
 
-    set slot 53 of {_inv} to lime wool named "&a&lCOMEÇAR JOGO"
+    set slot 31 of {_inv} to repeater named getTr("config.postMeetingSabotageCooldown", "%{config.postMeetingSabotageCooldown}%")
+
+    set slot 48 of {_inv} to respawn anchor named getTr("config.reactorCollapseTime", "%{config.reactorCollapseTime}%")
+
+    set slot 49 of {_inv} to campfire named getTr("config.labFireTime", "%{config.labFireTime}%")
+
+    set slot 50 of {_inv} to iron bars named getTr("config.doorDuration", "%{config.doorDuration}%")
+
+
+
+    set slot 6 of {_inv} to note block named getTr("config.initialMeetingCooldown", "%{config.initialMeetingCooldown}%")
+
+    set slot 15 of {_inv} to lectern named getTr("config.postMeetingCooldown", "%{config.postMeetingCooldown}%")
 
     
+    
 
-    set slot 2 of {_inv} to iron sword named "&cKill CD inicial: %{config.initialKillCooldown}%s"
+    set slot 53 of {_inv} to lime wool named getTr("config.startGame")
 
-    set slot 11 of {_inv} to diamond sword named "&cKill CD após matar: %{config.killCooldown}%s"
+    
 
-    set slot 20 of {_inv} to netherite sword named "&cKill CD após reunião: %{config.postMeetingKillCooldown}%s"
+    set slot 2 of {_inv} to iron sword named getTr("config.initialKillCooldown", "%{config.initialKillCooldown}%")
 
-    set slot 29 of {_inv} to iron axe named "&cAlcance de kill: %{config.killRange}% blocos"
+    set slot 11 of {_inv} to diamond sword named getTr("config.killCooldown", "%{config.killCooldown}%")
+
+    set slot 20 of {_inv} to netherite sword named getTr("config.postMeetingKillCooldown", "%{config.postMeetingKillCooldown}%")
+
+    set slot 29 of {_inv} to iron axe named getTr("config.killRange", "%{config.killRange}%")
+
+    loop {langs::*}:
+        if loop-value is {config.language}:
+            set {_index} to loop-index parsed as number
+            stop loop
+
+    set slot 45 of {_inv} to book named getTr("config.language", "%{langnames::%{_index}%}%")
 
     
 
@@ -153,19 +164,21 @@ function openConfig(p: player):
         if slot (loop-number - 1) of {_inv} is air:
             continue
 
-        set lore of slot (loop-number - 1) of {_inv} to "", "&7Clique esquerdo: aumentar", "&7Clique direito: diminuir"
+        set lore of slot (loop-number - 1) of {_inv} to "", getTr("config.leftClick"), getTr("config.rightClick")
 
 
 
-    set lore of slot 8 of {_inv} to "", "&7Clique para alternar"
+    set lore of slot 8 of {_inv} to "", getTr("config.clickToggle")
 
-    set lore of slot 17 of {_inv} to "", "&7Clique para alternar"
+    set lore of slot 17 of {_inv} to "", getTr("config.clickToggle")
 
-    set lore of slot 26 of {_inv} to "", "&7Clique para alternar"
+    set lore of slot 26 of {_inv} to "", getTr("config.clickToggle")
 
-    set lore of slot 35 of {_inv} to "", "&7Clique para alternar"
+    set lore of slot 35 of {_inv} to "", getTr("config.clickToggle")
 
-    set lore of slot 53 of {_inv} to "", "&aIniciar a partida"
+    set lore of slot 45 of {_inv} to "", getTr("config.clickToggle")
+
+    set lore of slot 53 of {_inv} to "", getTr("config.startLore")
 
     open {_inv} to {_p}
 
@@ -178,7 +191,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&6Configuração do Jogo":
+    if name of event-inventory is not getTr("config.gameConfig"):
         stop
 
     cancel event
@@ -246,6 +259,26 @@ on inventory click:
             set {config.taskBarMode} to 0
 
         openConfig(player)
+        stop
+
+    if clicked slot is 45:
+
+        loop {langs::*}:
+            if loop-value is {config.language}:
+                set {_index} to loop-index parsed as number
+                stop loop
+
+        add 1 to {_index}
+
+        if {_index} > size of {langs::*}:
+            set {_index} to 1
+        set {config.language} to {langs::%{_index}%}
+
+        openConfig(player)
+        loop all players:
+            updateInventory(loop-player)
+            updateScoreboard(loop-player)
+        updateAllSigns()
         stop
 
     
@@ -509,7 +542,7 @@ on inventory click:
 
 
 on right click:
-    if player's tool is compass named "&cConfigurações":
+    if player's tool is compass named getTr("config.gameConfig"):
         cancel event
         execute player command "config"
         stop

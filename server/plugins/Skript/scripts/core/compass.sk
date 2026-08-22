@@ -19,7 +19,7 @@ function updateCompass(p: player):
         else:
             set {_p}'s compass target to {water}
 
-        send action bar "&cResolver sabotagem: Incêndio no laboratório" to {_p}
+        send action bar getTr("compass.sabotageFire") to {_p}
         stop
 
 
@@ -31,7 +31,7 @@ function updateCompass(p: player):
 
         set {_p}'s compass target to {lights.panel}
 
-        send action bar "&eResolver sabotagem: Luzes" to {_p}
+        send action bar getTr("compass.sabotageLights") to {_p}
         stop
 
 
@@ -46,7 +46,7 @@ function updateCompass(p: player):
         else:
             set {_p}'s compass target to {reactor.left}
 
-        send action bar "&2Resolver sabotagem: Reator" to {_p}
+        send action bar getTr("compass.sabotageReactor") to {_p}
         stop
 
 
@@ -60,4 +60,4 @@ function updateCompass(p: player):
 
     set compass target of {_p} to {_loc} 
 
-    send action bar "&bBússola apontando para sua task mais próxima" to {_p}
+    send action bar getTr("compass.pointingToTask") to {_p}

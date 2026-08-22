@@ -1,13 +1,13 @@
 function trim_plants(p: player, step: number):
 
-    set {_inv} to chest inventory with 6 rows named "&aPodar Planta"
+    set {_inv} to chest inventory with 6 rows named "&6%getTr("taskname.trim_plants")%"
     set {trimPlants.step.%uuid of {_p}%} to {_step}
 
     loop 31, 40, 49:
-        set slot loop-value of {_inv} to stripped birch log named "&6Caule"
+        set slot loop-value of {_inv} to stripped birch log named getTr("task.stem")
 
     loop 12,13,14,21,22,23,30,32,39,41:
-        set slot loop-value of {_inv} to mangrove leaves named "&aFolha"
+        set slot loop-value of {_inv} to mangrove leaves named getTr("task.leaf")
 
     set {_possible::*} to 2,3,4,5,6,11,15,20,24,29,33,38,42
 
@@ -17,7 +17,7 @@ function trim_plants(p: player, step: number):
         set {_slot} to random element out of {_possible::*}
         remove {_slot} from {_possible::*}
 
-        set slot {_slot} of {_inv} to pale oak leaves named "&6Folha seca"
+        set slot {_slot} of {_inv} to pale oak leaves named getTr("task.dryLeaf")
 
     open {_inv} to {_p}
 
@@ -26,7 +26,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
         
-    if name of event-inventory is "&aPodar Planta":
+    if name of event-inventory is "&6%getTr("taskname.trim_plants")%":
 
         cancel event
 
@@ -55,18 +55,18 @@ on inventory click:
 
             play sound "minecraft:block.grass.break" with volume 1 and pitch 0.7 to player
             close player's inventory
-            send "&cEra pra podar as folhas secas... não transformar a planta em salada." to player
+            send getTr("task.pruningLeavesFail") to player
             stop
 
         if event-item is stripped birch log:
 
             play sound "minecraft:block.wood.break" with volume 1 and pitch 0.6 to player
             close player's inventory
-            send "&cVocê podou o caule. A planta gostaria de registrar um boletim de ocorrência." to player
+            send getTr("task.pruningStemFail") to player
             stop
 
 on inventory close:
-    if name of event-inventory is "&aPodar Planta":
+    if name of event-inventory is "&6%getTr("taskname.trim_plants")%":
         wait 1 tick
-        if name of player's current inventory is not "&aPodar Planta":
+        if name of player's current inventory is not "&6%getTr("taskname.trim_plants")%":
             delete {trimPlants.step.%uuid of player%}

@@ -1,8 +1,8 @@
 # License
 
-## Componentes de terceiros
+## Third-Party Components
 
-Este projeto utiliza diversos plugins públicos e gratuitos desenvolvidos por terceiros, incluindo, mas não se limitando a:
+This project uses several free and publicly available plugins developed by third parties, including, but not limited to:
 
 - Skript
 - SkBee
@@ -16,64 +16,70 @@ Este projeto utiliza diversos plugins públicos e gratuitos desenvolvidos por te
 - NPC Plugin
 - Images
 
-Esses plugins **não são de autoria do desenvolvedor deste projeto** e permanecem sujeitos às suas respectivas licenças e termos de uso.
+These plugins **are not authored by the developer of this project** and remain subject to their respective licenses and terms of use.
 
-Todo o código desenvolvido em **Skript** especificamente para o AmongMC (scripts, mecânicas, tasks, sistemas e demais funcionalidades do projeto) é de autoria de **Luc-Moreira** e está licenciado sob a **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**, salvo indicação em contrário.
+All code developed in **Skript** specifically for AmongMC (scripts, mechanics, tasks, systems, and other project features) is authored by **Luc-Moreira** and is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**, unless otherwise stated.
 
-##Licença
+##License
 
-AmongMC  
+AmongMC
+
 Copyright (c) 2026 Luc-Moreira
 
-Este projeto é licenciado sob a licença **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
+This project is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)** license.
 
-Você é livre para:
+You are free to:
 
-- **Compartilhar** — copiar e redistribuir o material em qualquer meio ou formato.
-- **Adaptar** — remixar, transformar e criar a partir deste material.
+- **Share** — copy and redistribute the material in any medium or format.
 
-Sob as seguintes condições:
+- **Adapt** — remix, transform, and build upon the material.
 
-## Atribuição (BY)
+Under the following conditions:
 
-Você deve dar o devido crédito ao autor original, fornecer um link para esta licença e indicar se alterações foram realizadas.
+## Attribution (BY)
 
-Uma atribuição apropriada inclui, no mínimo:
+You must give appropriate credit to the original author, provide a link to this license, and indicate if changes were made.
 
-- O nome do projeto (**AmongMC**);
-- O nome do autor (**Luc-Moreira**);
-- Um link para o repositório original.
+Appropriate attribution includes, at minimum:
 
-## Uso Não Comercial (NC)
+- The project name (**AmongMC**);
 
-Você **não pode utilizar este projeto ou qualquer trabalho derivado para fins comerciais**.
+- The author's name (**Luc-Moreira**);
 
-Isso inclui, mas não se limita a:
+- A link to the original repository.
 
-- Venda do projeto;
-- Venda de versões modificadas;
-- Monetização direta do código ou dos assets deste projeto.
+## Non-Commercial Use (NC)
 
-A monetização comum de servidores de Minecraft (como doações ou venda de cosméticos) **não é permitida** por esta licença. Caso tenha dúvidas sobre um uso específico, entre em contato com o autor.
+You **may not use this project or any derivative work for commercial purposes**.
 
-## Compartilha Igual (SA)
+This includes, but is not limited to:
 
-Caso você modifique este projeto e distribua sua versão, deverá fazê-lo **sob a mesma licença (CC BY-NC-SA 4.0)**.
+- Selling the project;
 
-Não é permitido relicenciar versões modificadas sob uma licença mais restritiva.
+- Selling modified versions;
+
+- Direct monetization of the code or assets from this project.
+
+Common monetization of Minecraft servers (such as donations or cosmetic sales) **is not permitted** under this license. If you have questions about a specific use, please contact the author.
+
+## ShareAlike (SA)
+
+If you modify this project and distribute your version, you must do so **under the same license (CC BY-NC-SA 4.0)**.
+
+You may not relicense modified versions under a more restrictive license.
 
 ---
 
 ## Among Us
 
-Este projeto é inspirado em **Among Us**, propriedade da **Innersloth LLC**.
+This project is inspired by **Among Us**, which is owned by **Innersloth LLC**.
 
-"Among Us" é uma marca registrada da Innersloth LLC. Este projeto é independente, criado por fãs, e não possui qualquer afiliação ou endosso oficial da Innersloth.
+"Among Us" is a registered trademark of Innersloth LLC. This project is independent, fan-made, and has no official affiliation with or endorsement from Innersloth.
 
 ---
 
-## Texto completo da licença
+## Full License Text
 
-O texto oficial da licença pode ser consultado em:
+The official license text can be found at:
 
 https://creativecommons.org/licenses/by-nc-sa/4.0/

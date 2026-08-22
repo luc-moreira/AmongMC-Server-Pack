@@ -80,9 +80,9 @@ function startMeeting(reporter: player):
         updateInventory(loop-player)
         updateScoreboard(loop-player)
 
-    broadcast "%chatColor({_reporter})%%name of {_reporter}% &finiciou uma reunião de emergência!"
+    broadcast getTr("meeting.started", "%chatColor({_reporter})%%name of {_reporter}%")
     broadcast ""
-    broadcast "&7Use o &eLivro &7para votar."
+    broadcast getTr("meeting.useBook")
 
     loop {game.impostors::*}:
 
@@ -115,15 +115,15 @@ on right click on armor stand:
     if distance between clicked entity and {_loc} < 0.75:
         if {meeting.cooldown.remaining} is set:
             if {meeting.cooldown.remaining} > 0:
-                send "&cVocê não pode iniciar uma reunião agora. Aguarde %{meeting.cooldown.remaining}%s." to player
+                send getTr("meeting.cooldown", "%{meeting.cooldown.remaining}%") to player
                 stop
 
             if {meeting.callsLeft.%uuid of player%} <= 0:
-                send "&cVocê não tem reuniões de emergência restantes." to player
+                send getTr("meeting.noneLeft") to player
                 stop
 
             if {sabotage.lights.active} or {sabotage.lab_fire.active} or {sabotage.reactor.active} is true:
-                send "&cVocê não pode iniciar uma reunião durante uma sabotagem!" to player
+                send getTr("meeting.cannotStartDuringSabotage") to player
                 stop
 
             remove 1 from {meeting.callsLeft.%uuid of player%}
@@ -133,15 +133,15 @@ command /votar:
     trigger:
 
         if {game.state} is not "meeting":
-            send "&cNão há nenhuma reunião em andamento."
+            send getTr("meeting.noMeeting")
             stop
 
         if {game.ghosts::*} contains player:
-            send "&cFantasmas não podem votar."
+            send getTr("meeting.ghostsCannotVote")
             stop
 
         if {vote.%uuid of player%} is set:
-            send "&cVocê já votou."
+            send getTr("meeting.alreadyVoted")
             stop
 
         set {_inv} to chest inventory with 3 rows named "&8Votação"
@@ -192,7 +192,7 @@ command /votar:
 
             add 1 to {_slot}
 
-        set slot 26 of {_inv} to barrier named "&cPular"
+        set slot 26 of {_inv} to barrier named getTr("meeting.skip")
 
         open {_inv} to player
 
@@ -201,7 +201,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&8Votação":
+    if name of event-inventory is not getTr("meeting.guiTitle"):
         stop
 
     cancel event
@@ -211,7 +211,7 @@ on inventory click:
     
     if {_slot} = 26:
 
-        set {vote.%uuid of player%} to "Pular"
+        set {vote.%uuid of player%} to getTr("meeting.skip")
         add 1 to {votes.skip}
 
         close player's inventory
@@ -227,7 +227,7 @@ on inventory click:
 
         set {_remaining} to {_alive} - {_voted}
 
-        broadcast "%chatColor(player)%%player% &7votou. &8(Restam %{_remaining}%.)"
+        broadcast getTr("meeting.playerVoted", "%chatColor(player)%%player%", "%{_remaining}%")
 
         play sound "minecraft:ui.button.click" with volume 0.35 and pitch 1.2 to all players
 
@@ -262,7 +262,8 @@ on inventory click:
 
     set {_remaining} to {_alive} - {_voted}
 
-    broadcast "%chatColor(player)%%player% &7votou. &8(Restam %{_remaining}%.)"
+    broadcast getTr("meeting.playerVoted", "%chatColor(player)%%player%", "%{_remaining}%")
+
 
     checkVotes()
 
@@ -289,14 +290,15 @@ function finishVoting():
         set {votes.skip} to 0
 
     broadcast ""
-    broadcast "&e========== Votação =========="
+    broadcast getTr("meeting.votingHeader")
+
 
     set {_highest} to {votes.skip}
     set {_winner} to "skip"
     set {_tie} to false
 
 
-    broadcast "&7Pular: &e%{votes.skip}%"
+    broadcast getTr("meeting.skipVotes", "%{votes.skip}%")
     if {config.anonymousVotes} is true:
 
         loop all players:
@@ -308,7 +310,7 @@ function finishVoting():
             if {_votes} is not set:
                 set {_votes} to 0
 
-            broadcast "%chatColor(loop-value)%%loop-value%&7: &e%{_votes}%"
+            broadcast getTr("meeting.playerVote", "%chatColor(loop-value)%%loop-value%", "%{_votes}%")
 
             if {_votes} > {_highest}:
                 set {_highest} to {_votes}
@@ -328,13 +330,13 @@ function finishVoting():
             if {_votes} is not set:
                 set {_votes} to 0
 
-            if {vote.%uuid of loop-player%} is "Pular":
-                set {_vote} to "Pular"
+            if {vote.%uuid of loop-player%} is getTr("meeting.skip"):
+                set {_vote} to getTr("meeting.skip")
             else:
                 set {_player} to {vote.%uuid of loop-player%} parsed as player
                 set {_vote} to "%chatColor({_player})%%{_player}%"
 
-            broadcast "%chatColor(loop-value)%%loop-value%&7: &e%{_votes}% &7(%{_vote}%&7)"
+            broadcast getTr("meeting.playerVoteDetail", "%chatColor(loop-value)%%loop-value%", "%{_votes}%", "%{_vote}%")
 
             if {_votes} > {_highest}:
                 set {_highest} to {_votes}
@@ -347,15 +349,15 @@ function finishVoting():
     broadcast ""
 
     if {_tie} is true:
-        broadcast "&7Empate. Ninguém foi expulso."
-        typewriterSubtitle("Empate", "yellow")
+        broadcast getTr("meeting.tie")
+        typewriterSubtitle(getTr("meeting.tie"), "yellow")
         teleportMeeting()
         set {game.state} to "running"
         updateCall()
 
     else if {_winner} is "skip":
-        broadcast "&7A tripulação decidiu pular."
-        typewriterSubtitle("Votação Pulada", "green")
+        broadcast getTr("meeting.skip")
+        typewriterSubtitle(getTr("meeting.skipped"), "green")
         teleportMeeting()
         set {game.state} to "running"
         updateCall()
@@ -409,7 +411,7 @@ every 1 second:
 on right click:
 
     if tool of player is book:
-        if name of tool of player is "&eVotar":
+        if name of tool of player is getTr("meeting.voteItem"):
             cancel event
             execute player command "votar"
             stop

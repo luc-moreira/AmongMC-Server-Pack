@@ -1,33 +1,33 @@
 # AmongMC
 
-AmongMC é um minigame multiplayer para **Minecraft** inspirado em **Among Us** e em jogos de dedução social, desenvolvido utilizando **Skript** para a **Java Edition** e compatível, dentro dos limites do possível, com a **Bedrock Edition** através de Geyser e Floodgate.
+AmongMC is a multiplayer minigame for **Minecraft** inspired by **Among Us** and social deduction games, developed using **Skript** for **Java Edition** and compatible, within the possible limitations, with **Bedrock Edition** through Geyser and Floodgate.
 
-O objetivo do projeto não é recriar o jogo original, mas oferecer uma experiência semelhante dentro do Minecraft, aproveitando suas mecânicas para introduzir conteúdos inéditos e diversas melhorias de jogabilidade.
+The goal of the project is not to recreate the original game, but to offer a similar experience within Minecraft, taking advantage of its mechanics to introduce original content and several gameplay improvements.
 
-## Principais recursos
+## Main Features
 
-- 🛠️ 24 tasks únicas e interativas
-- 🚨 4 sabotagens, incluindo uma mecânica inédita
-- 🗳️ Sistema completo de reuniões, votação e expulsão
-- ☠️ Sistema de eliminação e corpos reportáveis
-- 🌬️ Sistema de dutos de ventilação para impostores
-- 👻 Sistema de fantasmas com mecânicas próprias
-- 📱 Compatibilidade com Java Edition e Bedrock Edition
-- 🎯 Diversas mecânicas originais e melhorias de qualidade de vida
+- 🛠️ 24 unique and interactive tasks
+- 🚨 4 sabotages, including an original mechanic
+- 🗳️ Complete meeting, voting, and ejection system
+- ☠️ Elimination system with reportable bodies
+- 🌬️ Vent system for impostors
+- 👻 Ghost system with its own mechanics
+- 📱 Java Edition and Bedrock Edition compatibility
+- 🎯 Several original mechanics and quality-of-life improvements
 
-## Documentação
+## Documentation
 
-- **Instalação:** `setup.md`
-- **Como jogar:** `gameplay.md`
+- **Installation:** `setup.md`
+- **How to Play:** `gameplay.md`
 
-## Licença
+## License
 
-Este projeto é disponibilizado para fins de entretenimento.
+This project is provided for entertainment purposes.
 
-**Among Us** é uma marca registrada da Innersloth LLC. Este projeto é independente, não possui qualquer afiliação oficial com a Innersloth e tem como objetivo criar uma experiência original inspirada na proposta de gameplay do jogo.
+**Among Us** is a registered trademark of Innersloth LLC. This project is independent, has no official affiliation with Innersloth, and aims to create an original experience inspired by the game's gameplay concept.
 
-para mais informações sobre a licença, leia `license.md`
+For more information about the license, please read `license.md`.
 
-## Contribuindo
+## Contributing
 
-Relatórios de bugs, sugestões e pull requests são sempre bem-vindos. Caso encontre algum problema ou tenha uma ideia para melhorar o projeto, fique à vontade para abrir uma Issue.
+Bug reports, suggestions, and pull requests are always welcome. If you encounter an issue or have an idea to improve the project, feel free to open an Issue.

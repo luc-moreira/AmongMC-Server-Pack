@@ -1,13 +1,13 @@
 function tune_radio(p: player, step: number):
 
     if {_p} is from floodgate:
-        send "&7Essa task foi substituída por um &eDownload &7pois você está na &eBedrock Edition&7." to {_p}
+        send getTr("task.bedrockDownload") to {_p}
         wait 1 second
         download({_p}, {_step}, "tune_radio")
         stop
 
 
-    set {_inv} to chest inventory with 6 rows named "&8Sintonizar Rádio"
+    set {_inv} to chest inventory with 6 rows named "&6%getTr("taskname.tune_radio")%"
 
     loop 54 times:
         set slot (loop-number - 1) of {_inv} to gray stained glass pane named " "
@@ -21,9 +21,9 @@ function tune_radio(p: player, step: number):
     loop 9 times:
         set slot (35 + loop-number) of {_inv} to light gray stained glass pane named " "
 
-    set slot 13 of {_inv} to lever named "&eTravar frequência"
-    set slot 31 of {_inv} to lever named "&eTravar frequência"
-    set slot 49 of {_inv} to lever named "&eTravar frequência"
+    set slot 13 of {_inv} to lever named getTr("task.lockFrequency")
+    set slot 31 of {_inv} to lever named getTr("task.lockFrequency")
+    set slot 49 of {_inv} to lever named getTr("task.lockFrequency")
 
     loop 3 times:
 
@@ -57,7 +57,7 @@ function moveRadio(p: player, radio: number, session: number):
     if {_session} is not {radio.session.%uuid of {_p}%}:
         stop
 
-    if name of {_p}'s current inventory is not "&8Sintonizar Rádio":
+    if name of {_p}'s current inventory is not "&6%getTr("taskname.tune_radio")%":
         stop
 
     if {radio.done.%uuid of {_p}%.%{_radio}%} is true:
@@ -87,7 +87,7 @@ function moveRadio(p: player, radio: number, session: number):
 
 function drawRadio(p: player):
 
-    if name of {_p}'s current inventory is not "&8Sintonizar Rádio":
+    if name of {_p}'s current inventory is not "&6%getTr("taskname.tune_radio")%":
         stop
 
     set {_inv} to {_p}'s current inventory
@@ -104,15 +104,15 @@ function drawRadio(p: player):
         set {_pos} to {radio.pos.%uuid of {_p}%.1}
 
     loop ({_pos} + 1) times:
-        set slot (loop-number - 1) of {_inv} to blue concrete named "&9Sinal"
+        set slot (loop-number - 1) of {_inv} to blue concrete named getTr("task.signal")
 
     if {radio.done.%uuid of {_p}%.1} is true:
-        set slot {radio.target.%uuid of {_p}%.1} of {_inv} to lime stained glass pane named "&aSintonizado"
+        set slot {radio.target.%uuid of {_p}%.1} of {_inv} to lime stained glass pane named getTr("task.tuned")
     else:
         if {_pos} is {radio.target.%uuid of {_p}%.1}:
-            set slot {radio.target.%uuid of {_p}%.1} of {_inv} to lime stained glass pane named "&aFrequência"
+            set slot {radio.target.%uuid of {_p}%.1} of {_inv} to lime stained glass pane named getTr("task.frequencyGreen") #lembrar da diferenca de cor
         else:
-            set slot {radio.target.%uuid of {_p}%.1} of {_inv} to red stained glass pane named "&cFrequência"
+            set slot {radio.target.%uuid of {_p}%.1} of {_inv} to red stained glass pane named getTr("task.frequencyRed")
 
     if {radio.done.%uuid of {_p}%.2} is true:
         set {_pos} to {radio.target.%uuid of {_p}%.2}
@@ -120,15 +120,15 @@ function drawRadio(p: player):
         set {_pos} to {radio.pos.%uuid of {_p}%.2}
 
     loop ({_pos} + 1) times:
-        set slot (17 + loop-number) of {_inv} to yellow concrete named "&eSinal"
+        set slot (17 + loop-number) of {_inv} to yellow concrete named getTr("task.signal")
 
     if {radio.done.%uuid of {_p}%.2} is true:
-        set slot (18 + {radio.target.%uuid of {_p}%.2}) of {_inv} to lime stained glass pane named "&aSintonizado"
+        set slot (18 + {radio.target.%uuid of {_p}%.2}) of {_inv} to lime stained glass pane named getTr("task.tuned")
     else:
         if {_pos} is {radio.target.%uuid of {_p}%.2}:
-            set slot (18 + {radio.target.%uuid of {_p}%.2}) of {_inv} to lime stained glass pane named "&aFrequência"
+            set slot (18 + {radio.target.%uuid of {_p}%.2}) of {_inv} to lime stained glass pane named getTr("task.frequencyGreen")
         else:
-            set slot (18 + {radio.target.%uuid of {_p}%.2}) of {_inv} to red stained glass pane named "&cFrequência"
+            set slot (18 + {radio.target.%uuid of {_p}%.2}) of {_inv} to red stained glass pane named getTr("task.frequencyRed")
 
     if {radio.done.%uuid of {_p}%.3} is true:
         set {_pos} to {radio.target.%uuid of {_p}%.3}
@@ -136,31 +136,31 @@ function drawRadio(p: player):
         set {_pos} to {radio.pos.%uuid of {_p}%.3}
 
     loop ({_pos} + 1) times:
-        set slot (35 + loop-number) of {_inv} to red concrete named "&cSinal"
+        set slot (35 + loop-number) of {_inv} to red concrete named getTr("task.signal")
 
     if {radio.done.%uuid of {_p}%.3} is true:
-        set slot (36 + {radio.target.%uuid of {_p}%.3}) of {_inv} to lime stained glass pane named "&aSintonizado"
+        set slot (36 + {radio.target.%uuid of {_p}%.3}) of {_inv} to lime stained glass pane named getTr("task.tuned")
     else:
         if {_pos} is {radio.target.%uuid of {_p}%.3}:
-            set slot (36 + {radio.target.%uuid of {_p}%.3}) of {_inv} to lime stained glass pane named "&aFrequência"
+            set slot (36 + {radio.target.%uuid of {_p}%.3}) of {_inv} to lime stained glass pane named getTr("task.frequencyGreen")
         else:
-            set slot (36 + {radio.target.%uuid of {_p}%.3}) of {_inv} to red stained glass pane named "&cFrequência"
+            set slot (36 + {radio.target.%uuid of {_p}%.3}) of {_inv} to red stained glass pane named getTr("task.frequencyRed")
 
     if {radio.done.%uuid of {_p}%.1} is true:
-        set slot 13 of {_inv} to lime concrete named "&aSintonizado"
+        set slot 13 of {_inv} to lime concrete named getTr("task.tuned")
 
     if {radio.done.%uuid of {_p}%.2} is true:
-        set slot 31 of {_inv} to lime concrete named "&aSintonizado"
+        set slot 31 of {_inv} to lime concrete named getTr("task.tuned")
 
     if {radio.done.%uuid of {_p}%.3} is true:
-        set slot 49 of {_inv} to lime concrete named "&aSintonizado"
+        set slot 49 of {_inv} to lime concrete named getTr("task.tuned")
 
 on inventory click:
 
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&8Sintonizar Rádio":
+    if name of event-inventory is not "&6%getTr("taskname.tune_radio")%":
         stop
 
     cancel event
@@ -219,12 +219,12 @@ on inventory click:
 
         close player's inventory
 
-        mensagem(player)
+        tune_radio(player, 1)
 
 
 on inventory close:
 
-    if name of event-inventory is not "&8Sintonizar Rádio":
+    if name of event-inventory is not "&6%getTr("taskname.tune_radio")%":
         stop
 
     set {radio.running.%uuid of player%} to false
@@ -238,67 +238,3 @@ on inventory close:
         delete {radio.dir.%uuid of player%.%loop-number%}
         delete {radio.speed.%uuid of player%.%loop-number%}
         delete {radio.done.%uuid of player%.%loop-number%}
-
-function mensagem(p: player):
-
-    set {_msg} to random integer between 1 and 20
-
-    if {_msg} is 1:
-        send "&cVocê conseguiu sintonizar a rádio na frequência de um micro-ondas. Impressionante." to {_p}
-
-    else if {_msg} is 2:
-        send "&cParabéns! Você encontrou uma estação que transmite apenas estática e arrependimento." to {_p}
-
-    else if {_msg} is 3:
-        send "&cSinal perdido. Assim como a esperança da equipe técnica." to {_p}
-
-    else if {_msg} is 4:
-        send "&cVocê sintonizou a rádio errada. Agora sabemos que os asteroides não são o maior problema." to {_p}
-
-    else if {_msg} is 5:
-        send "&cExcelente trabalho! Você encontrou a frequência secreta do silêncio absoluto." to {_p}
-
-    else if {_msg} is 6:
-        send "&cEssa frequência era reservada para emergências. A emergência agora é você." to {_p}
-
-    else if {_msg} is 7:
-        send "&cVocê conseguiu ouvir uma transmissão alienígena. Eles disseram para tentar de novo." to {_p}
-
-    else if {_msg} is 8:
-        send "&cRádio configurado com sucesso... pena que era a rádio do lixo espacial." to {_p}
-
-    else if {_msg} is 9:
-        send "&cA torre respondeu: 'por favor, pare de apertar botões aleatoriamente'." to {_p}
-
-    else if {_msg} is 10:
-        send "&cVocê não sintonizou uma rádio. Você só deixou o rádio confuso." to {_p}
-
-    else if {_msg} is 11:
-        send "&cFrequência inválida detectada. Seu talento para errar continua impressionante." to {_p}
-
-    else if {_msg} is 12:
-        send "&cVocê encontrou uma estação pirata. Ela transmite apenas reclamações da tripulação." to {_p}
-
-    else if {_msg} is 13:
-        send "&cO rádio pediu demissão depois dessa tentativa." to {_p}
-
-    else if {_msg} is 14:
-        send "&cQuase! Só faltava acertar a frequência. E também saber o que estava fazendo." to {_p}
-
-    else if {_msg} is 15:
-        send "&cVocê ajustou a frequência para ouvir o espaço vazio. Muito útil." to {_p}
-
-    else if {_msg} is 16:
-        send "&cA antena respondeu com um ruído estranho. Provavelmente é uma crítica." to {_p}
-
-    else if {_msg} is 17:
-        send "&cVocê conectou o rádio ao universo errado. Tente novamente quando voltar para a realidade." to {_p}
-
-    else if {_msg} is 18:
-        send "&cSinal encontrado! Pena que era o sinal de erro." to {_p}
-
-    else if {_msg} is 19:
-        send "&cParabéns, você transformou uma simples calibração em uma investigação criminal." to {_p}
-
-    else if {_msg} is 20:
-        send "&cO rádio está funcionando. O problema parece estar entre o teclado e a cadeira." to {_p}

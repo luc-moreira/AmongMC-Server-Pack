@@ -16,7 +16,7 @@ on rightclick:
                 cancel event
                 if player does not have water bucket:
                     give player water bucket
-                    send "&bVocê pegou água!" to player
+                    send getTr("ambient.waterPicked") to player
                     updateCompass(player)
                     stop
 
@@ -24,11 +24,6 @@ on rightclick:
 on right click:
     if locationKey(location of clicked block) is locationKey(location(90, -59, 236, world("amongmc"))):
         uncancel event
-
-
-function teste():
-    loop all players:
-        broadcast "%loop-players's name%: %loop-players's uuid%"
 
 
 on step on pressure plate:

@@ -8,7 +8,7 @@ function openVitals(p: player):
             if {_owner} is set:
                 set {_hasBody.%{_owner}%} to true
 
-    set {_inv} to chest inventory with 6 rows named "&4Sinais Vitais"
+    set {_inv} to chest inventory with 6 rows named getTr("vitals.title")
 
     loop 54 times:
         set slot (loop-number - 1) of {_inv} to black stained glass pane named " "
@@ -25,7 +25,7 @@ function openVitals(p: player):
 
         if {game.ghosts::*} does not contain {_pl}:
 
-            set name of {_head} to "&a%name of {_pl}% (Vivo)"
+            set name of {_head} to getTr("vitals.alive", "%name of {_pl}%")
             set slot {_alive} of {_inv} to {_head}
             add 1 to {_alive}
 
@@ -34,20 +34,20 @@ function openVitals(p: player):
 
             if {_hasBody.%uuid of {_pl}%} is set:
 
-                set name of {_head} to "&e%name of {_pl}% (Morto)"
+                set name of {_head} to getTr("vitals.dead", "%name of {_pl}%")
                 set slot {_body} of {_inv} to {_head}
                 add 1 to {_body}
 
             else:
 
-                set name of {_head} to "&8%name of {_pl}% (Sem Sinal)"
+                set name of {_head} to getTr("vitals.noSignal", "%name of {_pl}%")
                 set slot {_dead} of {_inv} to {_head}
                 add 1 to {_dead}
 
     open {_inv} to {_p}
 
 on inventory click:
-    if name of player's inventory is "&4Sinais Vitais":
+    if name of player's inventory is getTr("vitals.title"):
         cancel event
 
 on right click:

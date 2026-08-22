@@ -41,3 +41,4 @@ server/usercache.json
 server/version_history.json
 /server/versions/
 server/whitelist.json
+/server/plugins/Skript/scripts/.vscode/

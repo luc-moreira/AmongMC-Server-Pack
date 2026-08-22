@@ -6,43 +6,43 @@ function updateScoreboard(p: player):
     if {game.state} is "waiting":
 
         if {config.taskBarMode} is 0:
-            set {_taskbar} to "&cOFF"
+            set {_taskbar} to getTr("config.taskbar.off")
         else if {config.taskBarMode} is 1:
-            set {_taskbar} to "&eReuniões"
+            set {_taskbar} to getTr("config.taskbar.meetingsSB")
         else:
-            set {_taskbar} to "&aSempre"
+            set {_taskbar} to getTr("config.taskbar.always")
 
         if {config.anonymousVotes} is true:
-            set {_votes} to "&aON"
+            set {_votes} to getTr("config.yes")
         else:
-            set {_votes} to "&cOFF"
+            set {_votes} to getTr("config.no")
 
         if {config.confirmEjects} is true:
-            set {_confirm} to "&aON"
+            set {_confirm} to getTr("config.yes")
         else:
-            set {_confirm} to "&cOFF"
+            set {_confirm} to getTr("config.no")
 
         if {config.impostorsKnowEachOther} is true:
-            set {_know} to "&aON"
+            set {_know} to getTr("config.yes")
         else:
-            set {_know} to "&cOFF" 
+            set {_know} to getTr("config.no")
 
-        set line 2 of fastboard of {_p} to "&7Configuração"
+        set line 2 of fastboard of {_p} to getTr("scoreboard.settings")
 
-        set line 3 of fastboard of {_p} to "&fImpostores: &c%{config.impostors}%"
-        set line 4 of fastboard of {_p} to "&fTasks: &a%{config.tasksPerPlayer}%"
-        set line 5 of fastboard of {_p} to "&fVelocidade: &b%{config.playerSpeed}%x"
-        set line 6 of fastboard of {_p} to "&fTaskBar: %{_taskbar}%"
-        set line 7 of fastboard of {_p} to "&fReuniões: &6%{config.meetingLimit}%"
+        set line 3 of fastboard of {_p} to getTr("scoreboard.impostors", "%{config.impostors}%")
+        set line 4 of fastboard of {_p} to getTr("scoreboard.tasks", "%{config.tasksPerPlayer}%")
+        set line 5 of fastboard of {_p} to getTr("scoreboard.speed", "%{config.playerSpeed}%")
+        set line 6 of fastboard of {_p} to getTr("scoreboard.taskbar", "%{_taskbar}%")
+        set line 7 of fastboard of {_p} to getTr("scoreboard.meetings", "%{config.meetingLimit}%")
 
-        set line 8 of fastboard of {_p} to "&fKill CD: &c%{config.killCooldown}%s"
-        set line 9 of fastboard of {_p} to "&fKill Range: &c%{config.killRange}%"
+        set line 8 of fastboard of {_p} to getTr("scoreboard.killCooldown", "%{config.killCooldown}%")
+        set line 9 of fastboard of {_p} to getTr("scoreboard.killRange", "%{config.killRange}%")
 
-        set line 10 of fastboard of {_p} to "&fSabotagem CD: &4%{config.sabotageCooldown}%s"
+        set line 10 of fastboard of {_p} to getTr("scoreboard.sabotageCooldown", "%{config.sabotageCooldown}%")
 
-        set line 11 of fastboard of {_p} to "&fVotos Anôn.: %{_votes}%"
-        set line 12 of fastboard of {_p} to "&fRevelar Ejetado: %{_confirm}%"
-        set line 13 of fastboard of {_p} to "&fImp. Se conhecem: %{_know}%"
+        set line 11 of fastboard of {_p} to getTr("scoreboard.anonymousVotes", "%{_votes}%")
+        set line 12 of fastboard of {_p} to getTr("scoreboard.confirmEjects", "%{_confirm}%")
+        set line 13 of fastboard of {_p} to getTr("scoreboard.impostorsKnowEachOther", "%{_know}%")
 
 
     else:
@@ -68,7 +68,7 @@ function updateScoreboard(p: player):
             set {_totalGlobal} to 0
         
         if {config.taskBarMode} is not 0:
-            set line 1 of fastboard of {_p} to "&7Tasks Concluídas: &e%{doneGlobal}%&7/&a%{_totalGlobal}%"
+            set line 1 of fastboard of {_p} to getTr("scoreboard.completedTasks", "%{doneGlobal}%", "%{_totalGlobal}%")
 
        
 
@@ -82,14 +82,14 @@ function updateScoreboard(p: player):
             if {_cd} < 1:
                 set {_cd} to "Pronto!"
 
-            set line 2 of fastboard of {_p} to "&7Kill Cooldown: &c%{_cd}%"
+            set line 2 of fastboard of {_p} to getTr("scoreboard.killCooldownRemaining", "%{_cd}%")
 
         else:
 
             set {_donePlayer} to size of {playerTasksDone.%uuid of {_p}%::*}
             set {_totalPlayer} to {_donePlayer} + size of {playerTasks.%uuid of {_p}%::*}
 
-            set line 2 of fastboard of {_p} to "&7Suas Tasks: &e%{_donePlayer}%&7/&a%{_totalPlayer}%"
+            set line 2 of fastboard of {_p} to getTr("scoreboard.yourTasks", "%{_donePlayer}%", "%{_totalPlayer}%")
 
         set line 3 of fastboard of {_p} to ""
 
@@ -99,27 +99,26 @@ function updateScoreboard(p: player):
 
         if {sabotage.lights.active} is true:
 
-            set line 4 of fastboard of {_p} to "&c⚠ SABOTAGEM: LUZES"
-            set line 5 of fastboard of {_p} to "&7Rearme os disjuntores"
-            set line 6 of fastboard of {_p} to "&7na oficina."
+            set line 4 of fastboard of {_p} to getTr("scoreboard.lights1")
+            set line 5 of fastboard of {_p} to getTr("scoreboard.lights2")
+            set line 6 of fastboard of {_p} to getTr("scoreboard.lights3")
 
             stop
 
         else if {sabotage.reactor.active} is true:
 
-            set line 4 of fastboard of {_p} to "&c⚠ SABOTAGEM: REATOR"
-            set line 5 of fastboard of {_p} to "&7Estabilize o reator usando os"
-            set line 6 of fastboard of {_p} to "&7terminais do reator e oficina."
-            set line 7 of fastboard of {_p} to "&eTempo restante: &c%{sabotage.reactor.remaining}%s"
-
+            set line 4 of fastboard of {_p} to getTr("scoreboard.reactor1")
+            set line 5 of fastboard of {_p} to getTr("scoreboard.reactor2")
+            set line 6 of fastboard of {_p} to getTr("scoreboard.reactor3")
+            set line 7 of fastboard of {_p} to getTr("scoreboard.timeRemaining", "%{sabotage.reactor.remaining}%")
             stop
 
         else if {sabotage.lab_fire.active} is true:
 
-            set line 4 of fastboard of {_p} to "&c⚠ SABOTAGEM: LABORATÓRIO"
-            set line 5 of fastboard of {_p} to "&7Pegue água na área verde"
-            set line 6 of fastboard of {_p} to "&7para apagar o incêndio."
-            set line 7 of fastboard of {_p} to "&eTempo restante: &c%{sabotage.lab_fire.remaining}%s"
+            set line 4 of fastboard of {_p} to getTr("scoreboard.labFire1")
+            set line 5 of fastboard of {_p} to getTr("scoreboard.labFire2")
+            set line 6 of fastboard of {_p} to getTr("scoreboard.labFire3")
+            set line 7 of fastboard of {_p} to getTr("scoreboard.timeRemaining", "%{sabotage.lab_fire.remaining}%")
 
             stop
 
@@ -139,7 +138,7 @@ function updateScoreboard(p: player):
 
                 set {_id} to loop-value
 
-                set {_name} to {task.%{_id}%.name}
+                set {_name} to getTr("taskname.%{_id}%")
                 if {_name} is not set:
                     set {_name} to "%{_id}%"
 
@@ -175,7 +174,7 @@ function updateScoreboard(p: player):
             loop {playerTasksDone.%uuid of {_p}%::*}:
                 set {_id} to loop-value
 
-                set {_name} to {task.%{_id}%.name}
+                set {_name} to getTr("taskname.%{_id}%")
                 if {_name} is not set:
                     set {_name} to "%{_id}%"
 
@@ -192,12 +191,12 @@ function updateScoreboard(p: player):
         else:
             
             if size of {game.impostors::*} = 1:
-                set line {_line} of fastboard of {_p} to "&cVocê está sozinho."
+                set line {_line} of fastboard of {_p} to getTr("scoreboard.alone")
 
             else:
                 
                 if {config.impostorsKnowEachOther} is true:
-                    set line {_line} of fastboard of {_p} to "&cOutros impostores:"
+                    set line {_line} of fastboard of {_p} to getTr("scoreboard.otherImpostors")
                     add 1 to {_line}
 
                     loop {game.impostors::*}:
@@ -212,9 +211,9 @@ function updateScoreboard(p: player):
                         if {_line} > 15:
                             stop
                 else:
-                    set line {_line} of fastboard of {_p} to "&cVocê não sabe quem são"
+                    set line {_line} of fastboard of {_p} to getTr("scoreboard.dontKnow1")
                     add 1 to {_line}
-                    set line {_line} of fastboard of {_p} to "&cos outros impostores."
+                    set line {_line} of fastboard of {_p} to getTr("scoreboard.dontKnow2")
 
 
 function clearScoreboard(p: player):

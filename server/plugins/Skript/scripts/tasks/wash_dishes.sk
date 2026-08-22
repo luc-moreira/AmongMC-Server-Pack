@@ -1,6 +1,6 @@
 function wash_dishes(p: player, step: number):
 
-    set {_inv} to chest inventory with 5 rows named "&8Lavar Louças"
+    set {_inv} to chest inventory with 5 rows named "&6%getTr("taskname.wash_dishes")%"
 
     delete {dish.detergent.%uuid of {_p}%}
     delete {dish.total.%uuid of {_p}%}
@@ -14,9 +14,9 @@ function wash_dishes(p: player, step: number):
         set slot loop-value of {_inv} to air
 
     loop 21,22,23,30,31,32:
-        set slot loop-value of {_inv} to blue stained glass pane named "&bÁgua"
+        set slot loop-value of {_inv} to blue stained glass pane named getTr("task.waterDishes")
 
-    set slot 4 of {_inv} to potion named "&bDetergente"
+    set slot 4 of {_inv} to potion named getTr("task.detergent") with item flag hide additional tooltip
 
     set slot 18 of {_inv} to iron bars named " "
     set slot 19 of {_inv} to iron bars named " "
@@ -60,19 +60,19 @@ function wash_dishes(p: player, step: number):
         set {_type} to random integer between 1 and 5
 
         if {_type} = 1:
-            set {_item} to trident named "&7Garfo Sujo"
+            set {_item} to trident named getTr("task.dirtyFork")
 
         else if {_type} = 2:
-            set {_item} to iron shovel named "&7Colher Suja"
+            set {_item} to iron shovel named getTr("task.dirtySpoon")
 
         else if {_type} = 3:
-            set {_item} to iron sword named "&7Faca Suja"
+            set {_item} to iron sword named getTr("task.dirtyKnife")
 
         else if {_type} = 4:
-            set {_item} to bowl named "&7Prato Sujo"
+            set {_item} to bowl named getTr("task.dirtyPlate")
 
         else:
-            set {_item} to bucket named "&7Copo Sujo"
+            set {_item} to bucket named getTr("task.dirtyCup")
 
         set slot {_slot} of {_inv} to {_item}
 
@@ -86,7 +86,7 @@ on inventory click:
     if holder of event-inventory is set:
         stop
 
-    if name of event-inventory is not "&8Lavar Louças":
+    if name of event-inventory is not "&6%getTr("taskname.wash_dishes")%":
         stop
 
     if click type is left mouse button with shift or right mouse button with shift or double click using mouse:
@@ -106,7 +106,7 @@ on inventory click:
 
     if clicked slot is 21 or 22 or 23 or 30 or 31 or 32:
 
-        if player's cursor slot is potion named "&bDetergente":
+        if player's cursor slot is potion:
 
             cancel event
 
@@ -115,11 +115,11 @@ on inventory click:
             set {dish.detergent.%uuid of player%} to true
 
             loop 21,22,23,30,31,32:
-                set slot loop-value of event-inventory to light blue stained glass pane named "&bÁgua com detergente"
+                set slot loop-value of event-inventory to light blue stained glass pane named getTr("task.waterWithDetergent")
 
             play sound "minecraft:item.bucket.empty" with volume 0.8 and pitch 1.4 to player
 
-            set slot 4 of event-inventory to glass bottle named "&7Frasco de Detergente Vazio"
+            set slot 4 of event-inventory to glass bottle named getTr("task.emptyDetergentBottle")
 
             stop
 
@@ -129,7 +129,7 @@ on inventory click:
             play sound "minecraft:block.note_block.bass" with volume 0.8 and pitch 1.8 to player
             cancel event
             close player's inventory
-            send "&cSe isso funcionasse, ninguém comprava detergente."
+            send getTr("task.cleaningFail")
 
 
             stop
@@ -143,14 +143,14 @@ on inventory click:
 
         set {_item} to player's cursor slot
 
-        if name of {_item} contains "Limpo":
+        if {_item} is enchanted:
             cancel event
             stop
 
         if {_item} is trident item:
             cancel event
 
-            set {_clean} to trident named "&fGarfo Limpo"
+            set {_clean} to trident named getTr("task.cleanFork")
             enchant {_clean} with unbreaking 1
 
             set player's cursor slot to {_clean} with item flags hide enchants
@@ -158,7 +158,7 @@ on inventory click:
         else if {_item} is iron shovel:
             cancel event
 
-            set {_clean} to iron shovel named "&fColher Limpa"
+            set {_clean} to iron shovel named getTr("task.cleanSpoon")
             enchant {_clean} with unbreaking 1
 
             set player's cursor slot to {_clean} with item flags hide enchants
@@ -167,7 +167,7 @@ on inventory click:
 
             cancel event
 
-            set {_clean} to iron sword named "&fFaca Limpa"
+            set {_clean} to iron sword named getTr("task.cleanKnife")
             enchant {_clean} with unbreaking 1
 
             set player's cursor slot to {_clean} with item flags hide enchants
@@ -176,7 +176,7 @@ on inventory click:
 
             cancel event
 
-            set {_clean} to bowl named "&fPrato Limpo"
+            set {_clean} to bowl named getTr("task.cleanPlate")
             enchant {_clean} with unbreaking 1
 
             set player's cursor slot to {_clean} with item flags hide enchants
@@ -185,7 +185,7 @@ on inventory click:
 
             cancel event
 
-            set {_clean} to bucket named "&fCopo Limpo"
+            set {_clean} to bucket named getTr("task.cleanCup")
             enchant {_clean} with unbreaking 1
 
             set player's cursor slot to {_clean} with item flags hide enchants
@@ -207,7 +207,7 @@ on inventory click:
         if {_item} is air:
             continue
 
-        if name of {_item} contains "Limpo" or "Limpa":
+        if {_item} is enchanted:
             add 1 to {_clean}
 
     if {_clean} >= {dish.total.%uuid of player%}:
@@ -218,6 +218,6 @@ on inventory click:
 
 on inventory close:
 
-    if name of event-inventory is "&8Lavar Louças":
+    if name of event-inventory is "&6%getTr("taskname.wash_dishes")%":
         if player's cursor slot is not air:
             set player's cursor slot to air

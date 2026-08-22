@@ -1,35 +1,37 @@
 # Credits
 
-## Desenvolvedor / Idealizador
+## Developer / Project Creator
 
-**LucMoreira** (Olha eu aí!)
+**LucMoreira** (Look at me!)
 
-Responsável pela idealização, desenvolvimento e implementação do projeto **AmongMC**.
+Responsible for the conception, development, and implementation of the **AmongMC** project.
 
-Principais responsabilidades:
-- Criação das mecânicas do jogo;
-- Desenvolvimento dos sistemas em Skript;
-- Implementação das funcionalidades e lógica do jogo;
-- Planejamento e estrutura geral do projeto.
-- Construção e organização das salas
+Main responsibilities:
+
+- Creation of game mechanics;
+- Development of systems in Skript;
+- Implementation of game features and logic;
+- Overall project planning and structure;
+- Construction and organization of the rooms.
 
 ---
 
-## Design Visual do Mapa
+## Map Visual Design
 
 **Vipandinha1419**
 
-Responsável pelo design visual do mapa.
+Responsible for the visual design of the map.
 
-Contribuições:
-- Decoração dos ambientes;
-- Criação da ambientação visual do mapa.
+Contributions:
+
+- Environment decoration;
+- Creation of the map's visual atmosphere.
 
 ---
 
 ## Beta Testers
 
-Agradecimentos especiais aos jogadores que ajudaram nos testes, encontrando problemas, sugerindo melhorias e contribuindo para o desenvolvimento do projeto:
+Special thanks to the players who helped with testing, finding issues, suggesting improvements, and contributing to the development of the project:
 
 - **Vipandinha1419**
 - **Erique**
@@ -40,4 +42,4 @@ Agradecimentos especiais aos jogadores que ajudaram nos testes, encontrando prob
 
 ---
 
-Obrigado a todos que contribuíram para tornar este projeto possível!
+Thank you to everyone who contributed to making this project possible!
