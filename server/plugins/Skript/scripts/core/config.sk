@@ -77,7 +77,7 @@ function openConfig(p: player):
 
     set slot 18 of {_inv} to feather named getTr("config.playerSpeed", "%{config.playerSpeed}%")
 
-    set slot 24 of {_inv} to bell named getTr("config.meetingLimit", "%{config.playerSpeed}%")
+    set slot 24 of {_inv} to bell named getTr("config.meetingLimit", "%{config.meetingLimit}%")
     
 
     if {config.taskBarMode} is 0:
@@ -278,6 +278,7 @@ on inventory click:
         loop all players:
             updateInventory(loop-player)
             updateScoreboard(loop-player)
+        updateAllSigns()
         stop
 
     

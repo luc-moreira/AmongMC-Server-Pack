@@ -25,7 +25,7 @@ function loadPtbr():
     # control
     registerTranslation("ptbr", "control.impostorLimited", "&eAtenção! Como há apenas {1} jogadores, o número de impostores foi limitado para {2}.")
     registerTranslation("ptbr", "control.gameOverHeader", "&6========== Fim de Jogo ==========")
-    registerTranslation("ptbr", "control.crewmatesWon", "&bOs Crewmates venceram!")
+    registerTranslation("ptbr", "control.crewmatesWon", "&bOs Tripulantes venceram!")
     registerTranslation("ptbr", "control.impostorsWon", "&cOs Impostores venceram!")
     registerTranslation("ptbr", "control.impostorsList", "&7Impostores:")
     registerTranslation("ptbr", "control.gameOver", "&cJogo encerrado!")
@@ -33,7 +33,7 @@ function loadPtbr():
     registerTranslation("ptbr", "control.youAreImpostor2", "&7Elimine a tripulação antes que completem as tarefas.")
     registerTranslation("ptbr", "control.youAreImpostor3", "&7Use &eShift&7 sobre uma vent para entrar nela.")
     registerTranslation("ptbr", "control.youAreImpostor4", "&7Sabote sistemas para criar oportunidades.")
-    registerTranslation("ptbr", "control.youAreCrewmate1", "&bVocê é um &3&lCREWMATE&b!")
+    registerTranslation("ptbr", "control.youAreCrewmate1", "&bVocê é um &3&lTRIPULANTE&b!")
     registerTranslation("ptbr", "control.youAreCrewmate2", "&7Complete todas as tarefas.")
     registerTranslation("ptbr", "control.youAreCrewmate3", "&7Reporte corpos encontrados.")
     registerTranslation("ptbr", "control.youAreCrewmate4", "&7Use reuniões para descobrir os impostores.")
@@ -43,7 +43,7 @@ function loadPtbr():
     registerTranslation("ptbr", "discord.yourId", "&aSeu ID do Discord é: &f{1}")
 
     # hat
-    registerTranslation("ptbr", "hat.changed", "&aVocê mudou seu chapéu para &e{1}&a.")
+    registerTranslation("ptbr", "hat.changed", "&aVocê mudou seu chapéu para &e{1}&a.   ")
 
     # joinleave
     registerTranslation("ptbr", "joinleave.gameInProgress1", "&cA partida já está em andamento.")
@@ -240,7 +240,7 @@ function loadPtbr():
     registerTranslation("ptbr", "control.defeatTitle", "DERROTA")
     registerTranslation("ptbr", "control.victoryTitle", "VITÓRIA")
 
-    registerTranslation("ptbr", "control.crewmatesWinTitle", "Os Crewmates venceram!")
+    registerTranslation("ptbr", "control.crewmatesWinTitle", "Os Tripulantes venceram!")
     registerTranslation("ptbr", "control.impostorsWinTitle", "Os Impostores venceram!")
 
     registerTranslation("ptbr", "control.crewmateTitle", "TRIPULANTE")
@@ -476,4 +476,27 @@ function loadPtbr():
     registerTranslation("ptbr", "task.cleanKnife", "&fFaca Limpa")
     registerTranslation("ptbr", "task.cleanPlate", "&fPrato Limpo")
     registerTranslation("ptbr", "task.cleanCup", "&fCopo Limpo")
+
+    #these go into the signs in the map, if you change them, make sure to test and maybe 
+    #reak words into multiple lines if they are too long, otherwise they will not fit in the sign.
+
+    registerTranslation("ptbr", "sign.vitalSigns", "SINAIS VITAIS")
+    registerTranslation("ptbr", "sign.controlRoom", "SALA DE CONTROLE")
+    registerTranslation("ptbr", "sign.workshopTeleport", "TP OFICINA")
+    registerTranslation("ptbr", "sign.kitchenLabTeleport", "TP COZINHA E LAB")
+    registerTranslation("ptbr", "sign.observatory", "OBSERVA- TÓRIO")
+    registerTranslation("ptbr", "sign.kitchen", "COZINHA")
+    registerTranslation("ptbr", "sign.lockFreezer", "TRANCAR FREEZER")
+    registerTranslation("ptbr", "sign.callElevator", "Chamar Elevador")
+    registerTranslation("ptbr", "sign.openDoor", "Abrir Porta")
+    registerTranslation("ptbr", "sign.move", "Mover")
+    registerTranslation("ptbr", "sign.reactor", "REATOR")
+    registerTranslation("ptbr", "sign.stabilizeReactor", "ESTABILIZAR REATOR")
+    registerTranslation("ptbr", "sign.meetingRoom", "SALA DE REUNIÕES")
+    registerTranslation("ptbr", "sign.pressButtonToCallMeeting", "PRESSIONE O BOTÃO P/ CHAMAR REUNIÃO")
+    registerTranslation("ptbr", "sign.library", "BIBLIOTECA")
+    registerTranslation("ptbr", "sign.onOff", "Cima: ON Baixo: OFF")
+    registerTranslation("ptbr", "sign.workshop", "OFICINA")
+    registerTranslation("ptbr", "sign.greenArea", "ÁREA VERDE")
+    registerTranslation("ptbr", "sign.electricalControl", "CONTROLE ELÉTRICO")
 

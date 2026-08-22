@@ -22,10 +22,6 @@ on join:
 
         teleport player to location(118.5, -58.5, 281.5, world("amongmc"))
         updateInventory(player)
-        set slot 0 of player's inventory to nether star named "&eEscolher cor"
-        set slot 1 of player's inventory to turtle helmet named "&dEscolher chapéu"
-        if player is op:
-            set slot 2 of player's inventory to compass named "&cConfigurações"
         stop
 
     

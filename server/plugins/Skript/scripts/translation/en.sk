@@ -475,3 +475,26 @@ function loadEn():
     registerTranslation("en", "task.cleanKnife", "&fClean Knife")
     registerTranslation("en", "task.cleanPlate", "&fClean Plate")
     registerTranslation("en", "task.cleanCup", "&fClean Cup")
+
+    #these go into the signs in the map, if you change them, make sure to test and maybe 
+    #reak words into multiple lines if they are too long, otherwise they will not fit in the sign.
+
+    registerTranslation("en", "sign.vitalSigns", "VITAL SIGNS")
+    registerTranslation("en", "sign.controlRoom", "CONTROL ROOM")
+    registerTranslation("en", "sign.workshopTeleport", "WORKSHOP TP")
+    registerTranslation("en", "sign.kitchenLabTeleport", "KITCHEN & LAB TP")
+    registerTranslation("en", "sign.observatory", "OBSER- VATORY")
+    registerTranslation("en", "sign.kitchen", "KITCHEN")
+    registerTranslation("en", "sign.lockFreezer", "LOCK FREEZER")
+    registerTranslation("en", "sign.callElevator", "Call Elevator")
+    registerTranslation("en", "sign.openDoor", "Open Door")
+    registerTranslation("en", "sign.move", "Move")
+    registerTranslation("en", "sign.reactor", "REACTOR")
+    registerTranslation("en", "sign.stabilizeReactor", "STABILIZE REACTOR")
+    registerTranslation("en", "sign.meetingRoom", "MEETING ROOM")
+    registerTranslation("en", "sign.pressButtonToCallMeeting", "PRESS BUTTON TO CALL MEETING")
+    registerTranslation("en", "sign.library", "LIBRARY")
+    registerTranslation("en", "sign.onOff", "Up: ON Down: OFF")
+    registerTranslation("en", "sign.workshop", "WORKSHOP")
+    registerTranslation("en", "sign.greenArea", "GREEN AREA")
+    registerTranslation("en", "sign.electricalControl", "ELECTRICAL CONTROL")

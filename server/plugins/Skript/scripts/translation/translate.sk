@@ -37,3 +37,173 @@ on load:
 
     loadEn()
     loadPtbr()
+
+    updateAllSigns()
+
+
+function updateAllSigns():
+    updateSign(120, -57, 245, getTr("sign.vitalSigns"))
+    updateSign(105, -56, 242, getTr("sign.controlRoom"), 10)
+    updateSign(110, -56, 237, getTr("sign.controlRoom"), 10)
+    updateSign(105, -56, 232, getTr("sign.controlRoom"), 10)
+    updateSign(100, -56, 250, getTr("sign.workshopTeleport"), 10)
+    updateSign(122, -56, 197, getTr("sign.kitchenLabTeleport"), 10)
+    updateSign(95, -56, 247, getTr("sign.observatory"), 10)
+    updateSign(89, -56, 246, getTr("sign.kitchen"), 10)
+    updateSign(90, -58, 236, getTr("sign.lockFreezer"))
+    updateSign(97, -59, 247, getTr("sign.callElevator"))
+    updateSign(96, -59, 243, getTr("sign.openDoor"))
+    updateSign(96, -58, 243, getTr("sign.move"))
+    updateSign(96, -48, 243, getTr("sign.openDoor"))
+    updateSign(96, -47, 243, getTr("sign.move"))
+    updateSign(114, -56, 237, getTr("sign.reactor"), 10)
+    updateSign(120, -56, 233, getTr("sign.reactor"), 10)
+    updateSign(116, -58, 242, getTr("sign.stabilizeReactor"))
+    updateSign(125, -58, 203, getTr("sign.stabilizeReactor"))
+    updateSign(122, -56, 227, getTr("sign.meetingRoom"), 10)
+    updateSign(114, -56, 219, getTr("sign.meetingRoom"), 10)
+    updateSign(122, -56, 211, getTr("sign.meetingRoom"), 10)
+    updateSign(122, -59, 222, getTr("sign.pressButtonToCallMeeting"))
+    updateSign(125, -59, 219, getTr("sign.pressButtonToCallMeeting"))
+    updateSign(122, -59, 216, getTr("sign.pressButtonToCallMeeting"))
+    updateSign(119, -59, 219, getTr("sign.pressButtonToCallMeeting"))
+    updateSign(95, -56, 224, getTr("sign.library"), 10)
+    updateSign(88, -56, 220, getTr("sign.library"), 10)
+    updateSign(123, -56, 207, getTr("sign.workshop"), 10)
+    updateSign(114, -56, 202, getTr("sign.workshop"), 10)
+    updateSign(110, -56, 202, getTr("sign.greenArea"), 10)
+    updateSign(88, -56, 214, getTr("sign.greenArea"), 10)
+    updateSign(129, -58, 201, getTr("sign.onOff"))
+    updateSign(124, -56, 200, getTr("sign.electricalControl"), 10)
+
+function updateSign(x: number, y: number, z: number, text: string, maxLength: number = 15):
+    set {_loc} to location({_x}, {_y}, {_z}, world("amongmc"))
+    set {_sign} to block at {_loc}
+
+    delete {_lines::*}
+
+    set {_words::*} to {_text} split at " "
+
+    set {_textLength} to length of {_text}
+    set {_lineCount} to ceil({_textLength} / {_maxLength})
+
+    if {_lineCount} < 1:
+        set {_lineCount} to 1
+
+    if {_lineCount} > 4:
+        set {_lineCount} to 4
+
+    set {_wordIndex} to 1
+
+    loop {_lineCount} times:
+        set {_remainingLines} to {_lineCount} - loop-number + 1
+        set {_remainingWords} to size of {_words::*} - {_wordIndex} + 1
+
+        if {_remainingLines} = 1:
+            set {_currentLine} to ""
+
+            loop {_remainingWords} times:
+                set {_word} to {_words::%{_wordIndex}%}
+
+                if {_currentLine} is "":
+                    set {_currentLine} to {_word}
+                else:
+                    set {_currentLine} to "%{_currentLine}% %{_word}%"
+
+                add 1 to {_wordIndex}
+
+            add {_currentLine} to {_lines::*}
+
+        else:
+            set {_remainingLength} to 0
+            set {_i} to {_wordIndex}
+
+            loop {_remainingWords} times:
+                add length of {_words::%{_i}%} to {_remainingLength}
+
+                if {_i} < size of {_words::*}:
+                    add 1 to {_remainingLength}
+
+                add 1 to {_i}
+
+            # Tamanho médio ideal das linhas restantes
+            set {_idealLength} to {_remainingLength} / {_remainingLines}
+
+            set {_bestLine} to ""
+            set {_bestIndex} to {_wordIndex}
+            set {_bestDifference} to 9999
+
+            set {_candidateLine} to ""
+            set {_candidateLength} to 0
+            set {_candidateIndex} to {_wordIndex}
+
+            loop {_remainingWords} times:
+                set {_word} to {_words::%{_candidateIndex}%}
+
+                if {_candidateLine} is "":
+                    set {_newLength} to length of {_word}
+                else:
+                    set {_newLength} to {_candidateLength} + 1 + length of {_word}
+
+                if {_newLength} <= {_maxLength}:
+                    set {_wordsAfter} to size of {_words::*} - {_candidateIndex}
+
+                    if {_wordsAfter} >= {_remainingLines} - 1:
+
+                        if {_candidateLine} is "":
+                            set {_newCandidateLine} to {_word}
+                        else:
+                            set {_newCandidateLine} to "%{_candidateLine}% %{_word}%"
+
+                        set {_remainingAfterLength} to {_remainingLength}
+
+                        set {_j} to {_wordIndex}
+
+                        loop {_candidateIndex} - {_wordIndex} + 1 times:
+                            remove length of {_words::%{_j}%} from {_remainingAfterLength}
+
+                            if {_j} < size of {_words::*}:
+                                remove 1 from {_remainingAfterLength}
+
+                            add 1 to {_j}
+
+                        set {_difference} to abs({_newLength} - {_idealLength})
+
+                        set {_remainingIdeal} to {_remainingAfterLength} / ({_remainingLines} - 1)
+                        set {_balanceDifference} to abs({_newLength} - {_remainingIdeal})
+
+                        if {_balanceDifference} < {_bestDifference}:
+                            set {_bestDifference} to {_balanceDifference}
+                            set {_bestLine} to {_newCandidateLine}
+                            set {_bestIndex} to {_candidateIndex}
+
+                        set {_candidateLine} to {_newCandidateLine}
+                        set {_candidateLength} to {_newLength}
+
+                add 1 to {_candidateIndex}
+
+            if {_bestLine} is "":
+                set {_bestLine} to {_words::%{_wordIndex}%}
+                set {_bestIndex} to {_wordIndex}
+
+            add {_bestLine} to {_lines::*}
+
+            set {_wordIndex} to {_bestIndex} + 1
+
+    # =========================================================
+    # ESCREVE NA PLACA
+    # =========================================================
+
+    if size of {_lines::*} >= 3:
+        set line 1 of {_sign} to {_lines::1}
+        set line 2 of {_sign} to {_lines::2}
+        set line 3 of {_sign} to {_lines::3}
+        set line 4 of {_sign} to {_lines::4}
+
+    else:
+        set line 1 of {_sign} to ""
+        set line 2 of {_sign} to {_lines::1}
+        set line 3 of {_sign} to {_lines::2}
+        set line 4 of {_sign} to ""
+
+
