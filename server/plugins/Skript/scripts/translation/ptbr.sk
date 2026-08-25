@@ -500,3 +500,17 @@ function loadPtbr():
     registerTranslation("ptbr", "sign.greenArea", "ÁREA VERDE")
     registerTranslation("ptbr", "sign.electricalControl", "CONTROLE ELÉTRICO")
 
+    #roomnames
+
+    registerTranslation("ptbr", "roomName.kitchen", "Cozinha")
+    registerTranslation("ptbr", "roomName.freezer", "Freezer")
+    registerTranslation("ptbr", "roomName.laboratory", "Laboratório")
+    registerTranslation("ptbr", "roomName.controlRoom", "Sala de Controle")
+    registerTranslation("ptbr", "roomName.reactor", "Reator")
+    registerTranslation("ptbr", "roomName.meetingRoom", "Sala de Reuniões")
+    registerTranslation("ptbr", "roomName.workshop", "Oficina")
+    registerTranslation("ptbr", "roomName.greenArea", "Área Verde")
+    registerTranslation("ptbr", "roomName.library", "Biblioteca")
+    registerTranslation("ptbr", "roomName.observatory", "Observatório")
+    registerTranslation("ptbr", "roomName.corridors", "Corredores")
+

@@ -1,0 +1,43 @@
+function registerRoom(id: string, x1: number, y1: number, z1: number, x2: number, y2: number, z2: number):
+
+    if {rooms.list::*} does not contain {_id}:
+        add {_id} to {rooms.list::*}
+
+    set {rooms.%{_id}%.xMin} to min({_x1}, {_x2})+0.5
+    set {rooms.%{_id}%.yMin} to min({_y1}, {_y2})+0.5
+    set {rooms.%{_id}%.zMin} to min({_z1}, {_z2})+0.5
+
+    set {rooms.%{_id}%.xMax} to max({_x1}, {_x2})+0.5
+    set {rooms.%{_id}%.yMax} to max({_y1}, {_y2})+0.5
+    set {rooms.%{_id}%.zMax} to max({_z1}, {_z2})+0.5
+
+
+function getPlayerRoom(p: player) :: string:
+
+    set {_x} to x-coordinate of {_p}
+    set {_y} to y-coordinate of {_p}
+    set {_z} to z-coordinate of {_p}
+
+    loop {rooms.list::*}:
+
+        set {_id} to loop-value
+
+        if {_x} is between {rooms.%{_id}%.xMin} and {rooms.%{_id}%.xMax}:
+            if {_y} is between {rooms.%{_id}%.yMin} and {rooms.%{_id}%.yMax}:
+                if {_z} is between {rooms.%{_id}%.zMin} and {rooms.%{_id}%.zMax}:
+
+                    return {_id}
+
+    return "corridors"
+
+
+    registerRoom("kitchen", 81, -62, 235, 91, -52, 246)
+    registerRoom("freezer", 85, -62, 228, 91, -52, 235)
+    registerRoom("laboratory", 110, -62, 253, 124, -52, 244)
+    registerRoom("controlRoom", 100, -62, 232, 110, -52, 242)
+    registerRoom("reactor", 114, -62, 243, 124, -52, 231)
+    registerRoom("meetingRoom", 144, -62, 227, 130, -52, 211)
+    registerRoom("workshop", 114, -62, 197, 130, -52, 207)
+    registerRoom("greenArea", 110, -62, 214, 76, -52, 190)
+    registerRoom("library", 81, -62, 228, 95, -52, 220)
+    registerRoom("observatory", x1, --50, -252, x2, -44, z2)
