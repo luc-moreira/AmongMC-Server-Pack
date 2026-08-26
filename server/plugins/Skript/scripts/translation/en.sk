@@ -88,6 +88,7 @@ function loadEn():
     registerTranslation("en", "tasks.Completed", "&aTask completed: {1}")
 
     # vent
+    registerTranslation("en", "tasks.tooGrouped", "&cInsufficient crew coverage detected! You have been assigned a new task.")
     registerTranslation("en", "vent.entered1", "&7You entered a &bvent&7.")
     registerTranslation("en", "vent.entered2", "&eUse the &6Compasses &eto navigate between vents.")
     registerTranslation("en", "vent.entered3", "&dUse the &5Ender Pearl &dto leave the vent.")
@@ -197,6 +198,7 @@ function loadEn():
     registerTranslation("en", "config.playerSpeed", "&bSpeed: {1}x")
     registerTranslation("en", "config.meetingLimit", "&6Meetings per player: {1}")
 
+    registerTranslation("en", "config.adminCooldown", "&cAdmin Cooldown: {1}s")
     registerTranslation("en", "config.taskBar", "&bTask Bar: {1}")
     registerTranslation("en", "config.taskBar.off", "&cOFF")
     registerTranslation("en", "config.taskBar.meetings", "&eMeetings Only")
@@ -207,6 +209,7 @@ function loadEn():
     registerTranslation("en", "config.confirmEjects", "&fConfirm Ejects: {1}")
     registerTranslation("en", "config.impostorsKnowEachOther", "&cImp. Know E. Other: {1}")
 
+    registerTranslation("en", "config.dynamicTasks", "&eDynamic Tasks: {1}")
     registerTranslation("en", "config.enabled", "&aEnabled")
     registerTranslation("en", "config.disabled", "&cDisabled")
     registerTranslation("en", "config.yes", "&aYes")
@@ -338,6 +341,7 @@ function loadEn():
     registerTranslation("en", "scoreboard.confirmEjects", "&fConfirm Eject: {1}")
     registerTranslation("en", "scoreboard.impostorsKnowEachOther", "&fImp. Know E. Other: {1}")
 
+    registerTranslation("en", "scoreboard.dynamicTasks", "&fDynamic Tasks: {1}")
     registerTranslation("en", "scoreboard.completedTasks", "&7Completed Tasks: &e{1}&7/&a{2}")
     registerTranslation("en", "scoreboard.ready", "Ready!")
     registerTranslation("en", "scoreboard.killCooldownRemaining", "&7Kill Cooldown: &c{1}")
@@ -375,6 +379,12 @@ function loadEn():
     registerTranslation("en", "vitals.dead", "&e{1} (Dead)")
     registerTranslation("en", "vitals.noSignal", "&8{1} (No Signal)")
 
+
+    # admin
+
+    registerTranslation("en", "admin.title", "&8Admin")
+    registerTranslation("en", "admin.cooldown", "&cAdmin is reloading. Please wait.")
+    registerTranslation("en", "admin.location", "&7{1} &eis in &f{2}&e")
 
     # some texts inside tasks
 
@@ -477,7 +487,7 @@ function loadEn():
     registerTranslation("en", "task.cleanCup", "&fClean Cup")
 
     #these go into the signs in the map, if you change them, make sure to test and maybe 
-    #reak words into multiple lines if they are too long, otherwise they will not fit in the sign.
+    #break words into multiple lines if they are too long, otherwise they will not fit in the sign.
 
     registerTranslation("en", "sign.vitalSigns", "VITAL SIGNS")
     registerTranslation("en", "sign.controlRoom", "CONTROL ROOM")
@@ -498,3 +508,26 @@ function loadEn():
     registerTranslation("en", "sign.workshop", "WORKSHOP")
     registerTranslation("en", "sign.greenArea", "GREEN AREA")
     registerTranslation("en", "sign.electricalControl", "ELECTRICAL CONTROL")
+    registerTranslation("en", "sign.admin", "ADMIN")
+
+    registerTranslation("en", "roomName.workshop", "Workshop")
+
+    registerTranslation("en", "roomName.reactor", "Reactor")
+
+    registerTranslation("en", "roomName.observatory", "Observatory")
+
+    registerTranslation("en", "roomName.meetingRoom", "Meeting Room")
+
+    registerTranslation("en", "roomName.library", "Library")
+
+    registerTranslation("en", "roomName.laboratory", "Laboratory")
+
+    registerTranslation("en", "roomName.kitchen", "Kitchen")
+
+    registerTranslation("en", "roomName.greenArea", "Green Area")
+
+    registerTranslation("en", "roomName.freezer", "Freezer")
+
+    registerTranslation("en", "roomName.corridors", "Corridors")
+
+    registerTranslation("en", "roomName.controlRoom", "Control Room")

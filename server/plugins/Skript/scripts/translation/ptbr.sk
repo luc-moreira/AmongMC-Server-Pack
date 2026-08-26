@@ -86,6 +86,7 @@ function loadPtbr():
     # tasks
     registerTranslation("ptbr", "tasks.Progress", "&e{1}&7: etapa {2}/{3}")
     registerTranslation("ptbr", "tasks.Completed", "&aTask concluída: {1}")
+    registerTranslation("ptbr", "tasks.tooGrouped", "&cCobertura insuficiente dos setores detectada! Uma nova tarefa foi atribuída a você.")
 
     # vent
     registerTranslation("ptbr", "vent.entered1", "&7Você entrou em uma &bvent&7.")
@@ -206,6 +207,7 @@ function loadPtbr():
     registerTranslation("ptbr", "config.anonymousVotes", "&fVotos anônimos: {1}")
     registerTranslation("ptbr", "config.confirmEjects", "&fRevelar impostor ao ejetar: {1}")
     registerTranslation("ptbr", "config.impostorsKnowEachOther", "&cImpostores se conhecem: {1}")
+    registerTranslation("ptbr", "config.dynamicTasks", "&eTasks dinâmicas: {1}")
 
     registerTranslation("ptbr", "config.enabled", "&aLigado")
     registerTranslation("ptbr", "config.disabled", "&cDesligado")
@@ -338,6 +340,7 @@ function loadPtbr():
     registerTranslation("ptbr", "scoreboard.anonymousVotes", "&fVotos Anôn.: {1}")
     registerTranslation("ptbr", "scoreboard.confirmEjects", "&fRevelar Ejetado: {1}")
     registerTranslation("ptbr", "scoreboard.impostorsKnowEachOther", "&fImp. Se Conhecem: {1}")
+    registerTranslation("ptbr", "scoreboard.dynamicTasks", "&fTasks Dinâmicas: {1}")
 
     registerTranslation("ptbr", "scoreboard.completedTasks", "&7Tasks Concluídas: &e{1}&7/&a{2}")
     registerTranslation("ptbr", "scoreboard.ready", "Pronto!")
@@ -381,7 +384,6 @@ function loadPtbr():
     registerTranslation("ptbr", "admin.title", "&8Admin")
     registerTranslation("ptbr", "admin.cooldown", "&cO Admin está recarregando. Aguarde um pouco.")
     registerTranslation("ptbr", "admin.location", "&7{1} &eestá em &f{2}&e.")
-
 
     # some texts inside tasks
 

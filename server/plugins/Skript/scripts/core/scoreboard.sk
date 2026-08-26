@@ -27,6 +27,11 @@ function updateScoreboard(p: player):
         else:
             set {_know} to getTr("config.no")
 
+        if {config.dynamicTasks} is true:
+            set {_dtasks} to getTr("config.yes")
+        else:
+            set {_dtasks} to getTr("config.no")
+
         set line 2 of fastboard of {_p} to getTr("scoreboard.settings")
 
         set line 3 of fastboard of {_p} to getTr("scoreboard.impostors", "%{config.impostors}%")
@@ -43,6 +48,7 @@ function updateScoreboard(p: player):
         set line 11 of fastboard of {_p} to getTr("scoreboard.anonymousVotes", "%{_votes}%")
         set line 12 of fastboard of {_p} to getTr("scoreboard.confirmEjects", "%{_confirm}%")
         set line 13 of fastboard of {_p} to getTr("scoreboard.impostorsKnowEachOther", "%{_know}%")
+        set line 14 of fastboard of {_p} to getTr("scoreboard.dynamicTasks", "%{_dtasks}%")
 
 
     else:

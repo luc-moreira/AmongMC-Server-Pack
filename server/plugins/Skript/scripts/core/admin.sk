@@ -52,7 +52,6 @@ function openAdmin(p: player):
 
     set {_inv} to chest inventory with 2 rows named getTr("admin.title")
 
-    # Limpa o inventário
     loop 18 times:
         set slot (loop-number - 1) of {_inv} to black stained glass pane named " "
 
@@ -155,7 +154,6 @@ on inventory click:
 
     else:
 
-        # O alvo está morto: procura o corpo dele.
         if {body::%{_targetUUID}%} is not set:
             stop
 

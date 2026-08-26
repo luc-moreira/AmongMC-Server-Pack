@@ -7,6 +7,9 @@ on load:
     if {config.playerSpeed} is not set:
         set {config.playerSpeed} to 1.0
 
+    if {config.dynamicTasks} is not set:
+        set {config.dynamicTasks} to false
+
     if {config.adminCooldown} is not set:
         set {config.adminCooldown} to 5
 
@@ -82,7 +85,14 @@ function openConfig(p: player):
 
     set slot 24 of {_inv} to bell named getTr("config.meetingLimit", "%{config.meetingLimit}%")
 
-    set slot 27 of {_inv} to map named getTr("config.adminCooldown", "%{config.adminCooldown}%")
+    set slot 27 of {_inv} to filled map named getTr("config.adminCooldown", "%{config.adminCooldown}%")
+
+    if {config.dynamicTasks} is true:
+        set {_dtasks} to getTr("config.enabled")
+    else:
+        set {_dtasks} to getTr("config.disabled")
+
+    set slot 36 of {_inv} to tripwire hook named getTr("config.dynamicTasks", "%{_dtasks}%")
     
 
     if {config.taskBarMode} is 0:
@@ -181,6 +191,8 @@ function openConfig(p: player):
 
     set lore of slot 35 of {_inv} to "", getTr("config.clickToggle")
 
+    set lore of slot 36 of {_inv} to "", getTr("config.clickToggle")
+
     set lore of slot 45 of {_inv} to "", getTr("config.clickToggle")
 
     set lore of slot 53 of {_inv} to "", getTr("config.startLore")
@@ -269,13 +281,13 @@ on inventory click:
         openConfig(player)
         stop
 
-        if {config.playerSpeed} < 0.5:
-            set {config.playerSpeed} to 0.5
-        if {config.playerSpeed} > 3:
-            set {config.playerSpeed} to 3
-        
-        loop all players:
-            updateSpeed(loop-player)
+    if clicked slot is 36:
+
+        if {config.dynamicTasks} is true:
+            set {config.dynamicTasks} to false
+        else:
+            set {config.dynamicTasks} to true
+
         openConfig(player)
         stop
 
