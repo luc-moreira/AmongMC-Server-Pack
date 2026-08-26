@@ -4,7 +4,7 @@ function openVitals(p: player):
 
     loop all entities:
         if loop-entity has scoreboard tag "among_body":
-            set {_owner} to {bodyOwner.%uuid of loop-entity%}
+            set {_owner} to {bodyOwner::%uuid of loop-entity%}
             if {_owner} is set:
                 set {_hasBody.%{_owner}%} to true
 

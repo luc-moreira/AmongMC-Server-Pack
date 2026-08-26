@@ -195,6 +195,7 @@ function loadPtbr():
     registerTranslation("ptbr", "config.tasksPerPlayer", "&eTasks por jogador: {1}")
     registerTranslation("ptbr", "config.playerSpeed", "&bVelocidade: {1}x")
     registerTranslation("ptbr", "config.meetingLimit", "&6Reuniões por jogador: {1}")
+    registerTranslation("ptbr", "config.adminCooldown", "&cCooldown do Admin: {1}s")
 
     registerTranslation("ptbr", "config.taskBar", "&bTaskBar: {1}")
     registerTranslation("ptbr", "config.taskBar.off", "&cOFF")
@@ -375,6 +376,12 @@ function loadPtbr():
     registerTranslation("ptbr", "vitals.dead", "&e{1} (Morto)")
     registerTranslation("ptbr", "vitals.noSignal", "&8{1} (Sem Sinal)")
 
+    # admin
+
+    registerTranslation("ptbr", "admin.title", "&8Admin")
+    registerTranslation("ptbr", "admin.cooldown", "&cO Admin está recarregando. Aguarde um pouco.")
+    registerTranslation("ptbr", "admin.location", "&7{1} &eestá em &f{2}&e.")
+
 
     # some texts inside tasks
 
@@ -499,6 +506,7 @@ function loadPtbr():
     registerTranslation("ptbr", "sign.workshop", "OFICINA")
     registerTranslation("ptbr", "sign.greenArea", "ÁREA VERDE")
     registerTranslation("ptbr", "sign.electricalControl", "CONTROLE ELÉTRICO")
+    registerTranslation("ptbr", "sign.admin", "ADMIN")
 
     #roomnames
 

@@ -3,16 +3,16 @@ function registerRoom(id: string, x1: number, y1: number, z1: number, x2: number
     if {rooms.list::*} does not contain {_id}:
         add {_id} to {rooms.list::*}
 
-    set {rooms.%{_id}%.xMin} to min({_x1}, {_x2})+0.5
-    set {rooms.%{_id}%.yMin} to min({_y1}, {_y2})+0.5
-    set {rooms.%{_id}%.zMin} to min({_z1}, {_z2})+0.5
+    set {rooms::%{_id}%.xMin} to min({_x1}, {_x2})+0.5
+    set {rooms::%{_id}%.yMin} to min({_y1}, {_y2})+0.5
+    set {rooms::%{_id}%.zMin} to min({_z1}, {_z2})+0.5
 
-    set {rooms.%{_id}%.xMax} to max({_x1}, {_x2})+0.5
-    set {rooms.%{_id}%.yMax} to max({_y1}, {_y2})+0.5
-    set {rooms.%{_id}%.zMax} to max({_z1}, {_z2})+0.5
+    set {rooms::%{_id}%.xMax} to max({_x1}, {_x2})+0.5
+    set {rooms::%{_id}%.yMax} to max({_y1}, {_y2})+0.5
+    set {rooms::%{_id}%.zMax} to max({_z1}, {_z2})+0.5
 
 
-function getPlayerRoom(p: player) :: string:
+function getPlayerRoom(p: entity) :: string:
 
     set {_x} to x-coordinate of {_p}
     set {_y} to y-coordinate of {_p}
@@ -22,22 +22,161 @@ function getPlayerRoom(p: player) :: string:
 
         set {_id} to loop-value
 
-        if {_x} is between {rooms.%{_id}%.xMin} and {rooms.%{_id}%.xMax}:
-            if {_y} is between {rooms.%{_id}%.yMin} and {rooms.%{_id}%.yMax}:
-                if {_z} is between {rooms.%{_id}%.zMin} and {rooms.%{_id}%.zMax}:
+        if {_x} is between {rooms::%{_id}%.xMin} and {rooms::%{_id}%.xMax}:
+            if {_y} is between {rooms::%{_id}%.yMin} and {rooms::%{_id}%.yMax}:
+                if {_z} is between {rooms::%{_id}%.zMin} and {rooms::%{_id}%.zMax}:
 
                     return {_id}
 
     return "corridors"
 
 
+
+on load:
+    delete {rooms.list::*}
+    delete {rooms::*}
+
     registerRoom("kitchen", 81, -62, 235, 91, -52, 246)
     registerRoom("freezer", 85, -62, 228, 91, -52, 235)
     registerRoom("laboratory", 110, -62, 253, 124, -52, 244)
     registerRoom("controlRoom", 100, -62, 232, 110, -52, 242)
     registerRoom("reactor", 114, -62, 243, 124, -52, 231)
-    registerRoom("meetingRoom", 144, -62, 227, 130, -52, 211)
+    registerRoom("meetingRoom", 114, -62, 227, 130, -52, 211)
     registerRoom("workshop", 114, -62, 197, 130, -52, 207)
     registerRoom("greenArea", 110, -62, 214, 76, -52, 190)
     registerRoom("library", 81, -62, 228, 95, -52, 220)
-    registerRoom("observatory", x1, --50, -252, x2, -44, z2)
+    registerRoom("observatory", 92, -50, 252, 98, -44, 242)
+
+
+function openAdmin(p: player):
+
+    set {_inv} to chest inventory with 2 rows named getTr("admin.title")
+
+    # Limpa o inventário
+    loop 18 times:
+        set slot (loop-number - 1) of {_inv} to black stained glass pane named " "
+
+    set {_slot} to 0
+
+    loop all players:
+
+        set {_target} to loop-player
+
+        if {color.%uuid of {_target}%} is "white":
+            set {_wool} to white wool
+        else if {color.%uuid of {_target}%} is "orange":
+            set {_wool} to orange wool
+        else if {color.%uuid of {_target}%} is "magenta":
+            set {_wool} to magenta wool
+        else if {color.%uuid of {_target}%} is "light_blue":
+            set {_wool} to light blue wool
+        else if {color.%uuid of {_target}%} is "yellow":
+            set {_wool} to yellow wool
+        else if {color.%uuid of {_target}%} is "lime":
+            set {_wool} to lime wool
+        else if {color.%uuid of {_target}%} is "pink":
+            set {_wool} to pink wool
+        else if {color.%uuid of {_target}%} is "gray":
+            set {_wool} to gray wool
+        else if {color.%uuid of {_target}%} is "light_gray":
+            set {_wool} to light gray wool
+        else if {color.%uuid of {_target}%} is "cyan":
+            set {_wool} to cyan wool
+        else if {color.%uuid of {_target}%} is "purple":
+            set {_wool} to purple wool
+        else if {color.%uuid of {_target}%} is "blue":
+            set {_wool} to blue wool
+        else if {color.%uuid of {_target}%} is "brown":
+            set {_wool} to brown wool
+        else if {color.%uuid of {_target}%} is "green":
+            set {_wool} to green wool
+        else if {color.%uuid of {_target}%} is "red":
+            set {_wool} to red wool
+        else if {color.%uuid of {_target}%} is "black":
+            set {_wool} to black wool
+
+        if {game.ghosts::*} does not contain {_target}:
+
+            set slot {_slot} of {_inv} to {_wool} named "%chatColor({_target})%%name of {_target}%"
+            set {admin.target.%uuid of {_p}%.%{_slot}%} to uuid of {_target}
+
+            add 1 to {_slot}
+
+        else:
+
+            if {body::%uuid of {_target}%} is set:
+
+                set {_body} to {body::%uuid of {_target}%}
+
+                set slot {_slot} of {_inv} to {_wool} named "%chatColor({_target})%%name of {_target}%"
+                set {admin.target.%uuid of {_p}%.%{_slot}%} to uuid of {_target}
+
+                add 1 to {_slot}
+
+    open {_inv} to {_p}
+
+
+on inventory click:
+
+    if holder of event-inventory is set:
+        stop
+
+    if name of event-inventory is not getTr("admin.title"):
+        stop
+
+    cancel event
+
+    if clicked slot is greater than 17:
+        stop
+
+    if event-item is black stained glass pane:
+        stop
+
+    if {admin.cooldown} is not set:
+        set {admin.cooldown} to now
+
+    if {admin.cooldown} is greater than now:
+        send getTr("admin.cooldown") to player
+        stop
+
+    set {_targetUUID} to {admin.target.%uuid of player%.%index of clicked slot%}
+
+    if {_targetUUID} is not set:
+        stop
+
+    set {_target} to {_targetUUID} parsed as player
+
+    if {_target} is not set:
+        stop
+
+    if {game.ghosts::*} does not contain {_target}:
+
+        set {_room} to getPlayerRoom({_target})
+
+    else:
+
+        # O alvo está morto: procura o corpo dele.
+        if {body::%{_targetUUID}%} is not set:
+            stop
+
+        set {_body} to {body::%{_targetUUID}%}
+        set {_room} to getPlayerRoom({_body})
+
+    close player's inventory
+
+    send getTr("admin.location", name of {_target}, getTr("roomName.%{_room}%")) to player
+
+    set {_cooldown} to "%{config.adminCooldown}% seconds" parsed as timespan
+    set {admin.cooldown} to now + {_cooldown}
+
+on inventory close:
+
+    if name of event-inventory is getTr("admin.title"):
+
+        delete {admin.target.%uuid of player%::*}
+
+on right click:
+
+    if locationKey(location of clicked block) is locationKey(location(110,-58,234,world("amongmc"))):
+        cancel event
+        openAdmin(player)

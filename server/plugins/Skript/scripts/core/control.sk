@@ -7,6 +7,9 @@ function resetGame():
     delete {game.completedTasks}
     delete {game.totalTasks}
 
+    delete {body::*}
+    delete {bodyOwner::*}
+
     delete {game.impostors::*}
     delete {game.crewmates::*}
     delete {game.ghosts::*}
@@ -228,7 +231,7 @@ command /start:
 function checkEndGame():
 
     #parar de encerrar o jogo. Apenas pra debugging:
-    #stop
+    stop
 
 
     if {game.state} is "waiting":

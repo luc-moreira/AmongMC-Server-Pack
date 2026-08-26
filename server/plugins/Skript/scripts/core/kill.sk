@@ -94,7 +94,7 @@ on right click on armor stand:
     set {game.state} to "meeting"
     cancel event
 
-    set {_dead} to {bodyOwner.%uuid of clicked entity%} parsed as player
+    set {_dead} to {bodyOwner::%uuid of clicked entity%} parsed as player
 
     broadcast getTr("kill.bodyFound", "%chatColor({_dead})%%name of {_dead}%")
 
@@ -110,8 +110,8 @@ function spawnBody(p: player):
     set {_body} to last spawned entity
     add "among_body" to scoreboard tags of {_body}
 
-    set {body.%uuid of {_p}%} to {_body}
-    set {bodyOwner.%uuid of {_body}%} to uuid of {_p}
+    set {body::%uuid of {_p}%} to {_body}
+    set {bodyOwner::%uuid of {_body}%} to uuid of {_p}
 
     set {_nbt} to nbt compound from "{NoGravity:1b,Invisible:1b,ShowArms:1b,NoBasePlate:1b,Pose:{Body:[90f,0f,0f],Head:[85f,0f,0f],LeftLeg:[90f,0f,0f],RightLeg:[90f,0f,0f],LeftArm:[90f,0f,0f],RightArm:[90f,0f,0f]}}"
     add {_nbt} to nbt of {_body}

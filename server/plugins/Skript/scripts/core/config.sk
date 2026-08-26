@@ -6,7 +6,10 @@ command /config:
 on load:
     if {config.playerSpeed} is not set:
         set {config.playerSpeed} to 1.0
-        
+
+    if {config.adminCooldown} is not set:
+        set {config.adminCooldown} to 5
+
     if {config.impostors} is not set:
         set {config.impostors} to 1
 
@@ -78,6 +81,8 @@ function openConfig(p: player):
     set slot 18 of {_inv} to feather named getTr("config.playerSpeed", "%{config.playerSpeed}%")
 
     set slot 24 of {_inv} to bell named getTr("config.meetingLimit", "%{config.meetingLimit}%")
+
+    set slot 27 of {_inv} to map named getTr("config.adminCooldown", "%{config.adminCooldown}%")
     
 
     if {config.taskBarMode} is 0:
@@ -238,6 +243,31 @@ on inventory click:
             add 0.25 to {config.playerSpeed}
         else if click type is right mouse button:
             remove 0.25 from {config.playerSpeed}
+
+        if {config.playerSpeed} < 0.5:
+            set {config.playerSpeed} to 0.5
+        if {config.playerSpeed} > 3:
+            set {config.playerSpeed} to 3
+        
+        loop all players:
+            updateSpeed(loop-player)
+        openConfig(player)
+        stop
+
+    if clicked slot is 27:
+
+        if click type is left mouse button:
+            add 2.5 to {config.adminCooldown}
+        else if click type is right mouse button:
+            remove 2.5 from {config.adminCooldown}
+
+        if {config.adminCooldown} < 2.5:
+            set {config.adminCooldown} to 2.5
+        if {config.adminCooldown} > 60:
+            set {config.adminCooldown} to 60
+
+        openConfig(player)
+        stop
 
         if {config.playerSpeed} < 0.5:
             set {config.playerSpeed} to 0.5
