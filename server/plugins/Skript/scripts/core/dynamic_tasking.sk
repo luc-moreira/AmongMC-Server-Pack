@@ -40,7 +40,6 @@ every 1 second:
             if {playerGrouped.%uuid of loop-player-1%} > 0:
                 subtract 1 from {playerGrouped.%uuid of loop-player-1%}
 
-
 function tooGrouped(p: player):
     send getTr("tasks.tooGrouped") to {_p}
 
@@ -55,6 +54,8 @@ function tooGrouped(p: player):
     set {_random} to random element out of {_pool::*}
 
     add {_random} to {playerTasks.%uuid of {_p}%::*}
+
+    log "Added task %{_random}% to player %name of {_p}%" to file "task"
 
     if {task.%{_random}%.ordered} is true:
         set {playerTaskStep.%uuid of {_p}%.%{_random}%} to 1

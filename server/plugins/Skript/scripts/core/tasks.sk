@@ -144,6 +144,7 @@ function completeTask(p: player, id: text):
 
 function updateTasks():
 
+    set {_oldTotal} to {game.totalTasks}
     set {game.completedTasks} to 0
     set {game.totalTasks} to 0
 
@@ -152,7 +153,7 @@ function updateTasks():
         add size of {playerTasks.%uuid of loop-player%::*} to {game.totalTasks}
         add size of {playerTasksDone.%uuid of loop-player%::*} to {game.totalTasks}
         add size of {playerTasksDone.%uuid of loop-player%::*} to {game.completedTasks}
-
+        log "Player %name of loop-player%%nl%Tasks: %{playerTasks.%uuid of loop-player%::*}%%nl%Done: %{playerTasksDone.%uuid of loop-player%::*}%" to file "task"
     checkEndGame()
 
 
