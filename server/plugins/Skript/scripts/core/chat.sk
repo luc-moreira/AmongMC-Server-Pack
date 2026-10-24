@@ -1,0 +1,58 @@
+# Chat Management System
+# Handles player chat based on game state and player status (alive/dead)
+
+function formatPlayerName(p: player) :: text:
+    set {_color} to chatColor({_p})
+    set {_name} to "%{_color}%%name of {_p}%"
+
+    if {game.ghosts::*} contains {_p}:
+        set {_name} to "%{_name}% %getTr("chat.deadTag")%"
+
+    return {_name}
+
+command /all <text>:
+    aliases: allchat, everyone
+    trigger:
+        if {game.state} is "waiting" or "ending":
+            send getTr("chat.all.waiting") to player
+            stop
+
+        if length of arg-1 is 0:
+            send getTr("chat.all.usage") to player
+            stop
+
+        set {_message} to arg-1
+        set {_formattedName} to formatPlayerName(player)
+
+        if {game.ghosts::*} contains player:
+            broadcast "&8%getTr("chat.allPrefix.dead")% %{_formattedName}%&f: %{_message}%"
+        else:
+            if {game.state} is "running":
+                broadcast "&8%getTr("chat.allPrefix.alive")% %{_formattedName}%&f: %{_message}%"
+            else if {game.state} is "meeting":
+                broadcast "&8%getTr("chat.allPrefix.alive")% %{_formattedName}%&f: %{_message}%"
+
+on chat:
+    set {_formattedName} to formatPlayerName(player)
+
+    if {game.state} is "waiting" or "ending":
+        set chat format to "%{_formattedName}%&f: %message%"
+        stop
+
+    cancel event
+
+    set {_message} to message
+
+    if {game.ghosts::*} contains player:
+        loop all players:
+            if {game.ghosts::*} contains loop-player:
+                send "&8%getTr("chat.deadPrefix")% %{_formattedName}%&f: %{_message}%" to loop-player
+        stop
+
+    if {game.state} is "meeting":
+        broadcast "%{_formattedName}%&f: %{_message}%"
+        stop
+
+    if {game.state} is "running":
+        send getTr("chat.blocked.running") to player
+        stop

@@ -79,7 +79,7 @@ function runTaskStep(p: player, id: text, step: number):
     else if {_id} is "tune_radio":
         tune_radio({_p}, {_step})
     else if {_id} is "organize_armor":
-        organize_armor({_p}, {_step}) 
+        organize_armor({_p}, {_step})
     else if {_id} is "craft_device":
         craft_device({_p}, {_step})
     else if {_id} is "clean_lens":
@@ -95,8 +95,6 @@ function runTaskStep(p: player, id: text, step: number):
     else if {_id} is "remove_duplicate_books":
         remove_duplicate_books({_p}, {_step})
 
-
-        
 
 function advanceTaskStep(p: player, id: text, step: number = -1):
 
@@ -120,8 +118,15 @@ function advanceTaskStep(p: player, id: text, step: number = -1):
         stop
 
     play sound "minecraft:entity.experience_orb.pickup" with volume 1 and pitch 1.2 to {_p}
+
+    if {playerTaskStep.%uuid of {_p}%.%{_id}%} is not set:
+        broadcast "&c[ERRO] Task step não inicializado. Cheque os logs!"
+        log "[ERRO] Task step não inicializado para %{_id}% (player: %name of {_p}%, uuid: %uuid of {_p}%, gameState: %{game.state}%, totalTasks: %{game.totalTasks}%, completedTasks: %{game.completedTasks}%)" to file "reactor"
+        set {playerTaskStep.%uuid of {_p}%.%{_id}%} to 1
+
     set {_current} to {playerTaskStep.%uuid of {_p}%.%{_id}%}
     set {_total} to {task.%{_id}%.steps}
+
     if {_current} >= {_total}:
         completeTask({_p}, {_id})
     else:
@@ -131,16 +136,39 @@ function advanceTaskStep(p: player, id: text, step: number = -1):
     updateCompass({_p})
 
 function completeTask(p: player, id: text):
+    if {playerTasksDone.%uuid of {_p}%::*} contains {_id}:
+        stop
+
     remove {_id} from {playerTasks.%uuid of {_p}%::*}
     delete {playerTaskStep.%uuid of {_p}%.%{_id}%}
     delete {playerTaskProgress.%uuid of {_p}%.%{_id}%}
     delete {playerTaskDone.%uuid of {_p}%.%{_id}%::*}
     add {_id} to {playerTasksDone.%uuid of {_p}%::*}
+
+    if {game.state} is "running":
+        addAchievementProgress({_p}, "first_task", 1)
+        addAchievementProgress({_p}, "tasks_tiered", 1)
+
+        set {_taskId} to "%{_id}%"
+        set {_currentRaw} to {achievement::raw::%uuid of {_p}%::%{_taskId}%}
+        if {_currentRaw} is not set:
+            set {_currentRaw} to 0
+        add 1 to {_currentRaw}
+        set {achievement::raw::%uuid of {_p}%::%{_taskId}%} to {_currentRaw}
+
+        if {game.impostors::*} does not contain {_p}:
+            if {game.ghosts::*} does not contain {_p}:
+                if size of {playerTasks.%uuid of {_p}%::*} = 0:
+                    if {game.firstTaskCompletion} is not set:
+                        set {game.firstTaskCompletion} to uuid of {_p}
+                        addAchievementProgress({_p}, "task_speedrunner", 1)
+
     updateTasks()
 
     send getTr("tasks.completed", getTr("taskname.%{_id}%")) to {_p}
     loop all players:
         updateScoreboard(loop-player)
+
 
 function updateTasks():
 
@@ -153,7 +181,6 @@ function updateTasks():
         add size of {playerTasks.%uuid of loop-player%::*} to {game.totalTasks}
         add size of {playerTasksDone.%uuid of loop-player%::*} to {game.totalTasks}
         add size of {playerTasksDone.%uuid of loop-player%::*} to {game.completedTasks}
-        log "Player %name of loop-player%%nl%Tasks: %{playerTasks.%uuid of loop-player%::*}%%nl%Done: %{playerTasksDone.%uuid of loop-player%::*}%" to file "task"
     checkEndGame()
 
 
@@ -265,26 +292,25 @@ function drawTaskParticles(p: player, loc: location):
                     draw 1 of happy_villager at {_particleLoc} to {_p}
     else:
         set {_loc} to location of block at {_loc}
-        loop 2 times: 
-            if loop-number = 1: 
-                set {_x} to -0.5 
-            else: 
+        loop 2 times:
+            if loop-number = 1:
+                set {_x} to -0.5
+            else:
                 set {_x} to 0.5
 
-            loop 2 times: 
+            loop 2 times:
                 if loop-number-2 = 1:
-                    set {_y} to -0.5 
-                else: 
+                    set {_y} to -0.5
+                else:
                     set {_y} to 0.5
 
-                loop 2 times: 
+                loop 2 times:
                     if loop-number-3 = 1:
                         set {_z} to -0.5
-                    else: 
+                    else:
                         set {_z} to 0.5
-                        
-                    draw 1 of happy_villager at {_loc} with offset vector {_x}, {_y}, {_z} to {_p}
 
+                    draw 1 of happy_villager at {_loc} with offset vector {_x}, {_y}, {_z} to {_p}
 
 
 function showTaskParticles(p: player):

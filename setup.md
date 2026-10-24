@@ -8,7 +8,7 @@ Clone this repository to a folder of your choice.
 
 ## 2. Adjust Server Memory
 
-Open the `start.bat` file with a text editor and change the `-Xms` and `-Xmx` parameters to the desired amount of memory.
+Open the `server/start.bat` (not the one in the project root folder, as it is just a shortcut) file with a text editor and change the `-Xms` and `-Xmx` parameters to the desired amount of memory.
 
 The default value is **4 GB**, which proved to be sufficient during testing.
 
@@ -44,6 +44,8 @@ To use it:
 ```text
 server/plugins/Skript/scripts/changeme.sk
 ```
+
+**Quick Access:** You can also open this file directly using the **`DiscordSetup.lnk`** shortcut located in the **root folder of the project**.
 
 and fill in, **inside quotation marks**:
 

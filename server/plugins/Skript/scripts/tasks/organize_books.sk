@@ -33,6 +33,7 @@ function organize_books(p: player, step: number):
 
         set slot (loop-number - 1) of {_inv} to {_book}
 
+    delete {task.organize_books.placementOrder.%uuid of {_p}%::*}
     open {_inv} to {_p}
 
 
@@ -50,6 +51,7 @@ on inventory click:
     wait 1 tick
 
     if player is from floodgate:
+
         set {_item} to player's cursor slot
         if {_item} is not air:
             loop 9 times:
@@ -68,6 +70,16 @@ on inventory click:
 
         if int tag "AmongMCBook" of custom nbt of {_item} is not loop-number:
             stop
+
+    set {_isReverse} to true
+    loop 9 times:
+        set {_item} to slot (loop-number - 1) of event-inventory
+        set {_bookNum} to int tag "AmongMCBook" of custom nbt of {_item}
+        set {_expected} to 10 - loop-number
+        if {_bookNum} is not {_expected}:
+            set {_isReverse} to false
+    if {_isReverse} is true:
+        addAchievementProgress(player, "reverse_librarian", 1)
 
     close player's inventory
     advanceTaskStep(player, "organize_books")

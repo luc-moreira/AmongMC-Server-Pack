@@ -32,7 +32,6 @@ server/plugins/SkinsRestorer/recommendations.json
 /server/plugins/Skript/lang
 server/plugins/Skript/scripts.zip
 server/plugins/Skript/scripts/core/todo.txt
-server/plugins/Skript/variables.csv
 /server/plugins/spark
 server/plugins/TAB/playerdata.yml
 server/plugins/TAB/skincache.yml
@@ -42,3 +41,9 @@ server/version_history.json
 /server/versions/
 server/whitelist.json
 /server/plugins/Skript/scripts/.vscode/
+/server/plugins/Skript/logs
+server/plugins/Skript/scripts/CLAUDE.md
+server/plugins/Skript/scripts/PROJECT_MAP.md
+*.zip
+*.log
+*.csv

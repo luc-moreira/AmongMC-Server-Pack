@@ -38,11 +38,9 @@ function updateArmor(p: player):
     else if {_color} is "black":
         set {_rgb} to rgb(29, 29, 33)
 
-    # Capacete padrão
     set {_helmet} to leather helmet
     dye {_helmet} {_rgb}
 
-    # Chapéu personalizado
     if {hat.%uuid of {_p}%} is "none":
         set {_helmet} to air
     else if {hat.%uuid of {_p}%} is set:
@@ -65,7 +63,7 @@ command /cor:
         if {game.state} is not "waiting":
             send getTr("color.cannotChange") to player
             stop
-            
+
         set {_inv} to chest inventory with 2 rows named getTr("color.chooseColor")
 
         if colorTaken("white", player) is true:
@@ -148,7 +146,7 @@ command /cor:
         else:
             set slot 15 of {_inv} to black wool named getTr("color.black")
 
-            open {_inv} to player
+        open {_inv} to player
 
 on inventory click:
 
@@ -300,11 +298,10 @@ on join:
 
                 set {color.%uuid of player%} to loop-value
 
-                send getTr("color.noColor1") to player
-                send getTr("color.noColor2", "%chatColor(player)%%loop-value%") to player
-                send getTr("color.noColor3") to player
+                send getTr("color.noColor") to player
+                send getTr("color.newColor", "%chatColor(player)%%loop-value%") to player
+                send getTr("color.howToChange") to player
                 stop
-
 
 
     updateArmor(player)

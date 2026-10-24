@@ -17,8 +17,6 @@ function craft_device(p: player, step: number):
 
     delete {craft.target.%uuid of {_p}%::*}
 
-    # Auto Crafter
-
     if {_recipe} = 1:
 
         set slot 17 of {_inv} to crafter
@@ -46,8 +44,6 @@ function craft_device(p: player, step: number):
         set {craft.target.%uuid of {_p}%::8} to redstone
 
         set {craft.result.%uuid of {_p}%} to crafter
-
-    # Pistão
 
     else if {_recipe} = 2:
 
@@ -77,8 +73,6 @@ function craft_device(p: player, step: number):
 
         set {craft.result.%uuid of {_p}%} to piston
 
-    # Observador
-
     else if {_recipe} = 3:
 
         set slot 17 of {_inv} to observer
@@ -106,8 +100,6 @@ function craft_device(p: player, step: number):
         set {craft.target.%uuid of {_p}%::8} to cobblestone
 
         set {craft.result.%uuid of {_p}%} to observer
-
-    # Comparador
 
     else:
 
@@ -164,8 +156,6 @@ function craft_device(p: player, step: number):
 
     add "torch2" to {_items::*}
     add "torch1" to {_items::*}
-
-    # Distribui aleatoriamente nos slots 36-53
 
     loop 18 times:
 

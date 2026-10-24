@@ -44,6 +44,7 @@ function loadPtbr():
 
     # hat
     registerTranslation("ptbr", "hat.changed", "&aVocê mudou seu chapéu para &e{1}&a.   ")
+    registerTranslation("ptbr", "hat.unlocked", "&6Novo chapéu desbloqueado: &e{1}")
 
     # joinleave
     registerTranslation("ptbr", "joinleave.gameInProgress1", "&cA partida já está em andamento.")
@@ -72,7 +73,7 @@ function loadPtbr():
 
     # sabotage
     registerTranslation("ptbr", "sabotage.lightsRestored", "&aLuzes restauradas!")
-    registerTranslation("ptbr", "sabotage.fireExtinguished", "&Incêndio apagado!")
+    registerTranslation("ptbr", "sabotage.fireExtinguished", "&aIncêndio apagado!")
     registerTranslation("ptbr", "sabotage.reactorStabilized", "&aReator estabilizado!")
     registerTranslation("ptbr", "sabotage.reactorCollapsed", "&4O reator entrou em colapso!")
     registerTranslation("ptbr", "sabotage.labBurnedDown", "&cO laboratório foi consumido pelo incêndio!")
@@ -523,4 +524,152 @@ function loadPtbr():
     registerTranslation("ptbr", "roomName.library", "Biblioteca")
     registerTranslation("ptbr", "roomName.observatory", "Observatório")
     registerTranslation("ptbr", "roomName.corridors", "Corredores")
+
+
+    # ============================================================
+    # CONQUISTAS (ACHIEVEMENTS)
+    # ============================================================
+
+    # GUI
+    registerTranslation("ptbr", "achievement.gui.name", "Conquistas")
+    registerTranslation("ptbr", "achievement.gui.completed", "&a✓ Concluído")
+    registerTranslation("ptbr", "achievement.progress", "Progresso: {1}/{2}")
+    registerTranslation("ptbr", "achievement.tier", "Tier: {1}/{2}")
+    registerTranslation("ptbr", "achievement.completed_count", "Completados: {1}/{2}")
+    registerTranslation("ptbr", "achievement.xp", "XP: +{1}")
+    registerTranslation("ptbr", "achievement.xp_total", "XP Total: +{1}")
+    registerTranslation("ptbr", "achievement.xp_next_tier", "Próximo Tier: +{1} XP")
+    registerTranslation("ptbr", "achievement.completed_status", "✓ Concluído")
+    registerTranslation("ptbr", "achievement.not_completed", "Não Concluído")
+    registerTranslation("ptbr", "achievement.secret", "Segredo")
+    registerTranslation("ptbr", "achievement.unlocked", "Conquista desbloqueada: {1} &7(+{2} XP)")
+    registerTranslation("ptbr", "achievement.cannotOpen", "Você não pode abrir o menu de conquistas agora.")
+    registerTranslation("ptbr", "achievement.lobby.actionbar", "Nível {1} | {2}/{3} XP [{4}]")
+    registerTranslation("ptbr", "achievement.lobby.title", "Bem-vind@, {1}!")
+    registerTranslation("ptbr", "achievement.lobby.subtitle", "Nível {1} | {2} XP")
+    registerTranslation("ptbr", "achievement.levelUp.broadcast", "&6{1} subiu para o nível {2}!")
+    registerTranslation("ptbr", "achievement.recalcDone", "Conquistas recalculadas para {1}")
+    registerTranslation("ptbr", "achievement.recalcAllDone", "Conquistas recalculadas para todos os jogadores")
+
+    # Conquistas de marco (milestone)
+    registerTranslation("ptbr", "achievement.first_game.name", "Bem-vindo a Bordo")
+    registerTranslation("ptbr", "achievement.first_game.desc", "Jogue sua primeira partida")
+
+    registerTranslation("ptbr", "achievement.first_kill.name", "Primeiro Sangue")
+    registerTranslation("ptbr", "achievement.first_kill.desc", "Consiga seu primeiro assassinato como impostor")
+
+    registerTranslation("ptbr", "achievement.first_task.name", "Primeiros Passos")
+    registerTranslation("ptbr", "achievement.first_task.desc", "Complete sua primeira tarefa")
+
+    registerTranslation("ptbr", "achievement.first_meeting.name", "Protocolo de Emergência")
+    registerTranslation("ptbr", "achievement.first_meeting.desc", "Chame sua primeira reunião de emergência")
+
+    registerTranslation("ptbr", "achievement.first_body_report.name", "Descoberta Macabra")
+    registerTranslation("ptbr", "achievement.first_body_report.desc", "Reporte seu primeiro corpo")
+
+    registerTranslation("ptbr", "achievement.first_sabotage_fix.name", "Crise Evitada")
+    registerTranslation("ptbr", "achievement.first_sabotage_fix.desc", "Conserte sua primeira sabotagem")
+
+    registerTranslation("ptbr", "achievement.first_vent.name", "Especialista em Ventilação")
+    registerTranslation("ptbr", "achievement.first_vent.desc", "Entre em um duto pela primeira vez")
+
+    registerTranslation("ptbr", "achievement.first_win_crew.name", "Vitória de Tripulante")
+    registerTranslation("ptbr", "achievement.first_win_crew.desc", "Ganhe sua primeira partida como tripulante")
+
+    registerTranslation("ptbr", "achievement.first_win_imp.name", "Vitória de Impostor")
+    registerTranslation("ptbr", "achievement.first_win_imp.desc", "Ganhe sua primeira partida como impostor")
+
+    # Conquistas de contador - Assassinatos (now tiered: kills_tiered)
+    registerTranslation("ptbr", "achievement.kills_tiered.name", "Assassino em Série")
+    registerTranslation("ptbr", "achievement.kills_tiered.desc", "Elimine tripulantes como impostor")
+
+    # Conquistas de contador - Tarefas (now tiered: tasks_tiered)
+    registerTranslation("ptbr", "achievement.tasks_tiered.name", "Mestre das Tarefas")
+    registerTranslation("ptbr", "achievement.tasks_tiered.desc", "Complete tarefas como tripulante")
+
+    # Conquistas de contador - Vitórias (now tiered: crew_wins_tiered, impostor_wins_tiered)
+    registerTranslation("ptbr", "achievement.crew_wins_tiered.name", "Guardião da Tripulação")
+    registerTranslation("ptbr", "achievement.crew_wins_tiered.desc", "Ganhe partidas como tripulante")
+
+    registerTranslation("ptbr", "achievement.impostor_wins_tiered.name", "Mestre do Engano")
+    registerTranslation("ptbr", "achievement.impostor_wins_tiered.desc", "Ganhe partidas como impostor")
+
+    # Conquistas de contador - Sabotagem (now tiered: sabotage_fixes_tiered)
+    registerTranslation("ptbr", "achievement.sabotage_fixes_tiered.name", "Engenheiro")
+    registerTranslation("ptbr", "achievement.sabotage_fixes_tiered.desc", "Conserte sabotagens")
+
+    # Conquistas de contador - Social (now tiered: body_reports_tiered, correct_votes_tiered, games_played_tiered)
+    registerTranslation("ptbr", "achievement.meeting_called_10.name", "Advogado da Democracia")
+    registerTranslation("ptbr", "achievement.meeting_called_10.desc", "Chame 10 reuniões de emergência")
+
+    registerTranslation("ptbr", "achievement.body_reports_tiered.name", "Denunciante")
+    registerTranslation("ptbr", "achievement.body_reports_tiered.desc", "Reporte corpos")
+
+    registerTranslation("ptbr", "achievement.correct_votes_tiered.name", "Bom Juiz")
+    registerTranslation("ptbr", "achievement.correct_votes_tiered.desc", "Vote corretamente em reuniões")
+
+    registerTranslation("ptbr", "achievement.games_played_tiered.name", "Veterano")
+    registerTranslation("ptbr", "achievement.games_played_tiered.desc", "Jogue partidas")
+
+    # Conquistas em níveis (tiered) - Per-sabotage (existing)
+    registerTranslation("ptbr", "achievement.reactor_fix_tiered.name", "Engenheiro Nuclear")
+    registerTranslation("ptbr", "achievement.reactor_fix_tiered.desc", "Estabilize o reator várias vezes")
+
+    registerTranslation("ptbr", "achievement.lights_fix_tiered.name", "Eletricista")
+    registerTranslation("ptbr", "achievement.lights_fix_tiered.desc", "Conserte as luzes várias vezes")
+
+    registerTranslation("ptbr", "achievement.lab_fire_tiered.name", "Bombeiro")
+    registerTranslation("ptbr", "achievement.lab_fire_tiered.desc", "Apague incêndios no laboratório várias vezes")
+
+    # Conquista de coleção
+    registerTranslation("ptbr", "achievement.task_completionist.name", "Completista")
+    registerTranslation("ptbr", "achievement.task_completionist.desc", "Complete cada tarefa única pelo menos uma vez")
+    registerTranslation("ptbr", "achievement.sabotage_master.name", "Mestre das Sabotagens")
+    registerTranslation("ptbr", "achievement.sabotage_master.desc", "Domine todos os tipos de sabotagem")
+    registerTranslation("ptbr", "achievement.social_butterfly.name", "Borboleta Social")
+    registerTranslation("ptbr", "achievement.social_butterfly.desc", "Excelência em dedução social")
+    registerTranslation("ptbr", "achievement.collection.missing", "Faltando:")
+
+    # Conquistas especiais
+    registerTranslation("ptbr", "achievement.survived_win.name", "Sobrevivente")
+    registerTranslation("ptbr", "achievement.survived_win.desc", "Ganhe como tripulante sem morrer")
+
+    registerTranslation("ptbr", "achievement.imp_survived_win.name", "Impostor Fantasma")
+    registerTranslation("ptbr", "achievement.imp_survived_win.desc", "Ganhe como impostor sem morrer")
+
+    registerTranslation("ptbr", "achievement.ghost_win.name", "Guardião Espiritual")
+    registerTranslation("ptbr", "achievement.ghost_win.desc", "Ganhe como um fantasma")
+
+    registerTranslation("ptbr", "achievement.pacifist_impostor.name", "Pacifista")
+    registerTranslation("ptbr", "achievement.pacifist_impostor.desc", "Ganhe como impostor sem que nenhum tripulante seja morto (ejeções permitidas)")
+
+    registerTranslation("ptbr", "achievement.perfect_impostor.name", "Impostor Perfeito")
+    registerTranslation("ptbr", "achievement.perfect_impostor.desc", "Ganhe como impostor matando todos sem receber um único voto")
+
+    registerTranslation("ptbr", "achievement.task_speedrunner.name", "Speedrunner")
+    registerTranslation("ptbr", "achievement.task_speedrunner.desc", "Seja o primeiro tripulante a completar todas as tarefas estando vivo")
+
+    registerTranslation("ptbr", "achievement.jester.name", "Bobo da Corte")
+    registerTranslation("ptbr", "achievement.jester.desc", "Seja ejetado tendo votado em si mesmo")
+
+    registerTranslation("ptbr", "achievement.reverse_librarian.name", "Bibliotecário Terrível")
+    registerTranslation("ptbr", "achievement.reverse_librarian.desc", "Organize os livros na ordem exata reversa")
+
+    registerTranslation("ptbr", "achievement.early_bird.name", "Pistoleiro Veloz")
+    registerTranslation("ptbr", "achievement.early_bird.desc", "Consiga 3 assassinatos antes da primeira reunião")
+
+    registerTranslation("ptbr", "achievement.horrible_pilot.name", "Piloto Péssimo")
+    registerTranslation("ptbr", "achievement.horrible_pilot.desc", "Fale a tarefa de calibrar navegação 3 vezes na mesma partida")
+
+    registerTranslation("ptbr", "achievement.engineer.name", "Engenheiro?")
+    registerTranslation("ptbr", "achievement.engineer.desc", "Tente entrar em um duto sendo tripulante")
+
+    # chat
+    registerTranslation("ptbr", "chat.all.waiting", "&cVocê não pode usar /all enquanto o jogo está esperando ou terminou.")
+    registerTranslation("ptbr", "chat.all.usage", "&cUso: /all <mensagem>")
+    registerTranslation("ptbr", "chat.blocked.running", "&cVocê não pode conversar durante a partida. Use &f/all &cse for importante!")
+    registerTranslation("ptbr", "chat.deadTag", "&8[&cMorto&8]")
+    registerTranslation("ptbr", "chat.deadPrefix", "&8[&cMorto&8]")
+    registerTranslation("ptbr", "chat.allPrefix.dead", "&8[&cTodos&8]")
+    registerTranslation("ptbr", "chat.allPrefix.alive", "&8[&aTodos&8]")
 

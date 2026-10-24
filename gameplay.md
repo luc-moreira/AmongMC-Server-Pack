@@ -74,6 +74,53 @@ Ends the current game.
 
 > **Warning:** be careful not to type `/stop` by mistake... this command shuts down the **entire server**. I made this mistake about 20 times during development, so hopefully you won't make the same mistake.
 
+### Player Commands
+
+```text
+/all <message>
+```
+
+**Aliases:** `/allchat`, `/everyone`
+
+Sends a global message to all players during an active game.
+
+- **During gameplay (running state):** Normal chat is **blocked** for alive players. Use `/all` to communicate with everyone (alive and dead).
+- **During meetings:** Normal chat works for everyone; `/all` also works.
+- **As a ghost (dead player):** You can only chat with other ghosts via normal chat. Use `/all` to speak to alive players too.
+- **In lobby/ending:** Normal chat works; `/all` shows a message that it's not needed.
+
+> **Tip:** The message will show your name with your color and a **[Dead]** tag if you're a ghost.
+
+---
+
+## Chat Management
+
+The chat system adapts based on the game state and player status:
+
+| Game State | Alive Players | Dead Players (Ghosts) |
+|------------|---------------|----------------------|
+| **Lobby / Ending** | Normal chat ✅ | Normal chat ✅ |
+| **Meeting** | Normal chat ✅ | Normal chat ✅ (with everyone) |
+| **Running (Gameplay)** | **Blocked** ❌ — Use `/all` | Can only chat with other ghosts via normal chat. Use `/all` to reach everyone. |
+
+**Key behaviors:**
+- When alive during gameplay, typing in chat shows a message: *"You cannot chat while alive during the game. Use /all to speak to everyone."*
+- Ghosts see a **[Dead]** tag next to their name in chat
+- `/all` messages are prefixed with **[All]** (alive) or **[All - Dead]** (ghost)
+- All chat messages respect player colors
+
+---
+
+## Hats & Leveling System
+
+Hats are cosmetic items that appear on your character's head. They are **unlocked by leveling up** through the achievement system.
+
+### How to Unlock Hats
+
+1. **Complete achievements** to earn XP
+2. **Level up** when you reach XP thresholds (triangular formula)
+3. **Each level = 1 random hat unlocked** (from the pool of 27 available hats)
+
 ---
 
 ## Joining or Leaving During a Game

@@ -1,4 +1,5 @@
 on load:
-    set {bot.token} to "token do seu bot do discord aqui"
-    set {bot.call} to "id da call do seu servidor discord aqui"
-    set {bot.guild} to "id do seu servidor do discord aqui"
+    set {bot.token} to "Your Discord Bot Token"
+    set {bot.call} to "Your Voice Channel ID"
+    set {bot.guild} to "Your Discord Server id"
+    loadBot()

@@ -56,8 +56,6 @@ on attack attempt:
     play sound "minecraft:item.trident.hit" with volume 1 and pitch 0.6 to victim
     close victim's inventory
 
-
-
     set {_current} to ""
     set {_text} to getTr("kill.youDied")
     set {_color} to "red"
@@ -70,8 +68,20 @@ on attack attempt:
         execute console command "title %victim% title {""text"":""%{_current}%"", ""color"":""%{_color}%""}"
 
 
-
     set {killCooldown.%uuid of attacker%} to {config.killCooldown}
+
+    add 1 to {game.impostorKillsTotal}
+    set {_attackerUUID} to uuid of {_attacker}
+    add 1 to {game.impostorKills.%{_attackerUUID}%}
+
+    if {game.firstMeetingStarted} is not true:
+        add 1 to {game.earlyBirdKills.%{_attackerUUID}%}
+        if {game.earlyBirdKills.%{_attackerUUID}%} >= 3:
+            addAchievementProgress(attacker, "early_bird", 1)
+
+    if {game.state} is "running":
+        addAchievementProgress(attacker, "first_kill", 1)
+        addAchievementProgress(attacker, "kills_tiered", 1)
 
 every 1 second:
 
@@ -97,6 +107,9 @@ on right click on armor stand:
     set {_dead} to {bodyOwner::%uuid of clicked entity%} parsed as player
 
     broadcast getTr("kill.bodyFound", "%chatColor({_dead})%%name of {_dead}%")
+
+    addAchievementProgress(player, "first_body_report", 1)
+    addAchievementProgress(player, "body_reports_tiered", 1)
 
     startMeeting(player)
 
@@ -127,5 +140,3 @@ function spawnBody(p: player):
 function startKillCooldown(seconds: number):
     loop {game.impostors::*}:
         set {killCooldown.%uuid of loop-value%} to {_seconds}
-
-        

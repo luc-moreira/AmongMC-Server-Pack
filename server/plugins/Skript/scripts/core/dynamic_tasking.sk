@@ -55,8 +55,6 @@ function tooGrouped(p: player):
 
     add {_random} to {playerTasks.%uuid of {_p}%::*}
 
-    log "Added task %{_random}% to player %name of {_p}%" to file "task"
-
     if {task.%{_random}%.ordered} is true:
         set {playerTaskStep.%uuid of {_p}%.%{_random}%} to 1
 
