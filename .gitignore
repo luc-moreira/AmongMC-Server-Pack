@@ -48,3 +48,5 @@ server/plugins/Skript/scripts/PROJECT_MAP.md
 *.zip
 *.log
 *.csv
+server/.install-manifest.json
+server/plugins/Geyser-Spigot/nethernet/identity.pem

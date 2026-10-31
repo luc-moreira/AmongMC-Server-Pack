@@ -1,0 +1,71 @@
+{
+  "minecraftVersion": "1.21.11",
+  "plugins": [
+    {
+      "name": "DiSky",
+      "source": "github",
+      "repo": "DiSkyOrg/DiSky5",
+      "version": "5.0.0-b1"
+    },
+    {
+      "name": "Floodgate-Skript",
+      "source": "github",
+      "repo": "kejonaMC/floodgate-skript",
+      "version": "1.2"
+    },
+    {
+      "name": "Floodgate",
+      "source": "geysermc",
+      "project": "floodgate",
+      "platform": "spigot",
+      "version": "latest"
+    },
+    {
+      "name": "Geyser",
+      "source": "geysermc",
+      "project": "geyser",
+      "platform": "spigot",
+      "version": "latest"
+    },
+    {
+      "name": "Images",
+      "source": "spigot",
+      "resourceId": "53036",
+      "version": "latest",
+      "allowLatest": true,
+      "manualUrl": "https://www.spigotmc.org/resources/custom-images.53036/history"
+    },
+    {
+      "name": "ProtocolLib",
+      "source": "github",
+      "repo": "dmulloy2/ProtocolLib",
+      "version": "5.4.0",
+      "assetRegex": "^ProtocolLib\\.jar$"
+    },
+    {
+      "name": "SkBee",
+      "source": "modrinth",
+      "slug": "skbee",
+      "version": "3.25.1"
+    },
+    {
+      "name": "Skript",
+      "source": "github",
+      "repo": "SkriptLang/Skript",
+      "version": "2.17.1"
+    },
+    {
+      "name": "TAB",
+      "source": "github",
+      "repo": "NEZNAMY/TAB",
+      "version": "6.1.0"
+    },
+    {
+      "name": "ViaVersion",
+      "source": "hangar",
+      "project": "ViaVersion",
+      "platform": "PAPER",
+      "version": "latest"
+    }
+  ]
+}

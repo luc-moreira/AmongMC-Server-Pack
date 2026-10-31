@@ -6,19 +6,30 @@ This guide assumes that you already have experience hosting Minecraft servers. I
 
 Clone this repository to a folder of your choice.
 
-## 2. Adjust Server Memory
+## 2. Install the Server Pack
 
-Open the `server/start.bat` (not the one in the project root folder, as it is just a shortcut) file with a text editor and change the `-Xms` and `-Xmx` parameters to the desired amount of memory.
+Run the installer for your platform:
+
+- **Windows:** `install.bat`
+- **Linux / macOS / Git Bash / WSL:** `./install.sh`
+
+This will download Paper and all plugins defined in `plugins.json`. If any plugin fails to install automatically (e.g., due to Cloudflare protection on SpigotMC), you will need to download it manually, place it in the `server/plugins/` folder (checking that the version matches what's in `plugins.json`), and optionally open an issue if you believe it's a bug.
+
+You can pass `--accept-eula` to automatically accept Mojang's EULA. If you do this, you are agreeing to the EULA. Otherwise, `eula.txt` will be created for you to accept manually.
+
+## 3. Adjust Server Memory
+
+Open the `server/start.bat` (not the one in the project root folder, as it is just a shortcut) or `server/start.sh` file with a text editor and change the `-Xms` and `-Xmx` parameters to the desired amount of memory.
 
 The default value is **4 GB**, which proved to be sufficient during testing.
 
-## 3. Linux
+## 4. Linux Configuration
 
-The repository only includes a `start.bat` file.
+The repository now includes both `start.bat` and `start.sh` scripts.
 
-If you are using Linux, create an equivalent `.sh script` containing the same JVM parameters. This guide assumes that you already know how to start a Paper server through the command line.
+If you are using Linux, use `start.sh` instead of `start.bat`. Additionally, edit `server/spigot.yml` and change the `restart-script` parameter from `start.bat` to `start.sh` so that the server can restart properly.
 
-## 4. Set Up a Connection Method
+## 5. Set Up a Connection Method
 
 To play over the internet, you will need to use some form of connection between the players.
 
@@ -31,7 +42,7 @@ The recommended alternatives are:
 - **Radmin VPN** for groups where all players are using the Java Edition on a computer.
 - **ZeroTier** when there are players using the Bedrock Edition.
 
-## 5. (Optional) Voice Synchronization with Discord
+## 6. (Optional) Voice Synchronization with Discord
 
 AmongMC has optional support for automatically synchronizing player mutes in a Discord voice channel during games.
 
@@ -55,13 +66,13 @@ and fill in, **inside quotation marks**:
 
 If you have never created a Discord bot before, a quick internet search will show the complete process, which can be done in just a few minutes.
 
-## 6. Start the Server
+## 7. Start the Server
 
-Run the `start.bat` file (or its Linux equivalent).
+Run `start.bat` (Windows) or `./start.sh` (Linux / macOS / Git Bash / WSL) from the project root.
 
 On the first startup, Paper will automatically download the required libraries.
 
-## Done!
+## 8. Done!
 
 The server is now configured and ready to use.
 
