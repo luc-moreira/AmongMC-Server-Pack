@@ -7,6 +7,16 @@ function resetGame():
     delete {game.completedTasks}
     delete {game.totalTasks}
 
+    # Reset achievement tracking variables
+    delete {game.impostorKillsTotal}
+    delete {game.impostorKills::*}
+    delete {game.votesReceived::*}
+    delete {game.correctVotesThisMatch::*}
+    delete {game.firstTaskCompletion}
+
+    delete {body::*}
+    delete {bodyOwner::*}
+
     delete {game.impostors::*}
     delete {game.crewmates::*}
     delete {game.ghosts::*}
@@ -27,8 +37,9 @@ function resetGame():
         delete {playerTaskDone.%uuid of loop-player%::*}
         delete {reagent.ready.%uuid of loop-player%}
         delete {reagent.processing.%uuid of loop-player%}
-        
-        close loop-player's inventory 
+        delete {nav.failures.%uuid of loop-player%}
+
+        close loop-player's inventory
 
     delete {sabotage.pause}
 
@@ -76,7 +87,7 @@ function resetGame():
     delete {votes.skip}
 
     delete {killCooldown::*}
-    
+
     loop {doorMarkers::*}:
         set block above loop-value to air
         set block 2 above loop-value to air
@@ -118,6 +129,9 @@ command /end:
             updateArmor(loop-player)
             updateScoreboard(loop-player)
 
+        # Announce level ups after players are in lobby
+        announceLevelUps()
+
 
 command /start:
     aliases: comecar
@@ -148,6 +162,9 @@ command /start:
         wait 1 second
 
         set {game.state} to "running"
+        # Initialize early bird tracking (kills before first meeting)
+        delete {game.earlyBirdKills::*}
+        delete {game.firstMeetingStarted}
         updateCall()
         execute console command "team join players @a"
         
@@ -310,6 +327,15 @@ function endGame(winner: text):
 
     broadcast ""
 
+    # Achievement: win progress - delegate to achievements/wins.sk
+    onGameEnd({_winner})
+
+    # Achievement: correct votes (apply stored progress from this match)
+    loop all players:
+        if {game.correctVotesThisMatch.%uuid of loop-value%} is set:
+            addAchievementProgress(loop-value, "correct_votes_tiered", {game.correctVotesThisMatch.%uuid of loop-value%})
+            delete {game.correctVotesThisMatch.%uuid of loop-value%}
+
     wait 6 seconds
 
     execute console command "end"
@@ -333,6 +359,8 @@ function updateInventory(p: player):
         set slot 8 of {_p} to compass named getTr("vent.next")
     if {game.state} is "waiting":
         set slot 0 of {_p}'s inventory to nether star named getTr("color.chooseColor")
+        # Achievement item in slot 8
+        giveAchievementItem({_p})
         set slot 1 of {_p}'s inventory to leather helmet named getTr("hat.chooseHat")
         if {_p} is op:
             set slot 2 of {_p}'s inventory to compass named getTr("config.gameConfig")

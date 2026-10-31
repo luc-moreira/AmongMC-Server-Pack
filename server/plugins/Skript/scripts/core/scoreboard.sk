@@ -27,6 +27,11 @@ function updateScoreboard(p: player):
         else:
             set {_know} to getTr("config.no")
 
+        if {config.dynamicTasks} is true:
+            set {_dtasks} to getTr("config.yes")
+        else:
+            set {_dtasks} to getTr("config.no")
+
         set line 2 of fastboard of {_p} to getTr("scoreboard.settings")
 
         set line 3 of fastboard of {_p} to getTr("scoreboard.impostors", "%{config.impostors}%")
@@ -34,7 +39,6 @@ function updateScoreboard(p: player):
         set line 5 of fastboard of {_p} to getTr("scoreboard.speed", "%{config.playerSpeed}%")
         set line 6 of fastboard of {_p} to getTr("scoreboard.taskbar", "%{_taskbar}%")
         set line 7 of fastboard of {_p} to getTr("scoreboard.meetings", "%{config.meetingLimit}%")
-
         set line 8 of fastboard of {_p} to getTr("scoreboard.killCooldown", "%{config.killCooldown}%")
         set line 9 of fastboard of {_p} to getTr("scoreboard.killRange", "%{config.killRange}%")
 
@@ -43,14 +47,11 @@ function updateScoreboard(p: player):
         set line 11 of fastboard of {_p} to getTr("scoreboard.anonymousVotes", "%{_votes}%")
         set line 12 of fastboard of {_p} to getTr("scoreboard.confirmEjects", "%{_confirm}%")
         set line 13 of fastboard of {_p} to getTr("scoreboard.impostorsKnowEachOther", "%{_know}%")
+        set line 14 of fastboard of {_p} to getTr("scoreboard.dynamicTasks", "%{_dtasks}%")
 
 
     else:
-        
-        # RESUMO GLOBAL
-        
 
-        
         if {config.taskBarMode} is 2:
             set {doneGlobal} to {game.completedTasks}
         else if {config.taskBarMode} is 1:
@@ -66,11 +67,10 @@ function updateScoreboard(p: player):
 
         if {_totalGlobal} is not set:
             set {_totalGlobal} to 0
-        
+
         if {config.taskBarMode} is not 0:
             set line 1 of fastboard of {_p} to getTr("scoreboard.completedTasks", "%{doneGlobal}%", "%{_totalGlobal}%")
 
-       
 
         if {game.impostors::*} contains {_p}:
 
@@ -80,7 +80,7 @@ function updateScoreboard(p: player):
                 set {_cd} to 0
 
             if {_cd} < 1:
-                set {_cd} to "Pronto!"
+                set {_cd} to getTr("scoreboard.ready")
 
             set line 2 of fastboard of {_p} to getTr("scoreboard.killCooldownRemaining", "%{_cd}%")
 
@@ -92,10 +92,6 @@ function updateScoreboard(p: player):
             set line 2 of fastboard of {_p} to getTr("scoreboard.yourTasks", "%{_donePlayer}%", "%{_totalPlayer}%")
 
         set line 3 of fastboard of {_p} to ""
-
-        
-        # SABOTAGENS
-        
 
         if {sabotage.lights.active} is true:
 
@@ -124,16 +120,8 @@ function updateScoreboard(p: player):
 
         set {_line} to 4
 
-        
-        # CREWMATES
-        
-        
-        # LISTA DE TASKS
-        
-
         if {_p} is not in {game.impostors::*}:
 
-            # TASKS PENDENTES
             loop {playerTasks.%uuid of {_p}%::*}:
 
                 set {_id} to loop-value
@@ -170,7 +158,6 @@ function updateScoreboard(p: player):
                 if {_line} > 15:
                     stop
 
-            # TASKS CONCLUÍDAS
             loop {playerTasksDone.%uuid of {_p}%::*}:
                 set {_id} to loop-value
 
@@ -184,17 +171,13 @@ function updateScoreboard(p: player):
                 if {_line} > 15:
                     stop
 
-        
-        # IMPOSTORES
-        
-
         else:
-            
+
             if size of {game.impostors::*} = 1:
                 set line {_line} of fastboard of {_p} to getTr("scoreboard.alone")
 
             else:
-                
+
                 if {config.impostorsKnowEachOther} is true:
                     set line {_line} of fastboard of {_p} to getTr("scoreboard.otherImpostors")
                     add 1 to {_line}

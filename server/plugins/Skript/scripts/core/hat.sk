@@ -1,3 +1,36 @@
+on load:
+    clear {achievement::availableHats::*}
+    add "panda spawn egg" to {achievement::availableHats::*}
+    add "allay spawn egg" to {achievement::availableHats::*}
+    add "cat spawn egg" to {achievement::availableHats::*}
+    add "goat spawn egg" to {achievement::availableHats::*}
+    add "chicken spawn egg" to {achievement::availableHats::*}
+    add "parrot spawn egg" to {achievement::availableHats::*}
+    add "bee spawn egg" to {achievement::availableHats::*}
+    add "axolotl spawn egg" to {achievement::availableHats::*}
+    add "bat spawn egg" to {achievement::availableHats::*}
+    add "donkey spawn egg" to {achievement::availableHats::*}
+    add "creeper spawn egg" to {achievement::availableHats::*}
+    add "amethyst cluster" to {achievement::availableHats::*}
+    add "ender pearl" to {achievement::availableHats::*}
+    add "diamond" to {achievement::availableHats::*}
+    add "redstone torch" to {achievement::availableHats::*}
+    add "carrot" to {achievement::availableHats::*}
+    add "honeycomb" to {achievement::availableHats::*}
+    add "cookie" to {achievement::availableHats::*}
+    add "cake" to {achievement::availableHats::*}
+    add "pufferfish" to {achievement::availableHats::*}
+    add "tropical fish" to {achievement::availableHats::*}
+    add "red mushroom" to {achievement::availableHats::*}
+    add "torchflower" to {achievement::availableHats::*}
+    add "mangrove propagule" to {achievement::availableHats::*}
+    add "cherry sapling" to {achievement::availableHats::*}
+    add "nautilus shell" to {achievement::availableHats::*}
+    add "bell" to {achievement::availableHats::*}
+
+    initAchievements()
+
+
 command /hat:
     aliases: chapeu
     trigger:
@@ -49,37 +82,61 @@ function openHatMenu(p: player):
     dye {_helmet} {_rgb}
 
     set slot 0 of {_inv} to {_helmet} named getTr("hat.helmet")
-    set slot 1 of {_inv} to barrier named getTr("hat.none")
+    set slot 1 of {_inv} to structure_void named getTr("hat.none")
 
-    set slot 9 of {_inv} to panda spawn egg named getTr("hat.panda")
-    set slot 10 of {_inv} to allay spawn egg named getTr("hat.allay")
-    set slot 11 of {_inv} to cat spawn egg named getTr("hat.cat")
-    set slot 12 of {_inv} to goat spawn egg named getTr("hat.goat")
-    set slot 13 of {_inv} to chicken spawn egg named getTr("hat.chicken")
-    set slot 14 of {_inv} to parrot spawn egg named getTr("hat.parrot")
-    set slot 15 of {_inv} to bee spawn egg named getTr("hat.bee")
-    set slot 16 of {_inv} to axolotl spawn egg named getTr("hat.axolotl")
-    set slot 17 of {_inv} to bat spawn egg named getTr("hat.bat")
+    set {_hatList::*} to ""
+    add "9,panda spawn egg,hat.panda" to {_hatList::*}
+    add "10,allay spawn egg,hat.allay" to {_hatList::*}
+    add "11,cat spawn egg,hat.cat" to {_hatList::*}
+    add "12,goat spawn egg,hat.goat" to {_hatList::*}
+    add "13,chicken spawn egg,hat.chicken" to {_hatList::*}
+    add "14,parrot spawn egg,hat.parrot" to {_hatList::*}
+    add "15,bee spawn egg,hat.bee" to {_hatList::*}
+    add "16,axolotl spawn egg,hat.axolotl" to {_hatList::*}
+    add "17,bat spawn egg,hat.bat" to {_hatList::*}
+    add "18,donkey spawn egg,hat.donkey" to {_hatList::*}
+    add "19,creeper spawn egg,hat.creeper" to {_hatList::*}
+    add "20,amethyst cluster,hat.amethyst" to {_hatList::*}
+    add "21,ender pearl,hat.enderPearl" to {_hatList::*}
+    add "22,diamond,hat.diamond" to {_hatList::*}
+    add "23,redstone torch,hat.redstoneTorch" to {_hatList::*}
+    add "24,carrot,hat.carrot" to {_hatList::*}
+    add "25,honeycomb,hat.honeycomb" to {_hatList::*}
+    add "26,cookie,hat.cookie" to {_hatList::*}
+    add "27,cake,hat.cake" to {_hatList::*}
+    add "28,pufferfish,hat.pufferfish" to {_hatList::*}
+    add "29,tropical fish,hat.tropicalFish" to {_hatList::*}
+    add "30,red mushroom,hat.redMushroom" to {_hatList::*}
+    add "31,torchflower,hat.torchflower" to {_hatList::*}
+    add "32,mangrove propagule,hat.propagule" to {_hatList::*}
+    add "33,cherry sapling,hat.cherrySapling" to {_hatList::*}
+    add "34,nautilus shell,hat.nautilusShell" to {_hatList::*}
+    add "35,bell,hat.bell" to {_hatList::*}
 
-    set slot 18 of {_inv} to donkey spawn egg named getTr("hat.donkey")
-    set slot 19 of {_inv} to creeper spawn egg named getTr("hat.creeper")
-    set slot 20 of {_inv} to amethyst cluster named getTr("hat.amethyst")
-    set slot 21 of {_inv} to ender pearl named getTr("hat.enderPearl")
-    set slot 22 of {_inv} to diamond named getTr("hat.diamond")
-    set slot 23 of {_inv} to redstone torch named getTr("hat.redstoneTorch")
-    set slot 24 of {_inv} to carrot named getTr("hat.carrot")
-    set slot 25 of {_inv} to honeycomb named getTr("hat.honeycomb")
-    set slot 26 of {_inv} to cookie named getTr("hat.cookie")
+    set {_uuid} to uuid of {_p}
+    set {_unlocked::*} to {achievement::unlockedHats::%{_uuid}%::*}
+    if {_unlocked::*} is not set:
+        clear {_unlocked::*}
 
-    set slot 27 of {_inv} to cake named getTr("hat.cake")
-    set slot 28 of {_inv} to pufferfish named getTr("hat.pufferfish")
-    set slot 29 of {_inv} to tropical fish named getTr("hat.tropicalFish")
-    set slot 30 of {_inv} to red mushroom named getTr("hat.redMushroom")
-    set slot 31 of {_inv} to torchflower named getTr("hat.torchflower")
-    set slot 32 of {_inv} to mangrove propagule named getTr("hat.propagule")
-    set slot 33 of {_inv} to cherry sapling named getTr("hat.cherrySapling")
-    set slot 34 of {_inv} to nautilus shell named getTr("hat.nautilusShell")
-    set slot 35 of {_inv} to bell named getTr("hat.bell")
+    loop {_hatList::*}:
+        set {_data::*} to loop-value split at ","
+        set {_slot} to {_data::1} parsed as number
+        set {_item} to {_data::2} parsed as itemtype
+        set {_trKey} to {_data::3}
+
+        set {_hatName} to getTr("%{_trKey}%")
+
+        set {_isUnlocked} to false
+        set {_itemName} to "%{_item}%"
+        loop {_unlocked::*}:
+            if loop-value-2 = {_itemName}:
+                set {_isUnlocked} to true
+
+        if {_isUnlocked} is true:
+            set slot {_slot} of {_inv} to {_item} named "&a%{_hatName}%"
+        else:
+            set {_barrier} to barrier named "&c%{_hatName}% &7(Locked)"
+            set slot {_slot} of {_inv} to {_barrier}
 
     open {_inv} to {_p}
 
@@ -94,7 +151,77 @@ on inventory click:
 
     set {_slot} to index of clicked slot
 
-    # Capacete de couro
+    if {_slot} is between 9 and 35:
+        set {_uuid} to uuid of player
+        set {_unlocked::*} to {achievement::unlockedHats::%{_uuid}%::*}
+        if {_unlocked::*} is not set:
+            clear {_unlocked::*}
+
+        set {_hatItem} to ""
+        if {_slot} = 9:
+            set {_hatItem} to "panda spawn egg"
+        else if {_slot} = 10:
+            set {_hatItem} to "allay spawn egg"
+        else if {_slot} = 11:
+            set {_hatItem} to "cat spawn egg"
+        else if {_slot} = 12:
+            set {_hatItem} to "goat spawn egg"
+        else if {_slot} = 13:
+            set {_hatItem} to "chicken spawn egg"
+        else if {_slot} = 14:
+            set {_hatItem} to "parrot spawn egg"
+        else if {_slot} = 15:
+            set {_hatItem} to "bee spawn egg"
+        else if {_slot} = 16:
+            set {_hatItem} to "axolotl spawn egg"
+        else if {_slot} = 17:
+            set {_hatItem} to "bat spawn egg"
+        else if {_slot} = 18:
+            set {_hatItem} to "donkey spawn egg"
+        else if {_slot} = 19:
+            set {_hatItem} to "creeper spawn egg"
+        else if {_slot} = 20:
+            set {_hatItem} to "amethyst cluster"
+        else if {_slot} = 21:
+            set {_hatItem} to "ender pearl"
+        else if {_slot} = 22:
+            set {_hatItem} to "diamond"
+        else if {_slot} = 23:
+            set {_hatItem} to "redstone torch"
+        else if {_slot} = 24:
+            set {_hatItem} to "carrot"
+        else if {_slot} = 25:
+            set {_hatItem} to "honeycomb"
+        else if {_slot} = 26:
+            set {_hatItem} to "cookie"
+        else if {_slot} = 27:
+            set {_hatItem} to "cake"
+        else if {_slot} = 28:
+            set {_hatItem} to "pufferfish"
+        else if {_slot} = 29:
+            set {_hatItem} to "tropical fish"
+        else if {_slot} = 30:
+            set {_hatItem} to "red mushroom"
+        else if {_slot} = 31:
+            set {_hatItem} to "torchflower"
+        else if {_slot} = 32:
+            set {_hatItem} to "mangrove propagule"
+        else if {_slot} = 33:
+            set {_hatItem} to "cherry sapling"
+        else if {_slot} = 34:
+            set {_hatItem} to "nautilus shell"
+        else if {_slot} = 35:
+            set {_hatItem} to "bell"
+
+        set {_isUnlocked} to false
+        loop {_unlocked::*}:
+            if loop-value = {_hatItem}:
+                set {_isUnlocked} to true
+
+        if {_isUnlocked} is not true:
+            send "&cThis hat is locked! Level up to unlock it." to player
+            stop
+
     if {_slot} = 0:
         delete {hat.%uuid of player%}
         set {_hatName} to getTr("hat.helmet")
@@ -103,7 +230,6 @@ on inventory click:
         close player's inventory
         stop
 
-    # Sem chapéu
     if {_slot} = 1:
         set {hat.%uuid of player%} to "none"
         set {_hatName} to getTr("hat.none")
@@ -205,4 +331,3 @@ on right click:
     if player's tool is leather helmet named getTr("hat.chooseHat"):
         cancel event
         execute player command "hat"
-        

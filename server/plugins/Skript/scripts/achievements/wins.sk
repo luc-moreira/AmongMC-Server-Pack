@@ -1,0 +1,76 @@
+# Achievement Handlers - Wins
+
+# Hook into game end
+# This should be called from control.sk -> endGame()
+
+function onGameEnd(winner: text):
+    # winner: "crewmates" or "impostors"
+    if {game.state} is "ending":
+        loop all players:
+            set {_p} to loop-value
+
+            # Check player roles using if/else (boolean expressions can't be saved to variables)
+            set {_isImpostor} to false
+            set {_isCrewmate} to false
+            set {_isGhost} to false
+
+            if {game.impostors::*} contains {_p}:
+                set {_isImpostor} to true
+            if {game.crewmates::*} contains {_p}:
+                set {_isCrewmate} to true
+            if {game.ghosts::*} contains {_p}:
+                set {_isGhost} to true
+
+            # Participation
+            addAchievementProgress({_p}, "games_played_tiered", 1)
+
+            # First match completed (awarded when match ends, not on join)
+            addAchievementProgress({_p}, "first_game", 1)
+
+            # Win tracking - Crewmate wins
+            if {_winner} = "crewmates":
+                if {_isCrewmate} is true:
+                    addAchievementProgress({_p}, "first_win_crew", 1)
+                    addAchievementProgress({_p}, "crew_wins_tiered", 1)
+
+                    # Crewmate specific - survived win
+                    if {_isGhost} is not true:
+                        addAchievementProgress({_p}, "survived_win", 1)
+
+            # Win tracking - Impostor wins
+            else:
+                if {_winner} = "impostors":
+                    if {_isImpostor} is true:
+                        addAchievementProgress({_p}, "first_win_imp", 1)
+                        addAchievementProgress({_p}, "impostor_wins_tiered", 1)
+
+                        # Impostor specific - survived win
+                        if {_isGhost} is not true:
+                            addAchievementProgress({_p}, "imp_survived_win", 1)
+
+                        # PACIFIST IMPOSTOR: Win as impostor without any crewmate being killed by impostors (ejections allowed)
+                        # Check if total impostor kills this game = 0
+                        if {game.impostorKillsTotal} is not set:
+                            set {game.impostorKillsTotal} to 0
+                        if {game.impostorKillsTotal} = 0:
+                            addAchievementProgress({_p}, "pacifist_impostor", 1)
+
+                        # PERFECT IMPOSTOR: Win as impostor killing all crewmates without receiving a single vote
+                        # Check if this impostor killed all crewmates AND received 0 votes
+                        set {_pUUID} to uuid of {_p}
+                        if {game.impostorKills.%{_pUUID}%} is not set:
+                            set {game.impostorKills.%{_pUUID}%} to 0
+                        set {_crewmateCount} to size of {game.crewmates::*}
+                        if {game.impostorKills.%{_pUUID}%} >= {_crewmateCount}:
+                            # Check votes received
+                            if {game.votesReceived.%{_pUUID}%} is not set:
+                                set {game.votesReceived.%{_pUUID}%} to 0
+                            if {game.votesReceived.%{_pUUID}%} = 0:
+                                addAchievementProgress({_p}, "perfect_impostor", 1)
+
+            # Ghost win
+            if {_isGhost} is true:
+                addAchievementProgress({_p}, "ghost_win", 1)
+
+# Call this from control.sk endGame(winner):
+# onGameEnd(winner)

@@ -6,7 +6,13 @@ command /config:
 on load:
     if {config.playerSpeed} is not set:
         set {config.playerSpeed} to 1.0
-        
+
+    if {config.dynamicTasks} is not set:
+        set {config.dynamicTasks} to false
+
+    if {config.adminCooldown} is not set:
+        set {config.adminCooldown} to 5
+
     if {config.impostors} is not set:
         set {config.impostors} to 1
 
@@ -78,7 +84,15 @@ function openConfig(p: player):
     set slot 18 of {_inv} to feather named getTr("config.playerSpeed", "%{config.playerSpeed}%")
 
     set slot 24 of {_inv} to bell named getTr("config.meetingLimit", "%{config.meetingLimit}%")
-    
+
+    set slot 27 of {_inv} to filled map named getTr("config.adminCooldown", "%{config.adminCooldown}%")
+
+    if {config.dynamicTasks} is true:
+        set {_dtasks} to getTr("config.enabled")
+    else:
+        set {_dtasks} to getTr("config.disabled")
+
+    set slot 36 of {_inv} to tripwire hook named getTr("config.dynamicTasks", "%{_dtasks}%")
 
     if {config.taskBarMode} is 0:
         set {_mode} to getTr("config.taskBar.off")
@@ -87,10 +101,7 @@ function openConfig(p: player):
     else:
         set {_mode} to getTr("config.taskBar.always")
 
-
     set slot 8 of {_inv} to compass named getTr("config.taskBar", "%{_mode}%")
-
-    
 
     if {config.anonymousVotes} is true:
         set {_votes} to getTr("config.enabled")
@@ -98,7 +109,7 @@ function openConfig(p: player):
         set {_votes} to getTr("config.disabled")
 
     set slot 17 of {_inv} to writable book named getTr("config.anonymousVotes", "%{_votes}%")
-    
+
     if {config.confirmEjects} is true:
         set {_confirm} to getTr("config.yes")
     else:
@@ -112,8 +123,6 @@ function openConfig(p: player):
         set {_know} to getTr("config.no")
 
     set slot 35 of {_inv} to red dye named getTr("config.impostorsKnowEachOther", "%{_know}%")
-
-
 
     set slot 4 of {_inv} to iron door named getTr("config.doorCooldown", "%{config.doorCooldown}%")
 
@@ -129,18 +138,11 @@ function openConfig(p: player):
 
     set slot 50 of {_inv} to iron bars named getTr("config.doorDuration", "%{config.doorDuration}%")
 
-
-
     set slot 6 of {_inv} to note block named getTr("config.initialMeetingCooldown", "%{config.initialMeetingCooldown}%")
 
     set slot 15 of {_inv} to lectern named getTr("config.postMeetingCooldown", "%{config.postMeetingCooldown}%")
 
-    
-    
-
     set slot 53 of {_inv} to lime wool named getTr("config.startGame")
-
-    
 
     set slot 2 of {_inv} to iron sword named getTr("config.initialKillCooldown", "%{config.initialKillCooldown}%")
 
@@ -157,16 +159,12 @@ function openConfig(p: player):
 
     set slot 45 of {_inv} to book named getTr("config.language", "%{langnames::%{_index}%}%")
 
-    
-
     loop 54 times:
 
         if slot (loop-number - 1) of {_inv} is air:
             continue
 
         set lore of slot (loop-number - 1) of {_inv} to "", getTr("config.leftClick"), getTr("config.rightClick")
-
-
 
     set lore of slot 8 of {_inv} to "", getTr("config.clickToggle")
 
@@ -175,6 +173,8 @@ function openConfig(p: player):
     set lore of slot 26 of {_inv} to "", getTr("config.clickToggle")
 
     set lore of slot 35 of {_inv} to "", getTr("config.clickToggle")
+
+    set lore of slot 36 of {_inv} to "", getTr("config.clickToggle")
 
     set lore of slot 45 of {_inv} to "", getTr("config.clickToggle")
 
@@ -196,8 +196,6 @@ on inventory click:
 
     cancel event
 
-
-    
     if clicked slot is 0:
 
         if click type is left mouse button:
@@ -213,8 +211,6 @@ on inventory click:
         openConfig(player)
         stop
 
-
-    
     if clicked slot is 9:
 
         if click type is left mouse button:
@@ -230,8 +226,6 @@ on inventory click:
         openConfig(player)
         stop
 
-
-    
     if clicked slot is 18:
 
         if click type is left mouse button:
@@ -243,14 +237,37 @@ on inventory click:
             set {config.playerSpeed} to 0.5
         if {config.playerSpeed} > 3:
             set {config.playerSpeed} to 3
-        
+
         loop all players:
             updateSpeed(loop-player)
         openConfig(player)
         stop
 
+    if clicked slot is 27:
 
-    
+        if click type is left mouse button:
+            add 2.5 to {config.adminCooldown}
+        else if click type is right mouse button:
+            remove 2.5 from {config.adminCooldown}
+
+        if {config.adminCooldown} < 2.5:
+            set {config.adminCooldown} to 2.5
+        if {config.adminCooldown} > 60:
+            set {config.adminCooldown} to 60
+
+        openConfig(player)
+        stop
+
+    if clicked slot is 36:
+
+        if {config.dynamicTasks} is true:
+            set {config.dynamicTasks} to false
+        else:
+            set {config.dynamicTasks} to true
+
+        openConfig(player)
+        stop
+
     if clicked slot is 8:
 
         add 1 to {config.taskBarMode}
@@ -281,7 +298,6 @@ on inventory click:
         updateAllSigns()
         stop
 
-    
     if clicked slot is 17:
 
         if {config.anonymousVotes} is true:
@@ -292,8 +308,6 @@ on inventory click:
         openConfig(player)
         stop
 
-    
-    
     if clicked slot is 26:
 
         if {config.confirmEjects} is true:
@@ -304,7 +318,6 @@ on inventory click:
         openConfig(player)
         stop
 
-    
     if clicked slot is 35:
 
         if {config.impostorsKnowEachOther} is true:
@@ -315,8 +328,6 @@ on inventory click:
         openConfig(player)
         stop
 
-
-    
     if clicked slot is 4:
 
         if click type is left mouse button:
@@ -422,8 +433,6 @@ on inventory click:
         openConfig(player)
         stop
 
-
-    
     if clicked slot is 6:
 
         if click type is left mouse button:
@@ -469,8 +478,6 @@ on inventory click:
         openConfig(player)
         stop
 
-    
-    
     if clicked slot is 2:
 
         if click type is left mouse button:
@@ -516,8 +523,6 @@ on inventory click:
         openConfig(player)
         stop
 
-
-    
     if clicked slot is 29:
 
         if click type is left mouse button:
@@ -534,8 +539,6 @@ on inventory click:
         openConfig(player)
         stop
 
-
-    
     if clicked slot is 53:
         close player's inventory
         execute console command "/start"

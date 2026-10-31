@@ -13,7 +13,11 @@ The goal of the project is not to recreate the original game, but to offer a sim
 - 🌬️ Vent system for impostors
 - 👻 Ghost system with its own mechanics
 - 📱 Java Edition and Bedrock Edition compatibility
-- 🎯 Several original mechanics and quality-of-life improvements
+- 🏆 Achievement system with XP and leveling
+- 🎩 27 unlockable hats (earned by leveling up through achievements)
+- 🌍 Multi-language support (English & Portuguese)
+- 🔊 Optional Discord voice synchronization (auto-mute during games)
+- ❤️ Vitals system for alive players
 
 ## Documentation
 

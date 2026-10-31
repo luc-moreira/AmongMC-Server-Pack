@@ -44,6 +44,7 @@ function loadEn():
 
     # hat
     registerTranslation("en", "hat.changed", "&aYou changed your hat to &e{1}&a.")
+    registerTranslation("en", "hat.unlocked", "&6New hat unlocked: &e{1}")
 
     # joinleave
     registerTranslation("en", "joinleave.gameInProgress1", "&cThe game is already in progress.")
@@ -88,6 +89,7 @@ function loadEn():
     registerTranslation("en", "tasks.Completed", "&aTask completed: {1}")
 
     # vent
+    registerTranslation("en", "tasks.tooGrouped", "&cInsufficient crew coverage detected! You have been assigned a new task.")
     registerTranslation("en", "vent.entered1", "&7You entered a &bvent&7.")
     registerTranslation("en", "vent.entered2", "&eUse the &6Compasses &eto navigate between vents.")
     registerTranslation("en", "vent.entered3", "&dUse the &5Ender Pearl &dto leave the vent.")
@@ -197,6 +199,7 @@ function loadEn():
     registerTranslation("en", "config.playerSpeed", "&bSpeed: {1}x")
     registerTranslation("en", "config.meetingLimit", "&6Meetings per player: {1}")
 
+    registerTranslation("en", "config.adminCooldown", "&cAdmin Cooldown: {1}s")
     registerTranslation("en", "config.taskBar", "&bTask Bar: {1}")
     registerTranslation("en", "config.taskBar.off", "&cOFF")
     registerTranslation("en", "config.taskBar.meetings", "&eMeetings Only")
@@ -207,6 +210,7 @@ function loadEn():
     registerTranslation("en", "config.confirmEjects", "&fConfirm Ejects: {1}")
     registerTranslation("en", "config.impostorsKnowEachOther", "&cImp. Know E. Other: {1}")
 
+    registerTranslation("en", "config.dynamicTasks", "&eDynamic Tasks: {1}")
     registerTranslation("en", "config.enabled", "&aEnabled")
     registerTranslation("en", "config.disabled", "&cDisabled")
     registerTranslation("en", "config.yes", "&aYes")
@@ -338,6 +342,7 @@ function loadEn():
     registerTranslation("en", "scoreboard.confirmEjects", "&fConfirm Eject: {1}")
     registerTranslation("en", "scoreboard.impostorsKnowEachOther", "&fImp. Know E. Other: {1}")
 
+    registerTranslation("en", "scoreboard.dynamicTasks", "&fDynamic Tasks: {1}")
     registerTranslation("en", "scoreboard.completedTasks", "&7Completed Tasks: &e{1}&7/&a{2}")
     registerTranslation("en", "scoreboard.ready", "Ready!")
     registerTranslation("en", "scoreboard.killCooldownRemaining", "&7Kill Cooldown: &c{1}")
@@ -375,6 +380,12 @@ function loadEn():
     registerTranslation("en", "vitals.dead", "&e{1} (Dead)")
     registerTranslation("en", "vitals.noSignal", "&8{1} (No Signal)")
 
+
+    # admin
+
+    registerTranslation("en", "admin.title", "&8Admin")
+    registerTranslation("en", "admin.cooldown", "&cAdmin is reloading. Please wait.")
+    registerTranslation("en", "admin.location", "&7{1} &eis in &f{2}&e")
 
     # some texts inside tasks
 
@@ -477,7 +488,7 @@ function loadEn():
     registerTranslation("en", "task.cleanCup", "&fClean Cup")
 
     #these go into the signs in the map, if you change them, make sure to test and maybe 
-    #reak words into multiple lines if they are too long, otherwise they will not fit in the sign.
+    #break words into multiple lines if they are too long, otherwise they will not fit in the sign.
 
     registerTranslation("en", "sign.vitalSigns", "VITAL SIGNS")
     registerTranslation("en", "sign.controlRoom", "CONTROL ROOM")
@@ -498,3 +509,174 @@ function loadEn():
     registerTranslation("en", "sign.workshop", "WORKSHOP")
     registerTranslation("en", "sign.greenArea", "GREEN AREA")
     registerTranslation("en", "sign.electricalControl", "ELECTRICAL CONTROL")
+    registerTranslation("en", "sign.admin", "ADMIN")
+
+    registerTranslation("en", "roomName.workshop", "Workshop")
+
+    registerTranslation("en", "roomName.reactor", "Reactor")
+
+    registerTranslation("en", "roomName.observatory", "Observatory")
+
+    registerTranslation("en", "roomName.meetingRoom", "Meeting Room")
+
+    registerTranslation("en", "roomName.library", "Library")
+
+    registerTranslation("en", "roomName.laboratory", "Laboratory")
+
+    registerTranslation("en", "roomName.kitchen", "Kitchen")
+
+    registerTranslation("en", "roomName.greenArea", "Green Area")
+
+    registerTranslation("en", "roomName.freezer", "Freezer")
+
+    registerTranslation("en", "roomName.corridors", "Corridors")
+
+    registerTranslation("en", "roomName.controlRoom", "Control Room")
+
+
+    # ============================================================
+    # ACHIEVEMENTS
+    # ============================================================
+
+    # GUI
+    registerTranslation("en", "achievement.gui.name", "Achievements")
+    registerTranslation("en", "achievement.gui.completed", "&a✓ Completed")
+    registerTranslation("en", "achievement.progress", "Progress: {1}/{2}")
+    registerTranslation("en", "achievement.tier", "Tier: {1}/{2}")
+    registerTranslation("en", "achievement.completed_count", "Completed: {1}/{2}")
+    registerTranslation("en", "achievement.xp", "XP: +{1}")
+    registerTranslation("en", "achievement.xp_total", "XP Total: +{1}")
+    registerTranslation("en", "achievement.xp_next_tier", "Next Tier: +{1} XP")
+    registerTranslation("en", "achievement.completed_status", "✓ Completed")
+    registerTranslation("en", "achievement.not_completed", "Not Completed")
+    registerTranslation("en", "achievement.secret", "Secret")
+    registerTranslation("en", "achievement.unlocked", "Achievement Unlocked: {1} &7(+{2} XP)")
+    registerTranslation("en", "achievement.cannotOpen", "You cannot open the achievements menu right now.")
+    registerTranslation("en", "achievement.lobby.actionbar", "Level {1} | {2}/{3} XP [{4}]")
+    registerTranslation("en", "achievement.lobby.title", "Welcome, {1}!")
+    registerTranslation("en", "achievement.lobby.subtitle", "Level {1} | {2} XP")
+    registerTranslation("en", "achievement.levelUp.broadcast", "&6{1} reached level {2}!")
+    registerTranslation("en", "achievement.recalcDone", "Recalculated achievements for {1}")
+    registerTranslation("en", "achievement.recalcAllDone", "Recalculated achievements for all players")
+
+    # Milestone achievements
+    registerTranslation("en", "achievement.first_game.name", "Welcome Aboard")
+    registerTranslation("en", "achievement.first_game.desc", "Play your first game")
+
+    registerTranslation("en", "achievement.first_kill.name", "First Blood")
+    registerTranslation("en", "achievement.first_kill.desc", "Get your first kill as impostor")
+
+    registerTranslation("en", "achievement.first_task.name", "First Steps")
+    registerTranslation("en", "achievement.first_task.desc", "Complete your first task")
+
+    registerTranslation("en", "achievement.first_meeting.name", "Emergency Protocol")
+    registerTranslation("en", "achievement.first_meeting.desc", "Call your first emergency meeting")
+
+    registerTranslation("en", "achievement.first_body_report.name", "Gruesome Discovery")
+    registerTranslation("en", "achievement.first_body_report.desc", "Report your first body")
+
+    registerTranslation("en", "achievement.first_sabotage_fix.name", "Crisis Averted")
+    registerTranslation("en", "achievement.first_sabotage_fix.desc", "Fix your first sabotage")
+
+    registerTranslation("en", "achievement.first_vent.name", "Ventilation Expert")
+    registerTranslation("en", "achievement.first_vent.desc", "Enter a vent for the first time")
+
+    registerTranslation("en", "achievement.first_win_crew.name", "Crewmate Victory")
+    registerTranslation("en", "achievement.first_win_crew.desc", "Win your first game as crewmate")
+
+    registerTranslation("en", "achievement.first_win_imp.name", "Impostor Victory")
+    registerTranslation("en", "achievement.first_win_imp.desc", "Win your first game as impostor")
+
+    # Counter achievements - Kills (now tiered: kills_tiered)
+    registerTranslation("en", "achievement.kills_tiered.name", "Serial Killer")
+    registerTranslation("en", "achievement.kills_tiered.desc", "Eliminate crewmates as impostor")
+
+    # Counter achievements - Tasks (now tiered: tasks_tiered)
+    registerTranslation("en", "achievement.tasks_tiered.name", "Task Master")
+    registerTranslation("en", "achievement.tasks_tiered.desc", "Complete tasks as crewmate")
+
+    # Counter achievements - Wins (now tiered: crew_wins_tiered, impostor_wins_tiered)
+    registerTranslation("en", "achievement.crew_wins_tiered.name", "Crewmate Guardian")
+    registerTranslation("en", "achievement.crew_wins_tiered.desc", "Win games as crewmate")
+
+    registerTranslation("en", "achievement.impostor_wins_tiered.name", "Master Deceiver")
+    registerTranslation("en", "achievement.impostor_wins_tiered.desc", "Win games as impostor")
+
+    # Counter achievements - Sabotage (now tiered: sabotage_fixes_tiered)
+    registerTranslation("en", "achievement.sabotage_fixes_tiered.name", "Engineer")
+    registerTranslation("en", "achievement.sabotage_fixes_tiered.desc", "Fix sabotages")
+
+    # Counter achievements - Social (now tiered: body_reports_tiered, correct_votes_tiered, games_played_tiered)
+    registerTranslation("en", "achievement.meeting_called_10.name", "Democracy Advocate")
+    registerTranslation("en", "achievement.meeting_called_10.desc", "Call 10 emergency meetings")
+
+    registerTranslation("en", "achievement.body_reports_tiered.name", "Whistleblower")
+    registerTranslation("en", "achievement.body_reports_tiered.desc", "Report bodies")
+
+    registerTranslation("en", "achievement.correct_votes_tiered.name", "Good Judge")
+    registerTranslation("en", "achievement.correct_votes_tiered.desc", "Vote correctly in meetings")
+
+    registerTranslation("en", "achievement.games_played_tiered.name", "Veteran")
+    registerTranslation("en", "achievement.games_played_tiered.desc", "Play games")
+
+    # Tiered achievements
+    registerTranslation("en", "achievement.reactor_fix_tiered.name", "Nuclear Engineer")
+    registerTranslation("en", "achievement.reactor_fix_tiered.desc", "Stabilize the reactor multiple times")
+
+    registerTranslation("en", "achievement.lights_fix_tiered.name", "Electrician")
+    registerTranslation("en", "achievement.lights_fix_tiered.desc", "Fix the lights multiple times")
+
+    registerTranslation("en", "achievement.lab_fire_tiered.name", "Firefighter")
+    registerTranslation("en", "achievement.lab_fire_tiered.desc", "Extinguish lab fires multiple times")
+
+    # Collection achievements
+    registerTranslation("en", "achievement.task_completionist.name", "Completionist")
+    registerTranslation("en", "achievement.task_completionist.desc", "Complete every unique task at least once")
+    registerTranslation("en", "achievement.sabotage_master.name", "Sabotage Master")
+    registerTranslation("en", "achievement.sabotage_master.desc", "Master all sabotage types")
+    registerTranslation("en", "achievement.social_butterfly.name", "Social Butterfly")
+    registerTranslation("en", "achievement.social_butterfly.desc", "Excel at social deduction")
+    registerTranslation("en", "achievement.collection.missing", "Missing tasks:")
+
+    # Special achievements
+    registerTranslation("en", "achievement.survived_win.name", "Survivor")
+    registerTranslation("en", "achievement.survived_win.desc", "Win as crewmate without dying")
+
+    registerTranslation("en", "achievement.imp_survived_win.name", "Ghost Impostor")
+    registerTranslation("en", "achievement.imp_survived_win.desc", "Win as impostor without dying")
+
+    registerTranslation("en", "achievement.ghost_win.name", "Spirit Guardian")
+    registerTranslation("en", "achievement.ghost_win.desc", "Win as a ghost")
+
+    registerTranslation("en", "achievement.pacifist_impostor.name", "Pacifist")
+    registerTranslation("en", "achievement.pacifist_impostor.desc", "Win as impostor without any crewmate being killed (ejections allowed)")
+
+    registerTranslation("en", "achievement.perfect_impostor.name", "Perfect Impostor")
+    registerTranslation("en", "achievement.perfect_impostor.desc", "Win as impostor killing everyone without receiving a single vote")
+
+    registerTranslation("en", "achievement.task_speedrunner.name", "Speedrunner")
+    registerTranslation("en", "achievement.task_speedrunner.desc", "Be the first crewmate to complete all tasks while alive")
+
+    registerTranslation("en", "achievement.jester.name", "Jester")
+    registerTranslation("en", "achievement.jester.desc", "Be ejected while having voted for yourself")
+
+    registerTranslation("en", "achievement.reverse_librarian.name", "Horrible Librarian")
+    registerTranslation("en", "achievement.reverse_librarian.desc", "Organize books in exact reverse order")
+
+    registerTranslation("en", "achievement.early_bird.name", "Fast Gun")
+    registerTranslation("en", "achievement.early_bird.desc", "Get 3 kills before the first meeting")
+
+    registerTranslation("en", "achievement.horrible_pilot.name", "Horrible Pilot")
+    registerTranslation("en", "achievement.horrible_pilot.desc", "Fail the calibrate navigation task 3 times in the same match")
+
+    registerTranslation("en", "achievement.engineer.name", "Engineer?")
+    registerTranslation("en", "achievement.engineer.desc", "Try entering a vent while being a crewmate")
+
+    # chat
+    registerTranslation("en", "chat.all.waiting", "&cYou can't use /all while the game is waiting or ended.")
+    registerTranslation("en", "chat.all.usage", "&cUsage: /all <message>")
+    registerTranslation("en", "chat.blocked.running", "&cYou can't chat during gameplay. Use &f/all &cif it's important!")
+    registerTranslation("en", "chat.deadTag", "&8[&cDead&8]")
+    registerTranslation("en", "chat.deadPrefix", "&8[&cDead&8]")
+    registerTranslation("en", "chat.allPrefix.dead", "&8[&cAll&8]")
+    registerTranslation("en", "chat.allPrefix.alive", "&8[&aAll&8]")

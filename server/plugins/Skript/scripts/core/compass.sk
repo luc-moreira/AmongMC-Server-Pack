@@ -1,11 +1,9 @@
 function updateCompass(p: player):
     if {game.state} is "waiting":
         stop
-    if {game.impostors::*} does not contain {_p}:   
+    if {game.impostors::*} does not contain {_p}:
         if {game.state} is "running":
             set slot 0 of {_p}'s inventory to compass
-
-    # INCÊNDIO
 
     if {sabotage.lab_fire.active} is true:
 
@@ -23,10 +21,6 @@ function updateCompass(p: player):
         stop
 
 
-    
-    # LUZES
-    
-
     if {sabotage.lights.active} is true:
 
         set {_p}'s compass target to {lights.panel}
@@ -34,10 +28,6 @@ function updateCompass(p: player):
         send action bar getTr("compass.sabotageLights") to {_p}
         stop
 
-
-    
-    # REATOR
-    
 
     if {sabotage.reactor.active} is true:
         if {sabotage.reactor.leftPressed} is true:
@@ -50,14 +40,11 @@ function updateCompass(p: player):
         stop
 
 
-    
-    # TASKS
-    
     set {_loc} to getClosestTaskLocation({_p})
 
     if {_loc} is not set:
         stop
 
-    set compass target of {_p} to {_loc} 
+    set compass target of {_p} to {_loc}
 
     send action bar getTr("compass.pointingToTask") to {_p}

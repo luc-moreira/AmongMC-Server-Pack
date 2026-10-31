@@ -80,6 +80,76 @@ Encerra a partida atual.
 
 > **Atenção:** cuidado para não digitar `/stop` por engano... esse comando encerra o **servidor inteiro**. Cometi esse erro umas 20 vezes durante o desenvolvimento, espero que você não caia nessa também.
 
+### Comandos de jogadores
+
+```text
+/all <mensagem>
+```
+
+**Apelidos:** `/allchat`, `/everyone`
+
+Envia uma mensagem global para todos os jogadores durante uma partida ativa.
+
+- **Durante o jogo (estado running):** O chat normal é **bloqueado** para jogadores vivos. Use `/all` para se comunicar com todos (vivos e mortos).
+- **Durante reuniões:** O chat normal funciona para todos; `/all` também funciona.
+- **Como fantasma (jogador morto):** Você só pode conversar com outros fantasmas via chat normal. Use `/all` para falar com jogadores vivos também.
+- **No lobby/finalização:** O chat normal funciona; `/all` mostra uma mensagem de que não é necessário.
+
+> **Dica:** A mensagem mostrará seu nome com sua cor e uma tag **[Morto]** se você for um fantasma.
+
+---
+
+## Gerenciamento de Chat
+
+O sistema de chat se adapta com base no estado do jogo e no status do jogador:
+
+| Estado do Jogo | Jogadores Vivos | Jogadores Mortos (Fantasmas) |
+|----------------|-----------------|------------------------------|
+| **Lobby / Finalização** | Chat normal ✅ | Chat normal ✅ |
+| **Reunião** | Chat normal ✅ | Chat normal ✅ (com todos) |
+| **Em jogo (Gameplay)** | **Bloqueado** ❌ — Use `/all` | Só pode conversar com outros fantasmas via chat normal. Use `/all` para alcançar todos. |
+
+**Comportamentos principais:**
+- Quando vivo durante o jogo, digitar no chat mostra a mensagem: *"Você não pode conversar enquanto vivo durante o jogo. Use /all para falar com todos."*
+- Fantasmas veem uma tag **[Morto]** ao lado do nome no chat
+- Mensagens `/all` recebem prefixo **[Todos]** (vivos) ou **[Todos - Morto]** (fantasmas)
+- Todas as mensagens de chat respeitam as cores dos jogadores
+
+---
+
+## Chapéus & Sistema de Níveis
+
+Chapéus são itens cosméticos que aparecem na cabeça do seu personagem. Eles são **desbloqueados ao subir de nível** através do sistema de conquistas.
+
+### Como desbloquear chapéus
+
+1. **Complete conquistas** para ganhar XP
+2. **Suba de nível** ao atingir os limites de XP (fórmula triangular)
+3. **Cada nível = 1 chapéu aleatório desbloqueado** (dos 27 chapéus disponíveis)
+
+### Chapéus disponíveis (27 total)
+
+Panda, Allay, Gato, Cabra, Galinha, Papagaio, Abelha, Axolotl, Morcego, Burro, Creeper, Agrupa de Ametista, Pérola do End, Diamante, Tocha de Redstone, Cenoura, Favão de Mel, Biscoito, Bolo, Baiacu, Peixe Tropical, Cogumelo Vermelho, Torchflower, Propagulo de Mangue, Muda de Cerejeira, Concha de Nautilus, Sino
+
+### Visualizando & Equipando Chapéus
+
+- Use `/hat` (ou `/chapeu`) para abrir o menu de seleção de chapéus
+- Chapéus desbloqueados aparecem em **verde**; chapéus travados aparecem como **barreiras vermelhas** com "(Travado)"
+- Slot 0 = Capacete Colorido (sua cor de jogador)
+- Slot 1 = Sem Chapéu
+- Slots 9–35 = Chapéus desbloqueáveis
+
+### Tipos de Conquistas
+
+- **Contador** — Repita uma ação X vezes (ex.: complete 100 tasks)
+- **Marco** — Alcançe um objetivo específico uma vez (ex.: vença 1 partida)
+- **Por Níveis** — Múltiplos níveis com recompensas crescentes (ex.: saboteie 5/25/100 vezes)
+- **Coleção** — Complete um conjunto de conquistas relacionadas (ex.: todos os tipos de tasks)
+
+### Exibição no Lobby
+
+Enquanto estiver no lobby, seu **nível e progresso de XP** são mostrados na actionbar (acima da hotbar) e como título ao entrar.
+
 ---
 
 ## Entrar ou sair durante uma partida

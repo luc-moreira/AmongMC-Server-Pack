@@ -1,0 +1,759 @@
+# Core Achievement System
+# API: registerAchievement, addAchievementProgress, recalculatePlayerAchievements, openAchievementGUI
+# Lobby display: actionbar + join title
+# GUI: hotbar slot 8 (lobby only)
+
+# ============================================================
+# REGISTRY
+# ============================================================
+
+function registerAchievement(id: text, type: text, threshold: number = 1, xp: number = 50, tiers: text = "", xpPerTier: text = "", handler: text = "", displayItem: text = "paper", subRequirements: text = "", secret: boolean = false):
+    # type: "counter", "milestone", "tiered", "collection"
+    # threshold: target value for counter/milestone
+    # xp: XP awarded on completion (or for milestone)
+    # tiers: comma-separated thresholds for tiered (e.g., "5,25,100")
+    # xpPerTier: comma-separated XP per tier for tiered (e.g., "50,100,200")
+    # handler: custom handler function name
+    # displayItem: item type for GUI
+    # subRequirements: comma-separated sub-achievement IDs for collection type
+    # secret: if true, shows as barrier in GUI until completed
+    # Translation keys are auto-generated: achievement.%id%.name, achievement.%id%.desc
+    # For tiered: achievement.%id%.tier.1, achievement.%id%.tier.2, achievement.%id%.tier.3
+
+    # Prevent duplicate registration (on load may fire multiple times)
+    if {achievements::*} contains {_id}:
+        stop
+
+    add {_id} to {achievements::*}
+
+    set {achievement::%{_id}%::type} to {_type}
+    set {achievement::%{_id}%::threshold} to {_threshold}
+    set {achievement::%{_id}%::xp} to {_xp}
+    set {achievement::%{_id}%::handler} to {_handler}
+    set {achievement::%{_id}%::displayItem} to {_displayItem}
+    set {achievement::%{_id}%::displayName} to "achievement.%{_id}%.name"
+    set {achievement::%{_id}%::desc} to "achievement.%{_id}%.desc"
+    set {achievement::%{_id}%::secret} to {_secret}
+
+    if {_type} is "tiered":
+        if {_tiers} is not "":
+            set {_tiers::*} to {_tiers} split at ","
+            clear {achievement::%{_id}%::tiers::*}
+            loop {_tiers::*}:
+                add loop-value parsed as number to {achievement::%{_id}%::tiers::*}
+        if {_xpPerTier} is not "":
+            set {_xpTiers::*} to {_xpPerTier} split at ","
+            clear {achievement::%{_id}%::xpPerTier::*}
+            loop {_xpTiers::*}:
+                add loop-value parsed as number to {achievement::%{_id}%::xpPerTier::*}
+
+    if {_type} is "collection":
+        if {_subRequirements} is not "":
+            set {_subs::*} to {_subRequirements} split at ","
+            clear {achievement::%{_id}%::subRequirements::*}
+            loop {_subs::*}:
+                set {_trimmed} to loop-value
+                replace all " " with "" in {_trimmed}
+                add {_trimmed} to {achievement::%{_id}%::subRequirements::*}
+
+# Call after all achievements registered to compute level thresholds
+function recalculateAllAchievementsBaseXP():
+    set {_totalXP} to 0
+    set {_allAchievements::*} to {achievements::*}
+    loop {_allAchievements::*}:
+        set {_id} to loop-value
+        set {_type} to {achievement::%{_id}%::type}
+
+        set {_isCounterOrMilestone} to false
+        if {_type} is "counter":
+            set {_isCounterOrMilestone} to true
+        else:
+            if {_type} is "milestone":
+                set {_isCounterOrMilestone} to true
+
+        if {_isCounterOrMilestone} is true:
+            add {achievement::%{_id}%::xp} to {_totalXP}
+        else:
+            if {_type} is "tiered":
+                set {_xpPerTierList::*} to {achievement::%{_id}%::xpPerTier::*}
+                loop {_xpPerTierList::*}:
+                    add loop-value-2 to {_totalXP}
+            else:
+                if {_type} is "collection":
+                    add {achievement::%{_id}%::xp} to {_totalXP}
+
+    # Compute hat count from available hats list (defined in on load)
+    set {_amountOfHats} to size of {achievement::availableHats::*}
+    # Fallback if hats not initialized yet (load order issue)
+    if {_amountOfHats} = 0:
+        set {_amountOfHats} to 27
+    set {_divisor} to {_amountOfHats}*({_amountOfHats}+1)/2
+    # baseXP = totalXP / divisor
+    if {_totalXP} > 0:
+        set {achievement::baseXP} to {_totalXP} / {_divisor}
+    else:
+        set {achievement::baseXP} to 100
+
+# ============================================================
+# PROGRESS TRACKING
+# ============================================================
+
+function addAchievementProgress(p: player, id: text, amount: number = 1):
+    if {achievements::*} does not contain {_id}:
+        stop
+
+    # Don't add progress if already completed (for milestone/counter types)
+    set {_type} to {achievement::%{_id}%::type}
+    set {_isCounterOrMilestone} to false
+    if {_type} = "counter":
+        set {_isCounterOrMilestone} to true
+    else:
+        if {_type} = "milestone":
+            set {_isCounterOrMilestone} to true
+
+    if {_isCounterOrMilestone} is true:
+        # Check if already completed
+        if {achievement::completed::%uuid of {_p}%::%{_id}%} is true:
+            stop
+
+        set {_threshold} to {achievement::%{_id}%::threshold}
+        set {_currentRaw} to {achievement::raw::%uuid of {_p}%::%{_id}%}
+        if {_currentRaw} is not set:
+            set {_currentRaw} to 0
+
+        # Cap progress at threshold
+        set {_newRaw} to {_currentRaw} + {_amount}
+        if {_newRaw} > {_threshold}:
+            set {_newRaw} to {_threshold}
+
+        set {achievement::raw::%uuid of {_p}%::%{_id}%} to {_newRaw}
+    else:
+        # For tiered/collection, check if already completed
+        if {_type} = "collection":
+            # Check if already completed
+            if {achievement::completed::%uuid of {_p}%::%{_id}%} is true:
+                stop
+        # Add normally (tiered tracks by tier, collection by sub-achievements)
+        add {_amount} to {achievement::raw::%uuid of {_p}%::%{_id}%}
+
+    add {_id} to {achievement::dirty::%uuid of {_p}%::*}
+
+    # Check for immediate completion (milestone/tiered tier)
+    checkAchievementCompletion({_p}, {_id})
+
+function checkAchievementCompletion(p: player, id: text):
+    set {_type} to {achievement::%{_id}%::type}
+    set {_raw} to {achievement::raw::%uuid of {_p}%::%{_id}%}
+    if {_raw} is not set:
+        set {_raw} to 0
+    set {_completed} to false
+    set {_newTier} to 0
+
+    set {_isCounterOrMilestone} to false
+    if {_type} = "counter":
+        set {_isCounterOrMilestone} to true
+    else:
+        if {_type} = "milestone":
+            set {_isCounterOrMilestone} to true
+
+    # For milestone/counter/collection: check if already completed to prevent re-announce
+    if {_isCounterOrMilestone} is true:
+        if {achievement::completed::%uuid of {_p}%::%{_id}%} is true:
+            stop
+        set {_threshold} to {achievement::%{_id}%::threshold}
+        if {_raw} >= {_threshold}:
+            set {_completed} to true
+
+    else:
+        if {_type} = "tiered":
+            # Tiered: don't check completed flag - we announce for each new tier
+            # Tiers are 1-indexed (tier 1, 2, 3) to match xpPerTier list indices
+            set {_currentTier} to {achievement::tier::%uuid of {_p}%::%{_id}%}
+            if {_currentTier} is not set:
+                set {_currentTier} to 0
+
+            set {_tiers::*} to {achievement::%{_id}%::tiers::*}
+            loop {_tiers::*}:
+                # loop-index is 1, 2, 3... matching xpPerTier list indices (1-based)
+                set {_tierIndex} to loop-index
+                set {_tierThreshold} to loop-value
+                if {_raw} >= {_tierThreshold}:
+                    if {_tierIndex} > {_currentTier}:
+                        set {_newTier} to {_tierIndex}
+                        set {achievement::tier::%uuid of {_p}%::%{_id}%} to {_tierIndex}
+
+            if {_newTier} > 0:
+                set {_completed} to true
+
+        else:
+            if {_type} = "collection":
+                # Collection: check completed flag
+                if {achievement::completed::%uuid of {_p}%::%{_id}%} is true:
+                    stop
+                if isCollectionComplete({_p}, {_id}) is true:
+                    set {_completed} to true
+
+    if {_completed} is true:
+        # Mark as completed to prevent duplicate announcements (for milestone/counter/collection)
+        if {_type} is  "collection" or "counter" or "milestone":
+            set {achievement::completed::%uuid of {_p}%::%{_id}%} to true
+        # Award XP and announce
+        awardAchievementXP({_p}, {_id}, {_newTier})
+        announceAchievement({_p}, {_id}, {_newTier})
+
+function awardAchievementXP(p: player, id: text, tier: number = 0):
+    set {_type} to {achievement::%{_id}%::type}
+    set {_xpGain} to 0
+
+    set {_isSimpleType} to false
+    if {_type} is "counter":
+        set {_isSimpleType} to true
+    else:
+        if {_type} is "milestone":
+            set {_isSimpleType} to true
+        else:
+            if {_type} is "collection":
+                set {_isSimpleType} to true
+
+    if {_isSimpleType} is true:
+        set {_xpGain} to {achievement::%{_id}%::xp}
+    else:
+        if {_type} is "tiered":
+            if {_tier} > 0:
+                set {_xpGain} to {achievement::%{_id}%::xpPerTier::%{_tier}%}
+
+    if {_xpGain} > 0:
+        # XP is computed on recalculation, not stored incrementally
+        # Just mark for recalculation
+        add {_id} to {achievement::dirty::%uuid of {_p}%::*}
+        recalculatePlayerAchievements({_p})
+
+function announceAchievement(p: player, id: text, tier: number = 0):
+    set {_name} to getTr({achievement::%{_id}%::displayName})
+    set {_xp} to {achievement::%{_id}%::xp}
+    if {_tier} > 0:
+        set {_xp} to {achievement::%{_id}%::xpPerTier::%{_tier}%}
+        set {_name} to "%{_name}% &7(Tier %{_tier}%)"
+    send getTr("achievement.unlocked", "&r%{_name}%", "%{_xp}%") to {_p}
+
+# ============================================================
+# RECALCULATION
+# ============================================================
+
+function recalculatePlayerAchievements(p: player):
+    set {_uuid} to uuid of {_p}
+    set {_totalXP} to 0
+    set {_completedCount} to 0
+
+    set {_allAchievements::*} to {achievements::*}
+    loop {_allAchievements::*}:
+        set {_id} to loop-value
+        set {_type} to {achievement::%{_id}%::type}
+        set {_raw} to {achievement::raw::%{_uuid}%::%{_id}%}
+        if {_raw} is not set:
+            set {_raw} to 0
+        set {_completed} to false
+
+        set {_isCounterOrMilestone} to false
+        if {_type} = "counter":
+            set {_isCounterOrMilestone} to true
+        else:
+            if {_type} = "milestone":
+                set {_isCounterOrMilestone} to true
+
+        if {_isCounterOrMilestone} is true:
+            set {_threshold} to {achievement::%{_id}%::threshold}
+            if {_raw} >= {_threshold}:
+                set {_completed} to true
+                add {achievement::%{_id}%::xp} to {_totalXP}
+
+        else:
+            if {_type} = "tiered":
+                set {_tiers::*} to {achievement::%{_id}%::tiers::*}
+                set {_achId} to {_id}
+                set {_achRaw} to {_raw}
+                loop {_tiers::*}:
+                    set {_tierIndex} to loop-index-2
+                    set {_tierThreshold} to loop-value-2
+                    if {_achRaw} >= {_tierThreshold}:
+                        set {_completed} to true
+                        add {achievement::%{_achId}%::xpPerTier::%{_tierIndex}%} to {_totalXP}
+
+            else:
+                if {_type} = "collection":
+                    if isCollectionComplete({_p}, {_id}) is true:
+                        set {_completed} to true
+                        add {achievement::%{_id}%::xp} to {_totalXP}
+
+        if {_completed} is true:
+            add 1 to {_completedCount}
+
+    # Store computed XP and level
+    set {achievement::computedXP::%{_uuid}%} to {_totalXP}
+    set {_level} to xpToLevel({_totalXP})
+    set {_oldLevel} to {achievement::level::%{_uuid}%}
+    set {achievement::level::%{_uuid}%} to {_level}
+
+    # Handle hat unlocks (never lose hats, only gain when level > hat count)
+    set {_hatCount} to size of {achievement::unlockedHats::%{_uuid}%::*}
+    if {_level} > {_hatCount}:
+        set {_hatsToUnlock} to {_level} - {_hatCount}
+        loop {_hatsToUnlock} times:
+            unlockRandomHat({_p})
+
+    # Track level up for end-of-match announcement
+    if {_level} > {_oldLevel}:
+        if {_oldLevel} > 0:
+            set {achievement::justLeveledUp::%{_uuid}%} to true
+            set {achievement::newLevel::%{_uuid}%} to {_level}
+
+function xpToLevel(xp: number) :: number:
+    # Triangular: XP needed for level L = baseXP * L * (L + 1) / 2
+    # Solve for L: L^2 + L - 2*XP/baseXP = 0
+    # L = (-1 + sqrt(1 + 8*XP/baseXP)) / 2
+    if {achievement::baseXP} is not set:
+        return 0
+    if {achievement::baseXP} <= 0:
+        return 0
+    set {_base} to {achievement::baseXP}
+    set {_discriminant} to 1 + 8 * {_xp} / {_base}
+    set {_sqrt} to sqrt({_discriminant})
+    set {_level} to floor((-1 + {_sqrt}) / 2)
+    if {_level} < 0:
+        set {_level} to 0
+    # Cap at number of available hats (dynamic, not hardcoded 10)
+    set {_maxLevel} to size of {achievement::availableHats::*}
+    if {_maxLevel} = 0:
+        set {_maxLevel} to 27  # fallback
+    if {_level} > {_maxLevel}:
+        set {_level} to {_maxLevel}
+    return {_level}
+
+function levelToXpNeeded(level: number) :: number:
+    if {achievement::baseXP} is not set:
+        return 0
+    # XP needed to REACH this level = baseXP * level * (level + 1) / 2
+    return {achievement::baseXP} * {_level} * ({_level} + 1) / 2
+
+function getPlayerXP(p: player) :: number:
+    if {achievement::computedXP::%uuid of {_p}%} is not set:
+        return 0
+    return {achievement::computedXP::%uuid of {_p}%}
+
+function getPlayerLevel(p: player) :: number:
+    if {achievement::level::%uuid of {_p}%} is not set:
+        return 0
+    return {achievement::level::%uuid of {_p}%}
+
+# ============================================================
+# HAT UNLOCKS
+# ============================================================
+
+# Available hats are now initialized in hat.sk on load (single source of truth)
+# This ensures hats are ready before achievement system initializes
+
+function unlockRandomHat(p: player):
+    set {_uuid} to uuid of {_p}
+
+    # Get available hats that player hasn't unlocked yet
+    set {_available::*} to {achievement::availableHats::*}
+
+    # Remove already unlocked
+    loop {achievement::unlockedHats::%{_uuid}%::*}:
+        remove loop-value from {_available::*}
+
+    if size of {_available::*} = 0:
+        stop
+
+    set {_randomHat} to random element out of {_available::*}
+    add {_randomHat} to {achievement::unlockedHats::%{_uuid}%::*}
+
+    # Also add to hat.sk's unlocked list (using same variable name pattern)
+    add {_randomHat} to {hat.unlocked.%{_uuid}%::*}
+
+    # Store for end-of-match announcement instead of immediate message
+    add {_randomHat} to {achievement::pendingHatAnnouncements::%{_uuid}%::*}
+
+# ============================================================
+# FLUSH (Periodic save)
+# ============================================================
+
+every 10 seconds:
+    loop all players:
+        flushAchievementData(loop-player)
+
+on quit:
+    flushAchievementData(player)
+
+function flushAchievementData(p: player):
+    # In this system, raw data is already saved per-addProgress
+    # This just clears dirty list
+    clear {achievement::dirty::%uuid of {_p}%::*}
+
+# ============================================================
+# LOBBY DISPLAY (Actionbar + Join Title)
+# ============================================================
+
+every 2 seconds:
+    if {game.state} is "waiting":
+        loop all players:
+            set {_level} to getPlayerLevel(loop-player)
+            set {_xp} to getPlayerXP(loop-player)
+            set {_nextXP} to levelToXpNeeded({_level} + 1)
+            set {_currentLevelXP} to levelToXpNeeded({_level})
+            set {_progressXP} to {_xp} - {_currentLevelXP}
+            set {_neededXP} to {_nextXP} - {_currentLevelXP}
+
+            # Progress bar for actionbar
+            set {_barLength} to 10
+            set {_filled} to floor({_progressXP} * {_barLength} / {_neededXP})
+            if {_filled} > {_barLength}:
+                set {_filled} to {_barLength}
+            if {_filled} < 0:
+                set {_filled} to 0
+            set {_bar} to ""
+            loop {_barLength} times:
+                if loop-number <= {_filled}:
+                    set {_bar} to "%{_bar}%&a█"
+                else:
+                    set {_bar} to "%{_bar}%&7░"
+
+            send actionbar getTr("achievement.lobby.actionbar", "%{_level}%", "%{_progressXP}%", "%{_neededXP}%", "%{_bar}%") to loop-player
+
+on join:
+    # Recalculate achievements first
+    recalculatePlayerAchievements(player)
+
+    # Show join title after short delay
+    wait 10 ticks
+    set {_level} to getPlayerLevel(player)
+    set {_xp} to getPlayerXP(player)
+    set {_name} to name of player
+    set {_titleText} to getTr("achievement.lobby.title", "%{_name}%")
+    set {_subtitleText} to getTr("achievement.lobby.subtitle", "%{_level}%", "%{_xp}%")
+    set {_titleJson} to "{""text"":""%{_titleText}%"",""color"":""gold"",""bold"":true}"
+    set {_subtitleJson} to "{""text"":""%{_subtitleText}%"",""color"":""yellow""}"
+    execute console command "title %player% times 10 60 20"
+    execute console command "title %player% title %{_titleJson}%"
+    execute console command "title %player% subtitle %{_subtitleJson}%"
+
+# ============================================================
+# ACHIEVEMENT GUI (Hotbar Slot 8, Lobby Only)
+# ============================================================
+
+command /achievements:
+    aliases: conquistas
+    trigger:
+        if {game.state} is not "waiting":
+            send getTr("achievement.cannotOpen") to player
+            stop
+        openAchievementGUI(player)
+
+on right click:
+    if {game.state} is not "waiting":
+        stop
+    if player's tool is air:
+        stop
+    if name of player's tool is getTr("achievement.gui.name"):
+        cancel event
+        execute player command "achievements"
+        stop
+
+# Cancel clicks in achievement GUI
+on inventory click:
+    if name of event-inventory is getTr("achievement.gui.name"):
+        cancel event
+
+function giveAchievementItem(p: player):
+    set {_item} to book named getTr("achievement.gui.name")
+    set slot 8 of {_p}'s inventory to {_item}
+
+function openAchievementGUI(p: player):
+    set {_uuid} to uuid of {_p}
+    set {_inv} to chest inventory with 6 rows named getTr("achievement.gui.name")
+
+    set {_index} to 0
+    set {_allAchievements::*} to {achievements::*}
+
+    # First pass: non-secret achievements
+    loop {_allAchievements::*}:
+        set {_id} to loop-value
+        set {_isSecret} to {achievement::%{_id}%::secret}
+        if {_isSecret} is true:
+            continue
+        set {_index} to buildAchievementItem({_p}, {_id}, {_uuid}, {_inv}, {_index})
+
+    # Second pass: secret achievements (at the end)
+    loop {_allAchievements::*}:
+        set {_id} to loop-value
+        set {_isSecret} to {achievement::%{_id}%::secret}
+        if {_isSecret} is not true:
+            continue
+        set {_index} to buildAchievementItem({_p}, {_id}, {_uuid}, {_inv}, {_index})
+
+    open {_inv} to {_p}
+
+# Helper function to build a single achievement item for the GUI
+function buildAchievementItem(p: player, id: text, uuid: text, inv: object, index: number) :: number:
+    set {_type} to {achievement::%{_id}%::type}
+    set {_item} to {achievement::%{_id}%::displayItem} parsed as itemtype
+    if {_item} is not set:
+        set {_item} to paper
+
+    set {_displayName} to getTr({achievement::%{_id}%::displayName})
+    set {_desc} to getTr({achievement::%{_id}%::desc})
+    set {_isSecret} to {achievement::%{_id}%::secret}
+
+    set {_raw} to {achievement::raw::%{_uuid}%::%{_id}%}
+    if {_raw} is not set:
+        set {_raw} to 0
+    set {_completed} to false
+    set {_progress} to ""
+
+    set {_isCounter} to false
+    if {_type} = "counter":
+        set {_isCounter} to true
+
+    if {_isCounter} is true:
+        set {_threshold} to {achievement::%{_id}%::threshold}
+        if {_raw} >= {_threshold}:
+            set {_completed} to true
+        set {_progress} to getTr("achievement.progress", "%{_raw}%", "%{_threshold}%")
+    else if {_type} = "milestone":
+        set {_threshold} to {achievement::%{_id}%::threshold}
+        if {_raw} >= {_threshold}:
+            set {_completed} to true
+        # Don't show progress for milestones (binary: done or not done)
+
+    else if {_type} = "tiered":
+        set {_currentTier} to {achievement::tier::%{_uuid}%::%{_id}%}
+        if {_currentTier} is not set:
+            set {_currentTier} to 0
+        set {_maxTier} to size of {achievement::%{_id}%::tiers::*}
+        if {_currentTier} >= {_maxTier}:
+            set {_completed} to true
+            set {_tierText} to getTr("achievement.tier", "%{_maxTier}%", "%{_maxTier}%")
+            set {_progress} to "%{_tierText}% &a✓"
+        else:
+            # Calculate progress within current tier
+            # Tier 0: progress from 0 to tier 1 threshold
+            # Tier N: progress from tier N threshold to tier N+1 threshold
+            set {_prevThreshold} to 0
+            if {_currentTier} > 0:
+                set {_prevThreshold} to {achievement::%{_id}%::tiers::%{_currentTier}%}
+            set {_nextTierIndex} to {_currentTier} + 1
+            set {_nextThreshold} to {achievement::%{_id}%::tiers::%{_nextTierIndex}%}
+            set {_tierProgress} to {_raw} - {_prevThreshold}
+            set {_tierNeeded} to {_nextThreshold} - {_prevThreshold}
+            if {_tierProgress} < 0:
+                set {_tierProgress} to 0
+            if {_tierProgress} > {_tierNeeded}:
+                set {_tierProgress} to {_tierNeeded}
+            set {_tierText} to getTr("achievement.tier", "%{_currentTier}%", "%{_maxTier}%")
+            set {_progress} to "%{_tierText}% &7(&e%{_tierProgress}%&7/&e%{_tierNeeded}%&7)"
+
+    else if {_type} = "collection":
+        set {_total} to size of {achievement::%{_id}%::subRequirements::*}
+        set {_missingList::*} to getCollectionMissing({_p}, {_id})
+        set {_total} to size of {achievement::%{_id}%::subRequirements::*}
+        set {_done} to {_total} - size of {_missingList::*}
+        if {_done} = {_total}:
+            set {_completed} to true
+        set {_progress} to getTr("achievement.completed_count", "%{_done}%", "%{_total}%")
+
+    # Handle secret achievements
+    if {_isSecret} is true:
+        if {_completed} is true:
+            # Completed secret: show real item and real description
+            set {_guiItem} to {_item} named "%{_displayName}%"
+            set {_lore::*} to ""
+            add "&7%{_desc}%" to {_lore::*}
+        else:
+            # Incomplete secret: show barrier, title normally, desc as "Secret"
+            set {_guiItem} to barrier named "%{_displayName}%"
+            set {_lore::*} to ""
+            set {_secretText} to getTr("achievement.secret")
+            add "&7%{_secretText}%" to {_lore::*}
+            # Hide progress for incomplete secrets
+            set {_progress} to ""
+    else:
+        # Normal achievement
+        set {_guiItem} to {_item} named "%{_displayName}%"
+        set {_lore::*} to ""
+        add "&7%{_desc}%" to {_lore::*}
+
+    # Add collection missing tasks as individual lore lines (only for non-secret or completed secrets)
+    if {_type} = "collection":
+        set {_showCollection} to false
+        if {_isSecret} is not true:
+            set {_showCollection} to true
+        else if {_completed} is true:
+            set {_showCollection} to true
+        if {_showCollection} is true:
+            set {_missingCount} to size of {_missingList::*}
+            if {_missingCount} > 0:
+                add "" to {_lore::*}
+                add getTr("achievement.collection.missing") to {_lore::*}
+                set {_displayCount} to {_missingCount}
+                if {_displayCount} > 4:
+                    set {_displayCount} to 4
+                loop {_displayCount} times:
+                    set {_i} to loop-number
+                    set {_subId} to {_missingList::%{_i}%}
+                    # Get proper display name for missing sub-requirement
+                    if {achievements::*} contains {_subId}:
+                        set {_taskName} to getTr({achievement::%{_subId}%::displayName})
+                    else:
+                        set {_taskName} to getTr("taskname.%{_subId}%")
+                    if all:
+                        {_missingCount} > 4
+                        {_i} = 4
+                    then:
+                        set {_remaining} to {_missingCount} - 4
+                        add "&7%{_taskName}% +%{_remaining}%" to {_lore::*}
+                    else:
+                        add "&7%{_taskName}%" to {_lore::*}
+            else:
+                add "" to {_lore::*}
+                add "&aAll tasks completed!" to {_lore::*}
+
+    # Add progress (only for non-secret or completed secrets)
+    if {_progress} is not "":
+        add "" to {_lore::*}
+        add "%{_progress}%" to {_lore::*}
+
+    # XP display - tiered shows current/next tier XP, others show base XP
+    # Only show XP for non-secret or completed secrets
+    set {_showXP} to false
+    if {_isSecret} is not true:
+        set {_showXP} to true
+    else if {_completed} is true:
+        set {_showXP} to true
+    if {_showXP} is true:
+        if {_type} = "tiered":
+            if {_completed} is true:
+                # Show total XP earned from all tiers
+                set {_totalXP} to 0
+                set {_tiers::*} to {achievement::%{_id}%::tiers::*}
+                loop {_tiers::*}:
+                    set {_tierIdx} to loop-index
+                    add {achievement::%{_id}%::xpPerTier::%{_tierIdx}%} to {_totalXP}
+                add getTr("achievement.xp_total", "%{_totalXP}%") to {_lore::*}
+            else:
+                # Show next tier XP reward
+                set {_nextTierIdx} to {_currentTier} + 1
+                set {_nextTierXP} to {achievement::%{_id}%::xpPerTier::%{_nextTierIdx}%}
+                add getTr("achievement.xp_next_tier", "%{_nextTierXP}%") to {_lore::*}
+        else:
+            add getTr("achievement.xp", "%{achievement::%{_id}%::xp}%") to {_lore::*}
+
+    if {_completed} is true:
+        add getTr("achievement.completed_status") to {_lore::*}
+        enchant {_guiItem} with unbreaking 1
+        set {_guiItem} to {_guiItem} with item flags hide enchants, hide additional tooltip
+    else:
+        if {_isSecret} is not true:
+            add getTr("achievement.not_completed") to {_lore::*}
+        set {_guiItem} to {_guiItem} with item flags hide additional tooltip
+
+    set lore of {_guiItem} to {_lore::*}
+    set slot {_index} of {_inv} to {_guiItem}
+    add 1 to {_index}
+    return {_index}
+
+# ============================================================
+# MATCH END ANNOUNCEMENT
+# ============================================================
+
+# Call this from meeting.sk or control.sk when game ends
+function announceLevelUps():
+    if {game.state} is not "waiting":
+        stop
+    wait 20 ticks  # Wait for players to be in lobby
+    loop all players:
+        set {_uuid} to uuid of loop-player
+        if {achievement::justLeveledUp::%{_uuid}%} is true:
+            set {_name} to name of loop-player
+            set {_level} to {achievement::newLevel::%{_uuid}%}
+            broadcast getTr("achievement.levelUp.broadcast", "%{_name}%", "%{_level}%")
+            delete {achievement::justLeveledUp::%{_uuid}%}
+            delete {achievement::newLevel::%{_uuid}%}
+
+        # Announce any pending hat unlocks
+        if {achievement::pendingHatAnnouncements::%{_uuid}%::*} is set:
+            loop {achievement::pendingHatAnnouncements::%{_uuid}%::*}:
+                send getTr("hat.unlocked", "&r%loop-value-2%") to loop-player
+            clear {achievement::pendingHatAnnouncements::%{_uuid}%::*}
+
+# ============================================================
+# COLLECTION HELPER
+# ============================================================
+
+# Check if all sub-requirements of a collection achievement are completed
+# Handles three types of sub-requirements:
+# 1. Registered achievements (milestone/counter/tiered/collection) - check their completion status
+# 2. Raw task IDs (for task_completionist) - check raw >= 1
+# 3. Other raw values - check raw >= 1
+function isCollectionComplete(p: player, id: text) :: boolean:
+    set {_missing::*} to getCollectionMissing({_p}, {_id})
+    if size of {_missing::*} = 0:
+        return true
+    else:
+        return false
+
+# Get list of missing sub-requirements for a collection achievement
+# Returns a list of sub-requirement IDs that are not yet completed
+function getCollectionMissing(p: player, id: text) :: texts:
+    set {_uuid} to uuid of {_p}
+    clear {_missing::*}
+    set {_subs::*} to {achievement::%{_id}%::subRequirements::*}
+    loop {_subs::*}:
+        set {_subId} to loop-value
+        set {_isDone} to false
+        # Check if this sub-requirement is a registered achievement
+        if {achievements::*} contains {_subId}:
+            set {_subType} to {achievement::%{_subId}%::type}
+            # Milestone/Counter: check completed flag
+            if {_subType} = "milestone" or "counter":
+                if {achievement::completed::%{_uuid}%::%{_subId}%} is true:
+                    set {_isDone} to true
+            # Tiered: check if max tier reached
+            else if {_subType} = "tiered":
+                set {_subTier} to {achievement::tier::%{_uuid}%::%{_subId}%}
+                if {_subTier} is not set:
+                    set {_subTier} to 0
+                set {_maxTier} to size of {achievement::%{_subId}%::tiers::*}
+                if {_subTier} >= {_maxTier}:
+                    set {_isDone} to true
+            # Collection: check completed flag
+            else if {_subType} = "collection":
+                if {achievement::completed::%{_uuid}%::%{_subId}%} is true:
+                    set {_isDone} to true
+        else:
+            # Not a registered achievement (e.g., raw task IDs for task_completionist)
+            # Check if raw >= 1
+            set {_subRaw} to {achievement::raw::%{_uuid}%::%{_subId}%}
+            if {_subRaw} is not set:
+                set {_subRaw} to 0
+            if {_subRaw} >= 1:
+                set {_isDone} to true
+        if {_isDone} is not true:
+            add {_subId} to {_missing::*}
+    return {_missing::*}
+
+# ============================================================
+# UTILITIES
+# ============================================================
+
+command /recalcachievements <player=%player%>:
+    permission: op
+    trigger:
+        recalculatePlayerAchievements({_player})
+        send getTr("achievement.recalcDone", "%name of {_player}%") to sender
+
+command /recalcallachievements:
+    permission: op
+    trigger:
+        loop all players:
+            recalculatePlayerAchievements(loop-player)
+        send getTr("achievement.recalcAllDone") to sender

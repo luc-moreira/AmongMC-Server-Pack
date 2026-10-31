@@ -1,0 +1,64 @@
+every 1 second:
+    if {game.state} is not "running":
+        stop
+    if {config.dynamicTasks} is not true:
+        stop
+
+    loop all players:
+        if {game.ghosts::*} contains loop-player:
+            continue
+
+        if {game.impostors::*} contains loop-player:
+            continue
+
+        if size of {playerTasks.%uuid of loop-player%::*} > 0:
+            continue
+
+        if {playerGrouped.%uuid of loop-player%} is not set:
+            set {playerGrouped.%uuid of loop-player%} to 0
+
+        set {_grouped} to false
+
+        loop all players:
+            if loop-player-2 is loop-player-1:
+                continue
+
+            if {game.ghosts::*} contains loop-player-2:
+                continue
+
+            if distance between loop-player-1 and loop-player-2 < 5:
+                set {_grouped} to true
+                stop loop
+
+        if {_grouped} is true:
+            add 1 to {playerGrouped.%uuid of loop-player-1%}
+            if {playerGrouped.%uuid of loop-player-1%} >= 10:
+                tooGrouped(loop-player-1)
+                set {playerGrouped.%uuid of loop-player-1%} to -10
+
+        else:
+            if {playerGrouped.%uuid of loop-player-1%} > 0:
+                subtract 1 from {playerGrouped.%uuid of loop-player-1%}
+
+function tooGrouped(p: player):
+    send getTr("tasks.tooGrouped") to {_p}
+
+    set {_pool::*} to {tasks::*}
+
+    loop {playerTasksDone.%uuid of {_p}%::*}:
+        remove loop-value from {_pool::*}
+
+    if size of {_pool::*} is 0:
+        stop
+
+    set {_random} to random element out of {_pool::*}
+
+    add {_random} to {playerTasks.%uuid of {_p}%::*}
+
+    if {task.%{_random}%.ordered} is true:
+        set {playerTaskStep.%uuid of {_p}%.%{_random}%} to 1
+
+    else:
+        delete {playerTaskDone.%uuid of {_p}%.%{_random}%::*}
+        delete {playerTaskProgress.%uuid of {_p}%.%{_random}%}
+    updateScoreboard({_p})

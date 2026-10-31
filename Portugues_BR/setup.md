@@ -8,7 +8,7 @@ Clone este repositório para a pasta de sua preferência.
 
 ## 2. Ajuste a memória do servidor
 
-Abra o arquivo `start.bat` com um editor de texto e altere os parâmetros `-Xms` e `-Xmx` para a quantidade de memória desejada.
+Abra o arquivo `server/start.bat` (não o que está na raiz do projeto, pois é apenas um atalho) com um editor de texto e altere os parâmetros `-Xms` e `-Xmx` para a quantidade de memória desejada.
 
 O valor padrão é **4 GB**, que se mostrou suficiente durante os testes.
 
@@ -44,6 +44,8 @@ Para utilizá-lo:
 ```
 server/plugins/Skript/scripts/changeme.sk
 ```
+
+**Acesso rápido:** Você também pode abrir este arquivo diretamente usando o atalho **`DiscordSetup.lnk`** localizado na **pasta raiz do projeto**.
 
 e preencha, **entre aspas**:
 

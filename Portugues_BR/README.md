@@ -13,7 +13,11 @@ O objetivo do projeto não é recriar o jogo original, mas oferecer uma experiê
 - 🌬️ Sistema de dutos de ventilação para impostores
 - 👻 Sistema de fantasmas com mecânicas próprias
 - 📱 Compatibilidade com Java Edition e Bedrock Edition
-- 🎯 Diversas mecânicas originais e melhorias de qualidade de vida
+- 🏆 Sistema de conquistas com XP e níveis
+- 🎩 27 chapéus desbloqueáveis (obtidos ao subir de nível através das conquistas)
+- 🌍 Suporte a múltiplos idiomas (Inglês & Português)
+- 🔊 Sincronização de voz opcional com Discord (auto-mudo durante as partidas)
+- ❤️ Sistema de sinais vitais para jogadores vivos
 
 ## Documentação
 
@@ -26,7 +30,7 @@ Este projeto é disponibilizado para fins de entretenimento.
 
 **Among Us** é uma marca registrada da Innersloth LLC. Este projeto é independente, não possui qualquer afiliação oficial com a Innersloth e tem como objetivo criar uma experiência original inspirada na proposta de gameplay do jogo.
 
-para mais informações sobre a licença, leia `license.md`
+Para mais informações sobre a licença, leia `license.md`
 
 ## Contribuindo
 

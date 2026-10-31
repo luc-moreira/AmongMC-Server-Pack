@@ -1,17 +1,13 @@
 function calibrate_navigation(p: player, step: number):
-
     set {nav.stage.%uuid of {_p}%} to 1
     nextNavigationRound({_p})
 
 function nextNavigationRound(p: player):
-
     set {nav.target.%uuid of {_p}%} to random integer between 0 and 8
     set {nav.direction.%uuid of {_p}%} to random integer between 0 and 8
-
     openNavigationGUI({_p})
 
 function openNavigationGUI(p: player):
-
     set {_inv} to chest inventory with 3 rows named "&6%getTr("taskname.calibrate_navigation")%"
 
     set {_target} to {nav.target.%uuid of {_p}%}
@@ -26,7 +22,6 @@ function openNavigationGUI(p: player):
     open {_inv} to {_p}
 
 on inventory click:
-
     if holder of event-inventory is set:
         stop
 
@@ -36,22 +31,16 @@ on inventory click:
     cancel event
 
     if clicked slot = 21:
-
         remove 1 from {nav.direction.%uuid of player%}
-
         if {nav.direction.%uuid of player%} < 0:
             set {nav.direction.%uuid of player%} to 8
-
         openNavigationGUI(player)
         stop
 
     if clicked slot = 23:
-
         add 1 to {nav.direction.%uuid of player%}
-
         if {nav.direction.%uuid of player%} > 8:
             set {nav.direction.%uuid of player%} to 0
-
         openNavigationGUI(player)
         stop
 
@@ -59,27 +48,25 @@ on inventory click:
         stop
 
     if {nav.direction.%uuid of player%} != {nav.target.%uuid of player%}:
-
         close player's inventory
-
         delete {nav.target.%uuid of player%}
         delete {nav.direction.%uuid of player%}
         delete {nav.stage.%uuid of player%}
-
         send getTr("task.navigationFail")
 
+        add 1 to {nav.failures.%uuid of player%}
+        if {nav.failures.%uuid of player%} >= 3:
+            addAchievementProgress(player, "horrible_pilot", 1)
         stop
 
     add 1 to {nav.stage.%uuid of player%}
 
     if {nav.stage.%uuid of player%} > 3:
-
         close player's inventory
-
         delete {nav.target.%uuid of player%}
         delete {nav.direction.%uuid of player%}
         delete {nav.stage.%uuid of player%}
-
+        delete {nav.failures.%uuid of player%}
         advanceTaskStep(player, "calibrate_navigation")
         stop
 

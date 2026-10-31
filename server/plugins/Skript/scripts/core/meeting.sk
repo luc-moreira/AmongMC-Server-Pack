@@ -35,7 +35,10 @@ function teleportMeeting():
                 set {_i} to 1
 
 function startMeeting(reporter: player):
-    
+
+    # Mark first meeting started for Early Bird achievement
+    set {game.firstMeetingStarted} to true
+
     # SALVAR SABOTAGEM ATIVA
     
 
@@ -127,6 +130,9 @@ on right click on armor stand:
                 stop
 
             remove 1 from {meeting.callsLeft.%uuid of player%}
+        # Achievement: meeting called (manual button press only, not body report)
+        addAchievementProgress(player, "first_meeting", 1)
+        addAchievementProgress(player, "meeting_called_10", 1)
         startMeeting(player)
 
 command /votar:
@@ -144,7 +150,7 @@ command /votar:
             send getTr("meeting.alreadyVoted")
             stop
 
-        set {_inv} to chest inventory with 3 rows named "&8Votação"
+        set {_inv} to chest inventory with 3 rows named getTr("meeting.guiTitle")
 
         set {_slot} to 0
 
@@ -365,6 +371,20 @@ function finishVoting():
     else:
         kickPlayer({_winner})
 
+        # Track votes received by each player (for perfect_impostor achievement)
+        set {_winnerUUID} to uuid of {_winner}
+        add {votes.%{_winnerUUID}%} to {game.votesReceived.%{_winnerUUID}%}
+
+        # Track correct votes for achievement (applied at end of match to not reveal impostor)
+        if {game.impostors::*} contains {_winner}:
+            loop all players:
+                if {vote.%uuid of loop-value%} is uuid of {_winner}:
+                    add 1 to {game.correctVotesThisMatch.%uuid of loop-value%}
+
+        # Achievement: Jester (ejected while having voted for yourself)
+        if {vote.%{_winnerUUID}%} is {_winnerUUID}:
+            addAchievementProgress({_winner}, "jester", 1)
+
     loop all players:
         delete {vote.%uuid of loop-player%}
         delete {voteSlot.%uuid of loop-player%::*}
@@ -376,15 +396,10 @@ function finishVoting():
 
     set {sabotage.doors.active} to false
 
-
     loop all players:
         updateInventory(loop-player)
         updateScoreboard(loop-player)
         play sound "minecraft:block.beacon.deactivate" with volume 0.7 and pitch 1.4 to loop-player
-
-    
-    # RESTAURAR SABOTAGEM
-    
 
     if {sabotage.pause} is "reactor":
         startReactorSabotage()
@@ -409,7 +424,6 @@ every 1 second:
             remove 1 from {meeting.cooldown.remaining}
 
 on right click:
-
     if tool of player is book:
         if name of tool of player is getTr("meeting.voteItem"):
             cancel event

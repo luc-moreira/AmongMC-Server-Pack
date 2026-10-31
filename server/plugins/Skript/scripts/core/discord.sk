@@ -1,18 +1,22 @@
-define new bot named "Bot":
-    token: "%{bot.token}%"
-    intents: default intents
-    policy: all
-    auto reconnect: true
+function loadBot():
+    set {bot} to a new discord bot
+    set token of {bot} to {bot.token}
+    login {bot} as "Bot"
+
+on unload:
+    stop bot {bot}
 
 discord command link <text>:
-    prefixes: !
+    prefixes: "!"
     trigger:
 
         if arg-1 is not set:
-            reply with getTr("discord.linkSuccess")
+            reply with getTr("discord.linkUsage")
             stop
 
-        set {_nick} to arg-1 in lower case
+        set {_rawNick} to arg-1
+        set {_nick} to {_rawNick} in lowercase
+
         set {_id} to discord id of event-user
 
         set {_oldNick} to {discord.link.nick.%{_id}%}
@@ -29,7 +33,7 @@ discord command link <text>:
         reply with getTr("discord.linkSuccess", "%{_nick}%")
 
 discord command check:
-    prefixes: !
+    prefixes: "!"
     trigger:
         reply with "%{discord.link.nick.%discord id of event-user%}%"
 
@@ -103,7 +107,6 @@ function unmuteAll():
         unmute member {_user}
 
 
-
 function updateCall():
     if {game.state} is "waiting":
         unmuteAll()
@@ -114,5 +117,3 @@ function updateCall():
 
 on voice channel join:
     updateCall()
-
-        

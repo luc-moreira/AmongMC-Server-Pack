@@ -110,7 +110,7 @@ function drawRadio(p: player):
         set slot {radio.target.%uuid of {_p}%.1} of {_inv} to lime stained glass pane named getTr("task.tuned")
     else:
         if {_pos} is {radio.target.%uuid of {_p}%.1}:
-            set slot {radio.target.%uuid of {_p}%.1} of {_inv} to lime stained glass pane named getTr("task.frequencyGreen") #lembrar da diferenca de cor
+            set slot {radio.target.%uuid of {_p}%.1} of {_inv} to lime stained glass pane named getTr("task.frequencyGreen")
         else:
             set slot {radio.target.%uuid of {_p}%.1} of {_inv} to red stained glass pane named getTr("task.frequencyRed")
 

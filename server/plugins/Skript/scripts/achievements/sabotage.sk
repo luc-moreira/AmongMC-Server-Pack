@@ -1,0 +1,39 @@
+# Achievement Handlers - Sabotage
+
+# Hook into sabotage fixes
+# These should be called from sabotage.sk when sabotages are fixed
+
+function onSabotageFix(p: player, type: text):
+    # type: "reactor", "lights", "lab_fire", "doors"
+    if {game.state} is not "running":
+        stop
+
+    # First sabotage fix (milestone) - for any sabotage type
+    addAchievementProgress({_p}, "first_sabotage_fix", 1)
+
+    # General sabotage fixes (tiered)
+    addAchievementProgress({_p}, "sabotage_fixes_tiered", 1)
+
+    # Tiered achievements for specific sabotage types
+    if {_type} = "reactor":
+        addAchievementProgress({_p}, "reactor_fix_tiered", 1)
+    else if {_type} = "lights":
+        addAchievementProgress({_p}, "lights_fix_tiered", 1)
+    else if {_type} = "lab_fire":
+        addAchievementProgress({_p}, "lab_fire_tiered", 1)
+    else if {_type} = "doors":
+        addAchievementProgress({_p}, "door_fix_tiered", 1)
+
+# Solo fix (player fixed entire sabotage alone)
+# For lights: flipped all 5 levers
+# For lab_fire: extinguished both fires
+# addAchievementProgress({_p}, "solo_fix_%{_type}%", 1)
+
+# Quick fix (within time threshold)
+# addAchievementProgress({_p}, "quick_fix_%{_type}%", 1)
+
+# Call these from sabotage.sk finish functions:
+# onSabotageFix(player, "reactor")
+# onSabotageFix(player, "lights")
+# onSabotageFix(player, "lab_fire")
+# onSabotageFix(player, "doors")

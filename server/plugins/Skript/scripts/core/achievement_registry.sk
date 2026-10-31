@@ -1,0 +1,167 @@
+# Achievement Registry
+# Register all achievements here using registerAchievement(id, type, threshold, xp, tiers, xpPerTier, handler, displayItem, subRequirements)
+# Format: registerAchievement("id", "type", threshold, xp, "tiers", "xpPerTier", "handler", "displayItem", "subRequirements")
+# Translation keys are auto-generated: achievement.%id%.name, achievement.%id%.desc
+# For tiered: achievement.%id%.tier.1, achievement.%id%.tier.2, achievement.%id%.tier.3
+
+# Initialize achievements - call this AFTER hats are initialized (from hat.sk on load)
+function initAchievements():
+    delete {achievements::*}
+
+    # ============================================================
+    # MILESTONE ACHIEVEMENTS (one-time, threshold=1)
+    # ============================================================
+
+    # Play your first game
+    registerAchievement("first_game", "milestone", 1, 25, "", "", "", "compass", "")
+
+    # Get your first kill as impostor
+    registerAchievement("first_kill", "milestone", 1, 150, "", "", "", "diamond_sword", "")
+
+    # Complete your first task
+    registerAchievement("first_task", "milestone", 1, 25, "", "", "", "book", "")
+
+    # Call your first emergency meeting
+    registerAchievement("first_meeting", "milestone", 1, 50, "", "", "", "bell", "")
+
+    # Report your first body
+    registerAchievement("first_body_report", "milestone", 1, 75, "", "", "", "bone", "")
+
+    # Fix your first sabotage
+    registerAchievement("first_sabotage_fix", "milestone", 1, 75, "", "", "", "redstone", "")
+
+    # Enter a vent for the first time (impostor only)
+    registerAchievement("first_vent", "milestone", 1, 100, "", "", "", "iron_trapdoor", "")
+
+    # Win your first game as crewmate
+    registerAchievement("first_win_crew", "milestone", 1, 100, "", "", "", "blue_wool", "")
+
+    # Win your first game as impostor
+    registerAchievement("first_win_imp", "milestone", 1, 300, "", "", "", "red_wool", "")
+
+
+    # ============================================================
+    # TIERED ACHIEVEMENTS - KILLS (Impostor only)
+    # ============================================================
+
+    # Eliminate crewmates as impostor (tiers: 5, 10, 20, 40, 80, 150 kills)
+    registerAchievement("kills_tiered", "tiered", 1, 0, "5,10,20,40,80,150", "150,300,500,1000,2000,4000", "", "netherite_sword", "")
+
+
+    # ============================================================
+    # TIERED ACHIEVEMENTS - TASKS (Crewmate, more frequent)
+    # ============================================================
+
+    # Complete tasks as crewmate (tiers: 25, 50, 100, 250, 500, 1000 tasks)
+    registerAchievement("tasks_tiered", "tiered", 1, 0, "25,50,100,250,500,1000", "60,120,250,500,900,1800", "", "writable_book", "")
+
+
+    # ============================================================
+    # TIERED ACHIEVEMENTS - WINS
+    # ============================================================
+
+    # Win games as crewmate (tiers: 5, 10, 25, 50, 100 wins)
+    registerAchievement("crew_wins_tiered", "tiered", 1, 0, "5,10,25,50,100", "100,250,500,1000,2000", "", "lapis_block", "")
+
+    # Win games as impostor (tiers: 3, 5, 10, 20, 40 wins)
+    registerAchievement("impostor_wins_tiered", "tiered", 1, 0, "3,5,10,20,40", "200,400,800,1500,3000", "", "nether_wart_block", "")
+
+
+    # ============================================================
+    # TIERED ACHIEVEMENTS - SABOTAGE FIXES (General)
+    # Per-sabotage mastery tracks are registered separately below
+    # ============================================================
+
+    # Fix sabotages (tiers: 10, 25, 50, 100, 250 fixes)
+    registerAchievement("sabotage_fixes_tiered", "tiered", 1, 0, "10,25,50,100,250", "150,300,500,1000,2000", "", "repeater", "")
+
+
+    # ============================================================
+    # TIERED ACHIEVEMENTS - SOCIAL / UTILITY
+    # ============================================================
+
+    # Report bodies (tiers: 10, 50 reports)
+    registerAchievement("body_reports_tiered", "tiered", 1, 0, "10,50", "150,600", "", "bone_block", "")
+
+    # Vote correctly in meetings (tiers: 25, 100 correct votes)
+    registerAchievement("correct_votes_tiered", "tiered", 1, 0, "25,100", "300,1000", "", "spyglass", "")
+
+    # Play games (tiers: 10, 20, 50, 100, 200 games)
+    registerAchievement("games_played_tiered", "tiered", 1, 0, "10,20,50,100,200", "50,100,300,1000,2000", "", "recovery_compass", "")
+
+    # Call 10 emergency meetings (milestone)
+    registerAchievement("meeting_called_10", "milestone", 10, 100, "", "", "", "goat_horn", "")
+
+
+    # ============================================================
+    # TIERED ACHIEVEMENTS (multiple tiers with separate XP)
+    # Per-sabotage mastery tracks (tiers: 3, 10, 25, 60)
+    # ============================================================
+
+    # Stabilize the reactor
+    registerAchievement("reactor_fix_tiered", "tiered", 1, 0, "3,10,25,60", "75,150,300,500", "", "beacon", "")
+
+    # Fix the lights
+    registerAchievement("lights_fix_tiered", "tiered", 1, 0, "3,10,25,60", "75,150,300,500", "", "redstone_lamp", "")
+
+    # Extinguish lab fires
+    registerAchievement("lab_fire_tiered", "tiered", 1, 0, "3,10,25,60", "75,150,300,500", "", "water_bucket", "")
+
+    # ============================================================
+    # COLLECTION ACHIEVEMENTS (multiple sub-requirements)
+    # ============================================================
+
+    # Complete every unique task at least once
+    registerAchievement("task_completionist", "collection", 1, 800, "", "", "", "knowledge_book", "water_plants,clean_vases,calibrate_navigation,organize_books,freeze_sample,cook_chicken,download_obs,download_lib,download_work,open_valve,connect_wires,trim_plants,destroy_asteroids,tune_radio,organize_armor,craft_device,clean_lens,wash_dishes,prepare_reagent,make_coffee,sequence_fission,remove_duplicate_books,start_reactor,clean_vents")
+
+    # Master all sabotage types (reach tier 4 in each sabotage fix track)
+    registerAchievement("sabotage_master", "collection", 1, 1500, "", "", "", "redstone_block", "reactor_fix_tiered,lights_fix_tiered,lab_fire_tiered")
+
+    # Excel at social deduction (call 10 meetings, report 50 bodies, vote correctly 100 times)
+    registerAchievement("social_butterfly", "collection", 1, 1000, "", "", "", "emerald", "meeting_called_10,body_reports_tiered,correct_votes_tiered")
+
+
+    # ============================================================
+    # SPECIAL ACHIEVEMENTS (milestone with specific conditions)
+    # High value for difficult/rare feats
+    # ============================================================
+
+    # Win as crewmate without dying
+    registerAchievement("survived_win", "milestone", 1, 100, "", "", "", "totem_of_undying", "")
+
+    # Win as impostor without dying
+    registerAchievement("imp_survived_win", "milestone", 1, 300, "", "", "", "wither_skeleton_skull", "")
+
+    # Win as a ghost (died but your team won)
+    registerAchievement("ghost_win", "milestone", 1, 100, "", "", "", "soul_lantern", "")
+
+    # Win as impostor without any crewmate being killed (ejections allowed)
+    registerAchievement("pacifist_impostor", "milestone", 1, 1500, "", "", "", "white_tulip", "")
+
+    # Win as impostor killing everyone without receiving a single vote
+    registerAchievement("perfect_impostor", "milestone", 1, 2000, "", "", "", "dragon_head", "")
+
+    # Be the first crewmate to complete all tasks while alive
+    registerAchievement("task_speedrunner", "milestone", 1, 250, "", "", "", "clock", "")
+
+    # Jester: Be ejected while having voted yourself (secret)
+    registerAchievement("jester", "milestone", 1, 500, "", "", "", "ender_pearl", "", true)
+
+    # Reverse Librarian: Complete organize_books in exact reverse order (secret)
+    registerAchievement("reverse_librarian", "milestone", 1, 750, "", "", "", "enchanted_book", "", true)
+
+    # Early Bird: Get 3 kills before the first meeting (secret)
+    registerAchievement("early_bird", "milestone", 1, 1000, "", "", "", "spyglass", "", true)
+
+    # Horrible Pilot: Fail calibrate navigation 3 times in the same match (secret)
+    registerAchievement("horrible_pilot", "milestone", 3, 500, "", "", "", "paper", "", true)
+
+    # Engineer?: Try entering a vent while being a crewmate (secret)
+    registerAchievement("engineer", "milestone", 1, 300, "", "", "", "iron_trapdoor", "", true)
+
+    # ============================================================
+    # CALCULATE BASE XP FOR LEVEL FORMULA
+    # ============================================================
+
+    # Call this after all achievements are registered
+    recalculateAllAchievementsBaseXP()

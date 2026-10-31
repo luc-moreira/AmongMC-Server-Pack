@@ -1,6 +1,6 @@
 function freeze_sample(p: player, step: number):
     if {_step} = 1:
-        
+
         set {_potions::*} to awkward potion, thick potion, mundane potion, potion of swiftness, potion of healing, potion of poison, potion of strength, potion of fire resistance
         set {potion.%uuid of {_p}%} to random element out of {_potions::*}
 
@@ -24,10 +24,6 @@ function freeze_sample(p: player, step: number):
 
 on inventory click:
 
-    
-    # Etapa 1
-    
-
     if holder of event-inventory is set:
         stop
 
@@ -38,10 +34,6 @@ on inventory click:
             advanceTaskStep(player, "freeze_sample")
             close player's inventory
             stop
-
-    
-    # Etapa 2
-    
 
     if name of event-inventory is "&6%getTr("taskname.freeze_sample")%":
 

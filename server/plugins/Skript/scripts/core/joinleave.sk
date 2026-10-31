@@ -14,19 +14,11 @@ on join:
     delete {vent.active.%uuid of player%}
     delete {vent.index.%uuid of player%}
 
-    
-    # LOBBY
-    
-
     if {game.state} is "waiting":
 
         teleport player to location(118.5, -58.5, 281.5, world("amongmc"))
         updateInventory(player)
         stop
-
-    
-    # PARTIDA EM ANDAMENTO
-    
 
     else:
         kill(player)

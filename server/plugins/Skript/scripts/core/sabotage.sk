@@ -1,7 +1,3 @@
-
-# SABOTAGENS - INÍCIO
-
-
 function startLabFire():
 
     set {sabotage.lab_fire.active} to true
@@ -9,7 +5,7 @@ function startLabFire():
     set {sabotage.lab_fire.remaining} to {config.labFireTime}
 
     set {lab.fire.1} to location(116, -58, 252, world("amongmc"))
-    set {lab.fire.2} to location(122, -59, 245, world("amongmc"))
+    set {lab.fire.2} to location(121, -59, 245, world("amongmc"))
 
     set block at {lab.fire.1} to fire
     set block at {lab.fire.2} to fire
@@ -67,7 +63,7 @@ function startDoorSabotage():
 
     set {_waittime} to "%{config.doorDuration}% seconds" parsed as timespan
     wait {_waittime}
-    
+
     if {game.state} is "meeting":
         stop
 
@@ -78,10 +74,6 @@ function startDoorSabotage():
 
     set {sabotage.doors.active} to false
     startSabotageCooldown({config.doorCooldown})
-
-
-
-# SABOTAGENS - FINALIZAÇÃO
 
 
 function finishLightsSabotage():
@@ -99,6 +91,12 @@ function finishLightsSabotage():
         updateCompass(loop-player)
         updateScoreboard(loop-player)
 
+    loop {sabotage.lights.fixers::*}:
+        if {game.state} is "running":
+            onSabotageFix(loop-value, "lights")
+
+    delete {sabotage.lights.fixers::*}
+
     broadcast getTr("sabotage.lightsRestored")
     startSabotageCooldown({config.sabotageCooldown})
 
@@ -113,6 +111,12 @@ function finishLabFire():
 
     loop all players:
         remove water bucket from loop-player
+
+    loop {sabotage.lab_fire.fixers::*}:
+        if {game.state} is "running":
+            onSabotageFix(loop-value, "lab_fire")
+
+    delete {sabotage.lab_fire.fixers::*}
 
     broadcast getTr("sabotage.fireExtinguished")
     startSabotageCooldown({config.sabotageCooldown})
@@ -132,11 +136,20 @@ function finishReactorSabotage():
         updateCompass(loop-player)
         updateScoreboard(loop-player)
 
+    loop {sabotage.reactor.leftPlayers::*}:
+        if {game.state} is "running":
+            onSabotageFix(loop-value, "reactor")
+
+    loop {sabotage.reactor.rightPlayers::*}:
+        if {game.state} is "running":
+            onSabotageFix(loop-value, "reactor")
+
+    delete {sabotage.reactor.leftPlayers::*}
+    delete {sabotage.reactor.rightPlayers::*}
+    delete {sabotage.reactor.leftPressed}
+    delete {sabotage.reactor.rightPressed}
+
     broadcast getTr("sabotage.reactorStabilized")
-
-
-
-# SABOTAGEM - UTILITÁRIOS
 
 
 function startSabotageCooldown(seconds: number):
@@ -198,21 +211,19 @@ function animateDoor(blocks: objects, close: boolean):
     else:
         set block above {_a} to air
         set block 3 above {_c} to air
-        set block 2 above {_b} to air 
+        set block 2 above {_b} to air
 
         wait 3 ticks
 
-        set block 2 above {_a} to air 
-        set block 2 above {_c} to air 
-        set block above {_b} to air 
-        set block 3 above {_b} to air 
+        set block 2 above {_a} to air
+        set block 2 above {_c} to air
+        set block above {_b} to air
+        set block 3 above {_b} to air
 
         wait 3 ticks
 
-        set block 3 above {_a} to air 
-        set block above {_c} to air 
-
-
+        set block 3 above {_a} to air
+        set block above {_c} to air
 
 
 every 1 second:
@@ -269,13 +280,11 @@ every 1 second:
             set slot 3 of loop-value's inventory to {_min} of compass named getTr("sabotage.reactorItem")
 
 
-
     if {sabotage.lab_fire.active} is true:
         loop all players:
             drawTaskParticles(loop-player, {water})
             play sound "block.beacon.deactivate" with volume 2 and pitch 0.5 to loop-player
             play sound "block.note_block.bell" with volume 0.7 and pitch 0.8 to loop-player
-
 
 
     if {sabotage.lights.active} is true:
@@ -300,6 +309,24 @@ on step on pressure plate:
 
     if {sabotage.reactor.active} is not true:
         stop
+
+    wait 1 tick
+
+    set {_loc} to location of player
+    set {_x} to floor(x-coordinate of {_loc})
+    set {_z} to floor(z-coordinate of {_loc})
+    set {_leftX} to floor(x-coordinate of {reactor.left})
+    set {_leftZ} to floor(z-coordinate of {reactor.left})
+    set {_rightX} to floor(x-coordinate of {reactor.right})
+    set {_rightZ} to floor(z-coordinate of {reactor.right})
+
+    if {_x} = {_leftX}:
+        if {_z} = {_leftZ}:
+            add player to {sabotage.reactor.leftPlayers::*}
+    else:
+        if {_x} = {_rightX}:
+            if {_z} = {_rightZ}:
+                add player to {sabotage.reactor.rightPlayers::*}
 
     if block at {reactor.left} is redstone powered:
         set {sabotage.reactor.leftPressed} to true
@@ -343,7 +370,6 @@ on load:
                 continue
 
             add {_loc} to {doorMarkers::*}
-
 
             set {_left} to location({_x} - 1 + 0.5, -60, {_z} + 0.5, world("amongmc"))
 
@@ -398,8 +424,7 @@ on right click:
     if {game.impostors::*} contains player:
         if player's tool is compass:
 
-            # LAB FIRE
-            if name of player's tool is "&cIncendiar laboratório":
+            if name of player's tool is getTr("sabotage.labFireItem"):
 
                 if {sabotage.cooldownRemaining} > 0:
                     send getTr("sabotage.inCooldown") to player
@@ -415,8 +440,7 @@ on right click:
                 send getTr("sabotage.startedFire") to player
                 stop
 
-            # DOORS
-            if name of player's tool is "&8Trancar portas":
+            if name of player's tool is getTr("sabotage.doorsItem"):
 
                 if {sabotage.cooldownRemaining} > 0:
                     send getTr("sabotage.inCooldown") to player
@@ -432,8 +456,7 @@ on right click:
                 send getTr("sabotage.lockedDoors") to player
                 stop
 
-            # LIGHTS
-            if name of player's tool is "&eApagar luzes":
+            if name of player's tool is getTr("sabotage.lightsItem"):
 
                 if {sabotage.cooldownRemaining} > 0:
                     send getTr("sabotage.inCooldown") to player
@@ -449,8 +472,7 @@ on right click:
                 send getTr("sabotage.sabotagedLights") to player
                 stop
 
-            # REACTOR
-            if name of player's tool is "&2Sobrecarregar reator":
+            if name of player's tool is getTr("sabotage.reactorItem"):
 
                 if {sabotage.cooldownRemaining} > 0:
                     send getTr("sabotage.inCooldown") to player
@@ -478,6 +500,8 @@ on right click:
                             cancel event
                             stop
 
+                        add player to {sabotage.lights.fixers::*}
+
                         wait 1 tick
                         checkLights()
                         stop
@@ -492,6 +516,8 @@ on right click:
 
             remove 1 water bucket from player
             set block at location of clicked block to air
+
+            add player to {sabotage.lab_fire.fixers::*}
 
             add 1 to {sabotage.lab_fire.progress}
 
