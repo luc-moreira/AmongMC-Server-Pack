@@ -51,3 +51,5 @@ server/plugins/Skript/scripts/PROJECT_MAP.md
 *.jar
 server/.install-manifest.json
 server/plugins/Geyser-Spigot/nethernet/identity.pem
+/server/plugins/SkinsRestorer
+/server/plugins/Skript/scripts/.VSCodeCounter

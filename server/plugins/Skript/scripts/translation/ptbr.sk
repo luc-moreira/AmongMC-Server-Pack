@@ -208,6 +208,9 @@ function loadPtbr():
     registerTranslation("ptbr", "config.anonymousVotes", "&fVotos anônimos: {1}")
     registerTranslation("ptbr", "config.confirmEjects", "&fRevelar impostor ao ejetar: {1}")
     registerTranslation("ptbr", "config.impostorsKnowEachOther", "&cImpostores se conhecem: {1}")
+
+    registerTranslation("ptbr", "config.impostorFairChance", "&eChance Justa de Impostor: {1}")
+
     registerTranslation("ptbr", "config.dynamicTasks", "&eTasks dinâmicas: {1}")
 
     registerTranslation("ptbr", "config.enabled", "&aLigado")

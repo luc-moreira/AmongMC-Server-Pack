@@ -29,7 +29,6 @@ bedrock:
   # How Bedrock players can connect. Changes require a restart.
   # "nethernet": the new connection method for Bedrock Edition. It needs signaling, see "signaling" below.
   # "both": accepts NetherNet and RakNet. Each needs its own UDP port, see "port" and "webrtc-port".
-  # "raknet": the old connection method. Bedrock Edition will stop supporting it in a future version.
   transport: nethernet
 
   # Some hosting services change your Java port everytime you start the server and require the same port to be used for Bedrock.
@@ -270,15 +269,13 @@ advanced:
     # the smaller the bandwidth used. Does not have any effect below -1 or above 9. Set to -1 to disable.
     compression-level: 6
 
-    # Whether to expect HAPROXY protocol for connecting Bedrock clients.
-    # This is useful only when you are running a UDP reverse proxy in front of your Geyser instance.
-    # IF YOU DON'T KNOW WHAT THIS IS, DON'T TOUCH IT!
-    use-haproxy-protocol: false
-
-    # A list of allowed HAPROXY protocol speaking proxy IP addresses/subnets. Only effective when "use-proxy-protocol" is enabled, and
-    # should really only be used when you are not able to use a proper firewall (usually true with shared hosting providers etc.).
-    # Keeping this list empty means there is no IP address whitelist.
+    # A list of HAPROXY protocol speaking proxies in front of your Geyser instance.
+    # Listing one turns HAPROXY protocol on, so leave this empty unless you run such a proxy.
+    # Built-in signaling reads HAPROXY headers from these proxies, and still accepts their connections without one.
+    # With the "both" transport, RakNet only accepts these proxies, and each connection has to start with a HAPROXY header.
+    # Proxies in this list are also not affected by built-in signaling's per-address connection limit.
     # IP addresses, subnets, and links to plain text files are supported.
+    # IF YOU DON'T KNOW WHAT THIS IS, DON'T TOUCH IT!
     haproxy-protocol-whitelisted-ips: []
 
     # A list of reverse proxy addresses (for example, an HTTP load balancer) in front of built-in signaling.
@@ -286,6 +283,22 @@ advanced:
     # its per-address connection limit to them for all listed proxies. This is separate from HAPROXY protocol.
     # IP addresses, subnets, and links to plain text files are supported.
     signaling-trusted-proxies: []
+
+    # UDP relays in front of the NetherNet media (WebRTC) port that send a PROXY protocol v2 header with each
+    # player's address, as IP addresses or subnets. Leave this empty unless you run such a relay.
+    # While set, players can only reach the media port through these relays, so "advertise-addresses" under
+    # "bedrock.signaling" should name the relays. Without any, the external signaling service does not start, and
+    # built-in signaling only works if something in front of it rewrites its answers to name the relays.
+    # This is separate from the two lists above, which only cover signaling, and RakNet with the "both" transport.
+    # IP addresses, subnets, and links to plain text files are supported.
+    # IF YOU DON'T KNOW WHAT THIS IS, DON'T TOUCH IT!
+    webrtc-proxy-protocol-relays: []
+
+    # Use the player address that built-in signaling's proxies send ("haproxy-protocol-whitelisted-ips" or
+    # "signaling-trusted-proxies") instead of the one the WebRTC connection comes from. Enable this when the WebRTC
+    # port is forwarded without PROXY protocol, so every player would otherwise show the forwarder's address.
+    # IF YOU DON'T KNOW WHAT THIS IS, DON'T TOUCH IT!
+    prefer-signaling-proxy-address: false
 
     # Should be enabled if this Geyser instance is behind a WaterdogPE proxy. If enabled, Geyser will
     # use the xuid / address sent from WaterdogPE and reject clients that do not send it.
@@ -330,4 +343,4 @@ advanced:
 debug-mode: false
 
 # Do not change!
-config-version: 11
+config-version: 12

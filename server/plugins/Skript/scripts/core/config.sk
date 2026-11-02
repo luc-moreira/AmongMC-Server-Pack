@@ -73,6 +73,9 @@ on load:
     if {config.language} is not set:
         set {config.language} to "en"
 
+    if {config.impostorFairChance} is not set:
+        set {config.impostorFairChance} to false
+
 function openConfig(p: player):
 
     set {_inv} to chest inventory with 6 rows named getTr("config.gameConfig")
@@ -123,6 +126,13 @@ function openConfig(p: player):
         set {_know} to getTr("config.no")
 
     set slot 35 of {_inv} to red dye named getTr("config.impostorsKnowEachOther", "%{_know}%")
+
+    if {config.impostorFairChance} is true:
+        set {_fair} to getTr("config.enabled")
+    else:
+        set {_fair} to getTr("config.disabled")
+
+    set slot 44 of {_inv} to comparator named getTr("config.impostorFairChance", "%{_fair}%")
 
     set slot 4 of {_inv} to iron door named getTr("config.doorCooldown", "%{config.doorCooldown}%")
 
@@ -175,6 +185,8 @@ function openConfig(p: player):
     set lore of slot 35 of {_inv} to "", getTr("config.clickToggle")
 
     set lore of slot 36 of {_inv} to "", getTr("config.clickToggle")
+
+    set lore of slot 44 of {_inv} to "", getTr("config.clickToggle")
 
     set lore of slot 45 of {_inv} to "", getTr("config.clickToggle")
 
@@ -324,6 +336,16 @@ on inventory click:
             set {config.impostorsKnowEachOther} to false
         else:
             set {config.impostorsKnowEachOther} to true
+
+        openConfig(player)
+        stop
+
+    if clicked slot is 44:
+
+        if {config.impostorFairChance} is true:
+            set {config.impostorFairChance} to false
+        else:
+            set {config.impostorFairChance} to true
 
         openConfig(player)
         stop

@@ -210,6 +210,8 @@ function loadEn():
     registerTranslation("en", "config.confirmEjects", "&fConfirm Ejects: {1}")
     registerTranslation("en", "config.impostorsKnowEachOther", "&cImp. Know E. Other: {1}")
 
+    registerTranslation("en", "config.impostorFairChance", "&eImpostor Fair Chance: {1}")
+
     registerTranslation("en", "config.dynamicTasks", "&eDynamic Tasks: {1}")
     registerTranslation("en", "config.enabled", "&aEnabled")
     registerTranslation("en", "config.disabled", "&cDisabled")

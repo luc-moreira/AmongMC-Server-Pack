@@ -182,11 +182,23 @@ command /start:
             broadcast getTr("control.impostorLimited", "%{_players}%", "%{_max}%")
             set {_count} to {_max}
 
-        loop {_count} times:
-            set {_p} to random element out of {game.crewmates::*}
+        if {config.impostorFairChance} is true:
+            # Weighted random selection based on impostor chance counter
+            loop {_count} times:
+                set {_p} to getWeightedImpostor({game.crewmates::*})
+                if {_p} is set:
+                    remove {_p} from {game.crewmates::*}
+                    add {_p} to {game.impostors::*}
+        else:
+            # Equal chance selection (original logic)
+            loop {_count} times:
+                set {_p} to random element out of {game.crewmates::*}
 
-            remove {_p} from {game.crewmates::*}
-            add {_p} to {game.impostors::*}
+                remove {_p} from {game.crewmates::*}
+                add {_p} to {game.impostors::*}
+
+        # Update impostor chance counters
+        updateImpostorChanceCounters()
 
         loop all players:
 
@@ -436,5 +448,53 @@ on command "deop":
     if {game.state} is "waiting":
         loop all players:
             updateInventory(loop-player)
+
+# ============================================================
+# Impostor Fair Chance System
+# ============================================================
+
+function getWeightedImpostor(players: players) :: player:
+    # Calculate total weight from all players
+    set {_totalWeight} to 0
+    loop {_players::*}:
+        set {_uuid} to uuid of loop-value
+        # Initialize counter to 5 if not set
+        if {impostorChanceCounter.%{_uuid}%} is not set:
+            set {impostorChanceCounter.%{_uuid}%} to 5
+        add {impostorChanceCounter.%{_uuid}%} to {_totalWeight}
+
+    # Pick a random number between 1 and total weight
+    set {_random} to random integer between 1 and {_totalWeight}
+
+    # Find the player at that weight
+    set {_currentWeight} to 0
+    loop {_players::*}:
+        set {_uuid} to uuid of loop-value
+        if {impostorChanceCounter.%{_uuid}%} is not set:
+            set {impostorChanceCounter.%{_uuid}%} to 5
+        add {impostorChanceCounter.%{_uuid}%} to {_currentWeight}
+        if {_currentWeight} >= {_random}:
+            return loop-value
+
+    # Fallback: return random player
+    broadcast "Warning: Weighted impostor selection failed, selecting random player."
+    if size of {_players::*} > 0:
+        return random element out of {_players::*}
+
+function updateImpostorChanceCounters():
+    # This is called after impostors are selected
+    # Reset counter to 5 for impostors
+    loop {game.impostors::*}:
+        set {_uuid} to uuid of loop-value
+        set {impostorChanceCounter.%{_uuid}%} to 5
+
+    # Increase counter by 1 (capped at 10) for crewmates
+    loop {game.crewmates::*}:
+        set {_uuid} to uuid of loop-value
+        if {impostorChanceCounter.%{_uuid}%} is not set:
+            set {impostorChanceCounter.%{_uuid}%} to 5
+        add 1 to {impostorChanceCounter.%{_uuid}%}
+        if {impostorChanceCounter.%{_uuid}%} > 10:
+            set {impostorChanceCounter.%{_uuid}%} to 10
 
 
