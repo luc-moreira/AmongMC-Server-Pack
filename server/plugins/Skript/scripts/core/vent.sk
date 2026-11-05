@@ -91,7 +91,7 @@ on right click:
         play sound "block.iron_trapdoor.close" with volume 1 and pitch 1 to player
         stop
 
-    if name of player's tool is getTr("vent.previous"):
+    if name of player's tool is getTr("vent.next"):
         remove 1 from {vent.index.%uuid of player%}
         if {vent.index.%uuid of player%} < 1:
             set {vent.index.%uuid of player%} to size of {ventMarkers::*}

@@ -1,12 +1,13 @@
 # Chat Management System
 # Handles player chat based on game state and player status (alive/dead)
 
-function formatPlayerName(p: player) :: text:
+function formatPlayerName(p: player, showDeadTag: boolean = true) :: text:
     set {_color} to chatColor({_p})
     set {_name} to "%{_color}%%name of {_p}%"
 
     if {game.ghosts::*} contains {_p}:
-        set {_name} to "%{_name}% %getTr("chat.deadTag")%"
+        if {_showDeadTag} is true:
+            set {_name} to "%{_name}% %getTr("chat.deadTag")%"
 
     return {_name}
 
@@ -22,7 +23,12 @@ command /all <text>:
             stop
 
         set {_message} to arg-1
-        set {_formattedName} to formatPlayerName(player)
+
+        # Don't show [DEAD] tag during running game, only during meetings
+        if {game.state} is "running":
+            set {_formattedName} to formatPlayerName(player, false)
+        else:
+            set {_formattedName} to formatPlayerName(player, true)
 
         if {game.ghosts::*} contains player:
             broadcast "&8%getTr("chat.allPrefix.dead")% %{_formattedName}%&f: %{_message}%"

@@ -242,6 +242,7 @@ every 1 second:
         delete {sabotage.reactor.remaining}
 
         broadcast getTr("sabotage.reactorCollapsed")
+        set {game.winReason} to "sabotage"
         endGame("impostors")
 
 every 1 second:
@@ -260,6 +261,7 @@ every 1 second:
         delete {sabotage.lab_fire.remaining}
 
         broadcast getTr("sabotage.labBurnedDown")
+        set {game.winReason} to "sabotage"
         endGame("impostors")
 
 every 1 second:

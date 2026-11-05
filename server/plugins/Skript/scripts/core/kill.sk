@@ -8,6 +8,7 @@ function kill(p: player):
     loop all players:
         hide {_p} from loop-player
 
+    updateSpeed({_p})
     checkEndGame()
     updateVitals()
 

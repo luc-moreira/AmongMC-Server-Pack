@@ -55,16 +55,13 @@ function onGameEnd(winner: text):
                         if {game.impostorKillsTotal} = 0:
                             addAchievementProgress({_p}, "pacifist_impostor", 1)
 
-                        # PERFECT IMPOSTOR: Win as impostor killing all crewmates without receiving a single vote
-                        # Check if this impostor killed all crewmates AND received 0 votes
+                        # PERFECT IMPOSTOR: Win as impostor by player killing without receiving a single vote
+                        # Check if impostors won by player killing (not sabotage) AND this impostor received 0 votes
                         set {_pUUID} to uuid of {_p}
-                        if {game.impostorKills.%{_pUUID}%} is not set:
-                            set {game.impostorKills.%{_pUUID}%} to 0
-                        set {_crewmateCount} to size of {game.crewmates::*}
-                        if {game.impostorKills.%{_pUUID}%} >= {_crewmateCount}:
-                            # Check votes received
-                            if {game.votesReceived.%{_pUUID}%} is not set:
-                                set {game.votesReceived.%{_pUUID}%} to 0
+                        if {game.votesReceived.%{_pUUID}%} is not set:
+                            set {game.votesReceived.%{_pUUID}%} to 0
+                        if {game.winReason} = "player_killing":
+                            # Check votes received - must be 0
                             if {game.votesReceived.%{_pUUID}%} = 0:
                                 addAchievementProgress({_p}, "perfect_impostor", 1)
 

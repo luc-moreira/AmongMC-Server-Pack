@@ -323,7 +323,7 @@ databases:
 		type: CSV
 
 		# Match player data variable patterns (regex, checked top to bottom)
-		pattern: (achievement|color|hat)(::|\.).*
+		pattern: (achievement|color|hat|chance)(::|\.).*
 
 		monitor changes: false
 		monitor interval: 20 seconds

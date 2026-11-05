@@ -573,4 +573,7 @@ on right click:
         stop
 
 function updateSpeed(p: player):
-    set walk speed of {_p} to 0.2*{config.playerSpeed}
+    if {game.ghosts::*} contains {_p}:
+        set walk speed of {_p} to 0.6
+    else:
+        set walk speed of {_p} to 0.2*{config.playerSpeed}

@@ -13,6 +13,7 @@ function resetGame():
     delete {game.votesReceived::*}
     delete {game.correctVotesThisMatch::*}
     delete {game.firstTaskCompletion}
+    delete {game.winReason}
 
     delete {body::*}
     delete {bodyOwner::*}
@@ -198,7 +199,7 @@ command /start:
                 add {_p} to {game.impostors::*}
 
         # Update impostor chance counters
-        updateImpostorChanceCounters()
+        updatechances()
 
         loop all players:
 
@@ -256,9 +257,8 @@ command /start:
 
 function checkEndGame():
 
-    #parar de encerrar o jogo. Apenas pra debugging:
-    #stop
-
+    if {config.noEnd} is true:
+        stop
 
     if {game.state} is "waiting":
         stop
@@ -281,6 +281,7 @@ function checkEndGame():
         stop
 
     if {_alive} <= {_aliveImpostors}:
+        set {game.winReason} to "player_killing"
         endGame("impostors")
         stop
 
@@ -459,9 +460,9 @@ function getWeightedImpostor(players: players) :: player:
     loop {_players::*}:
         set {_uuid} to uuid of loop-value
         # Initialize counter to 5 if not set
-        if {impostorChanceCounter.%{_uuid}%} is not set:
-            set {impostorChanceCounter.%{_uuid}%} to 5
-        add {impostorChanceCounter.%{_uuid}%} to {_totalWeight}
+        if {chance.%{_uuid}%} is not set:
+            set {chance.%{_uuid}%} to 5
+        add {chance.%{_uuid}%} to {_totalWeight}
 
     # Pick a random number between 1 and total weight
     set {_random} to random integer between 1 and {_totalWeight}
@@ -470,9 +471,9 @@ function getWeightedImpostor(players: players) :: player:
     set {_currentWeight} to 0
     loop {_players::*}:
         set {_uuid} to uuid of loop-value
-        if {impostorChanceCounter.%{_uuid}%} is not set:
-            set {impostorChanceCounter.%{_uuid}%} to 5
-        add {impostorChanceCounter.%{_uuid}%} to {_currentWeight}
+        if {chance.%{_uuid}%} is not set:
+            set {chance.%{_uuid}%} to 5
+        add {chance.%{_uuid}%} to {_currentWeight}
         if {_currentWeight} >= {_random}:
             return loop-value
 
@@ -481,20 +482,20 @@ function getWeightedImpostor(players: players) :: player:
     if size of {_players::*} > 0:
         return random element out of {_players::*}
 
-function updateImpostorChanceCounters():
+function updatechances():
     # This is called after impostors are selected
     # Reset counter to 5 for impostors
     loop {game.impostors::*}:
         set {_uuid} to uuid of loop-value
-        set {impostorChanceCounter.%{_uuid}%} to 5
+        set {chance.%{_uuid}%} to 5
 
     # Increase counter by 1 (capped at 10) for crewmates
     loop {game.crewmates::*}:
         set {_uuid} to uuid of loop-value
-        if {impostorChanceCounter.%{_uuid}%} is not set:
-            set {impostorChanceCounter.%{_uuid}%} to 5
-        add 1 to {impostorChanceCounter.%{_uuid}%}
-        if {impostorChanceCounter.%{_uuid}%} > 10:
-            set {impostorChanceCounter.%{_uuid}%} to 10
+        if {chance.%{_uuid}%} is not set:
+            set {chance.%{_uuid}%} to 5
+        add 1 to {chance.%{_uuid}%}
+        if {chance.%{_uuid}%} > 10:
+            set {chance.%{_uuid}%} to 10
 
 

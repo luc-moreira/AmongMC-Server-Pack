@@ -94,8 +94,10 @@ on inventory click:
         stop
 
     if clicked slot >= 18:
-        cancel event
-        stop
+        # Allow clicks on water slots (21-23, 30-32) for detergent
+        if clicked slot is not 21 or 22 or 23 or 30 or 31 or 32:
+            cancel event
+            stop
 
     if clicked slot is 3 or 5 or 12 or 13 or 14:
         cancel event

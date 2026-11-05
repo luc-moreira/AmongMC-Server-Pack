@@ -28,3 +28,16 @@ command /reveal <player>:
     trigger:
         reveal arg-1 to all players
         send "&a%arg-1% foi revelado." to player
+
+command /noend:
+    permission: op
+    trigger:
+        if {config.noEnd} is true:
+            delete {config.noEnd}
+            send "Game will end normally." to player
+        else:
+            set {config.noEnd} to true
+            send "Game will not end." to player
+
+on load:
+    delete {config.noEnd}

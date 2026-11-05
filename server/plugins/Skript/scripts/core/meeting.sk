@@ -371,9 +371,13 @@ function finishVoting():
     else:
         kickPlayer({_winner})
 
-        # Track votes received by each player (for perfect_impostor achievement)
-        set {_winnerUUID} to uuid of {_winner}
-        add {votes.%{_winnerUUID}%} to {game.votesReceived.%{_winnerUUID}%}
+        # Track votes received by ALL players who received votes (for perfect_impostor achievement)
+        loop all players:
+            if {game.ghosts::*} contains loop-value:
+                continue
+            set {_targetUUID} to uuid of loop-value
+            if {votes.%{_targetUUID}%} is set:
+                add {votes.%{_targetUUID}%} to {game.votesReceived.%{_targetUUID}%}
 
         # Track correct votes for achievement (applied at end of match to not reveal impostor)
         if {game.impostors::*} contains {_winner}:

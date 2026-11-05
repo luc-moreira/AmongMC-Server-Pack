@@ -360,6 +360,10 @@ on click:
     if {playerTasks.%uuid of player%::*} does not contain {_id}:
         stop
 
+    # Prevent re-clicking task block while task inventory is open (race condition fix)
+    if name of player's current inventory is "&6%getTr("taskname.%{_id}%")%":
+        stop
+
     if {task.%{_id}%.ordered} is true:
 
         if {playerTaskStep.%uuid of player%.%{_id}%} is not {_step}:
