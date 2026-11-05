@@ -360,9 +360,12 @@ on click:
     if {playerTasks.%uuid of player%::*} does not contain {_id}:
         stop
 
-    # Prevent re-clicking task block while task inventory is open (race condition fix)
-    if name of player's current inventory is "&6%getTr("taskname.%{_id}%")%":
+    # Prevent race condition: 500ms cooldown after opening a task
+    if {task.cooldown.%uuid of player%} is set:
         stop
+    set {task.cooldown.%uuid of player%} to true
+    wait 500 milliseconds
+    delete {task.cooldown.%uuid of player%}
 
     if {task.%{_id}%.ordered} is true:
 
